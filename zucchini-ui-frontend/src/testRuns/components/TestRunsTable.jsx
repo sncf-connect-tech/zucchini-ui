@@ -1,23 +1,42 @@
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Table from "react-bootstrap/lib/Table";
 import Badge from "react-bootstrap/lib/Badge";
 import Label from "react-bootstrap/lib/Label";
 import { Link } from "react-router-dom";
 
 import toNiceDate from "../../ui/toNiceDate";
+import Spinner from "../../utils/Spinner/Spinner";
+import useInfiniteScroll from "../../utils/Hooks/useInfiniteScroll";
 
-export default class TestRunsTable extends React.PureComponent {
-  static propTypes = {
-    testRuns: PropTypes.arrayOf(PropTypes.object).isRequired
-  };
+const TestRunsTable = props => {
+  const [showedTestRuns, setShowedTestRuns] = useState([]);
+  const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreListItems);
 
-  render() {
-    const { testRuns } = this.props;
+  useEffect(() => {
+    let isMounted = true;
+    if (isMounted) {
+      setShowedTestRuns(props.testRuns.slice(0, 30));
+    }
+    return () => (isMounted = false);
+  }, [props.testRuns]);
 
-    const rows = testRuns.map(testRun => <TestRunTableRow key={testRun.id} testRun={testRun} />);
+  function fetchMoreListItems(isMounted) {
+    setTimeout(() => {
+      if (isMounted) {
+        setShowedTestRuns(prevState => [
+          ...prevState,
+          ...props.testRuns.slice(prevState.length, prevState.length + 20)
+        ]);
+        setIsFetching(false);
+      }
+    }, 500);
+  }
 
-    return (
+  const rows = showedTestRuns.map(testRun => <TestRunTableRow key={testRun.id} testRun={testRun} />);
+
+  return (
+    <div>
       <Table bordered striped>
         <thead>
           <tr>
@@ -35,9 +54,15 @@ export default class TestRunsTable extends React.PureComponent {
         </thead>
         <tbody>{rows}</tbody>
       </Table>
-    );
-  }
-}
+      <Spinner loading={isFetching} />
+    </div>
+  );
+};
+export default TestRunsTable;
+
+TestRunsTable.propTypes = {
+  testRuns: PropTypes.array.isRequired
+};
 
 class TestRunTableRow extends React.PureComponent {
   static propTypes = {
