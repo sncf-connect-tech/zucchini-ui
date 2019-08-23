@@ -32,7 +32,7 @@ const selectSelectedName = createSelector(
 
 const selectView = createSelector(
   (state, ownProps) => ownProps.match.params.viewType,
-  viewType => viewType
+  viewType => viewType || "latest"
 );
 
 const selectProps = createStructuredSelector({
