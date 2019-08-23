@@ -24,11 +24,12 @@ export default function AppRouter() {
   return (
     <StrictMode>
       <Provider store={store}>
-        <BrowserRouter basename="/ui">
+        <BrowserRouter basename="/ui/">
           <RootPage>
             <ScrollToTop />
             <Suspense fallback={<div>Loading...</div>}>
               <Switch>
+                <Route exact path="/" component={TestRunsPageContainer} />
                 <Route exact path="/:viewType" component={TestRunsPageContainer} />
                 <Route exact path="/test-runs/:testRunId" component={TestRunPageContainer} />
                 <Route exact path="/test-runs/:testRunId/search" component={TestRunSearchPageContainer} />

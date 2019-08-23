@@ -2,7 +2,7 @@
 
 describe("Test runs", () => {
   beforeEach(() => {
-    cy.visit("/all");
+    cy.visit("/");
   });
 
   it("should display test runs", () => {
