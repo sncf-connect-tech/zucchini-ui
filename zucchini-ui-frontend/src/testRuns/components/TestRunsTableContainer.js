@@ -7,11 +7,17 @@ import { selectLatestTestRuns } from "../selectors";
 
 const selectTestRuns = createSelector(
   state => selectLatestTestRuns(state),
-  (state, ownProps) => ownProps.selectedType,
-  (testRuns, selectedType) => {
-    var selectedTestRuns = testRuns;
-    if (selectedType) {
-      selectedTestRuns = selectedTestRuns.filter(testRun => testRun.type === selectedType);
+  (state, ownProps) => ownProps,
+  (testRuns, selected) => {
+    let selectedTestRuns = testRuns;
+    if (selected.selectedType) {
+      selectedTestRuns = selectedTestRuns.filter(testRun => testRun.type === selected.selectedType);
+    }
+    if (selected.selectedEnv) {
+      selectedTestRuns = selectedTestRuns.filter(testRun => testRun.environment === selected.selectedEnv);
+    }
+    if (selected.selectedName) {
+      selectedTestRuns = selectedTestRuns.filter(testRun => testRun.name === selected.selectedName);
     }
     return selectedTestRuns;
   }

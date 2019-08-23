@@ -5,7 +5,9 @@ import TestRunTypeFilter from "./TestRunTypeFilter";
 import { selectTestRunTypes } from "../selectors";
 
 const selectProps = createStructuredSelector({
-  testRunTypes: selectTestRunTypes
+  testRunTypes: selectTestRunTypes,
+  testRunNames: selectTestRunTypes,
+  testRunEnvs: selectTestRunTypes
 });
 
 const TestRunTypeFilterContainer = connect(selectProps)(TestRunTypeFilter);

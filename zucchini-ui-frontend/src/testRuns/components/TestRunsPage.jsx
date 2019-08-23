@@ -14,7 +14,10 @@ import TestRunsBreadcrumbContainer from "./TestRunsBreadcrumbContainer";
 export default class TestRunsPage extends React.Component {
   static propTypes = {
     onLoad: PropTypes.func.isRequired,
-    selectedType: PropTypes.string
+    viewType: PropTypes.string.isRequired,
+    selectedType: PropTypes.string,
+    selectedEnv: PropTypes.string,
+    selectedName: PropTypes.string
   };
 
   constructor(props) {
@@ -27,7 +30,19 @@ export default class TestRunsPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.onLoad();
+    this.loadTestRunsIfPossible();
+  }
+
+  componentDidUpdate(prevProps) {
+    this.loadTestRunsIfPossible(prevProps);
+  }
+
+  loadTestRunsIfPossible(prevProps = {}) {
+    const { viewType } = this.props;
+
+    if (viewType !== prevProps.viewType) {
+      this.props.onLoad({ viewType });
+    }
   }
 
   onCreateTestRunButtonClick = event => {
@@ -57,7 +72,7 @@ export default class TestRunsPage extends React.Component {
   };
 
   render() {
-    const { selectedType } = this.props;
+    const { selectedType, selectedEnv, selectedName } = this.props;
     const { showCreateTestRunDialog, showPurgeDialog } = this.state;
 
     return (
@@ -78,8 +93,8 @@ export default class TestRunsPage extends React.Component {
           </ButtonGroup>
         </ButtonToolbar>
         <hr />
-        <TestRunTypeFilterContainer selectedType={selectedType} />
-        <TestRunsTableContainer selectedType={selectedType} />
+        <TestRunTypeFilterContainer selectedType={selectedType} selectedEnv={selectedEnv} selectedName={selectedName} />
+        <TestRunsTableContainer selectedType={selectedType} selectedEnv={selectedEnv} selectedName={selectedName} />
         <CreateTestRunDialogContainer show={showCreateTestRunDialog} onClose={this.hideCreateTestRunDialog} />
         {showPurgeDialog && (
           <PurgeDialogContainer

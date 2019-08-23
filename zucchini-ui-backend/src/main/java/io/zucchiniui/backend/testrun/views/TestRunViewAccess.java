@@ -11,10 +11,11 @@ import io.zucchiniui.backend.testrun.domain.TestRunQuery;
 import io.zucchiniui.backend.testrun.domain.TestRunRepository;
 import ma.glasnost.orika.BoundMapperFacade;
 import org.springframework.stereotype.Component;
+import xyz.morphia.query.FindOptions;
 
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
+import java.util.stream.*;
 
 @Component
 public class TestRunViewAccess {
@@ -40,9 +41,18 @@ public class TestRunViewAccess {
         testRunToListItemMapper = mapper.dedicatedMapperFor(TestRun.class, TestRunListItem.class, false);
     }
 
-    public List<TestRunListItem> getTestRunListItems(final Consumer<TestRunQuery> preparator, final boolean withStats) {
-        return MorphiaUtils.streamQuery(testRunDAO.prepareTypedQuery(preparator))
-            .map(testRun -> {
+    public List<TestRunListItem> getTestRunListItems(final Consumer<TestRunQuery> preparator, final boolean withStats, final boolean onlyLatest) {
+        Stream<TestRun> testRunStream;
+
+        if (onlyLatest){
+            FindOptions findOptions = new FindOptions();
+            findOptions.limit(50);
+            testRunStream = MorphiaUtils.streamQuery(testRunDAO.prepareTypedQuery(preparator), findOptions);
+        }else{
+            testRunStream = MorphiaUtils.streamQuery(testRunDAO.prepareTypedQuery(preparator));
+        }
+
+        return testRunStream.map(testRun -> {
                 final TestRunListItem item = testRunToListItemMapper.map(testRun);
                 if (withStats) {
                     final ScenarioStats stats = scenarioViewAccess.getStats(q -> q.withTestRunId(item.getId()));

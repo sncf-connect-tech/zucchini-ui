@@ -9,9 +9,9 @@ import selectQueryParams from "../../selectQueryParams";
 const selectBreadcumbItems = createSelector(
   (state, ownProps) => {
     const queryParams = selectQueryParams(ownProps.location);
-    return queryParams.type || null;
+    return queryParams || null;
   },
-  selectedType => {
+  selectedFilter => {
     const items = [
       {
         value: "Derniers tirs",
@@ -19,12 +19,32 @@ const selectBreadcumbItems = createSelector(
       }
     ];
 
-    if (selectedType) {
+    if (selectedFilter.type) {
       items.push({
-        value: `Type ${selectedType}`,
+        value: `Type ${selectedFilter.type}`,
         link: {
           pathname: "/",
-          search: queryString.stringify({ type: selectedType })
+          search: queryString.stringify({ type: selectedFilter.type })
+        }
+      });
+    }
+
+    if (selectedFilter.env) {
+      items.push({
+        value: `Environnement ${selectedFilter.env}`,
+        link: {
+          pathname: "/",
+          search: queryString.stringify({ env: selectedFilter.env })
+        }
+      });
+    }
+
+    if (selectedFilter.name) {
+      items.push({
+        value: `Name ${selectedFilter.env}`,
+        link: {
+          pathname: "/",
+          search: queryString.stringify({ name: selectedFilter.name })
         }
       });
     }

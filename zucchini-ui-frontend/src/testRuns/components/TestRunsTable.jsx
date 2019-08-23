@@ -16,7 +16,7 @@ const TestRunsTable = props => {
   useEffect(() => {
     let isMounted = true;
     if (isMounted) {
-      setShowedTestRuns(props.testRuns.slice(0, 30));
+      setShowedTestRuns(props.testRuns.slice(0, 50));
     }
     return () => (isMounted = false);
   }, [props.testRuns]);

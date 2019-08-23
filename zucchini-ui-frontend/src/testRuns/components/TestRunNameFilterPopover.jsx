@@ -5,13 +5,13 @@ import queryString from "query-string";
 import FormGroup from "react-bootstrap/lib/FormGroup";
 import FormControl from "react-bootstrap/lib/FormControl";
 
-export default class TestRunTypeFilterPopover extends React.PureComponent {
+export default class TestRunNameFilterPopover extends React.PureComponent {
   static propTypes = {
-    testRunTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
+    testRunNames: PropTypes.arrayOf(PropTypes.string).isRequired,
     selectedType: PropTypes.string,
     selectedEnv: PropTypes.string,
     selectedName: PropTypes.string,
-    onTypeSelected: PropTypes.func.isRequired
+    onNameSelected: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -28,8 +28,8 @@ export default class TestRunTypeFilterPopover extends React.PureComponent {
     });
   };
 
-  onTypeSelected = () => {
-    this.props.onTypeSelected();
+  onNameSelected = () => {
+    this.props.onNameSelected();
   };
 
   createFilter() {
@@ -44,32 +44,32 @@ export default class TestRunTypeFilterPopover extends React.PureComponent {
   }
 
   render() {
-    const { testRunTypes, selectedType, selectedEnv, selectedName } = this.props;
+    const { testRunNames, selectedType, selectedEnv, selectedName } = this.props;
 
     // Any type link
 
-    let allTypesLink = (
+    let allNamesLink = (
       <Link
-        to={{ pathname: "/", search: queryString.stringify({ env: selectedEnv, name: selectedName }) }}
-        onClick={this.onTypeSelected}
+        to={{ pathname: "/", search: queryString.stringify({ type: selectedType, env: selectedEnv }) }}
+        onClick={this.onNameSelected}
       >
-        <i>Tous les types</i>
+        <i>Tous les noms</i>
       </Link>
     );
-    if (selectedType === "" || selectedType === null) {
-      allTypesLink = <b>{allTypesLink}</b>;
+    if (selectedName === "" || selectedName === null) {
+      allNamesLink = <b>{allNamesLink}</b>;
     }
 
     // Links to test run types
 
-    const testRunTypeLinks = testRunTypes.filter(this.createFilter()).map(type => {
+    const testRunNameLinks = testRunNames.filter(this.createFilter()).map(name => {
       return (
-        <p key={type}>
+        <p key={name}>
           <Link
-            to={{ pathname: "/", search: queryString.stringify({ type: type, name: selectedName, env: selectedEnv }) }}
-            onClick={this.onTypeSelected}
+            to={{ pathname: "/", search: queryString.stringify({ type: selectedType, env: selectedEnv, name: name }) }}
+            onClick={this.onNameSelected}
           >
-            {type === selectedType ? <b>{type}</b> : type}
+            {name === selectedName ? <b>{name}</b> : name}
           </Link>
         </p>
       );
@@ -80,19 +80,19 @@ export default class TestRunTypeFilterPopover extends React.PureComponent {
         <FormGroup bsSize="small">
           <FormControl
             type="text"
-            placeholder="Rechercher un type de tir"
+            placeholder="Rechercher un nom de tir"
             value={this.state.search}
             onChange={this.onSearch}
             autoFocus
           />
         </FormGroup>
 
-        <p>{allTypesLink}</p>
-        {testRunTypeLinks.length > 0 ? (
-          testRunTypeLinks
+        <p>{allNamesLink}</p>
+        {testRunNameLinks.length > 0 ? (
+          testRunNameLinks
         ) : (
           <p>
-            <i>Aucun type trouvé</i>
+            <i>Aucun nom trouvé</i>
           </p>
         )}
       </div>
