@@ -55,8 +55,6 @@ public class TestRunViewAccess {
     public List<TestRunListItem> getTestRunListItems(final Consumer<TestRunQuery> preparator, final boolean withStats, final boolean onlyLatest) {
         Stream<TestRun> testRunStream;
 
-        List<CorrectionActionConfig> correctionAction = configuration.getCorrectionAction();
-
         if (onlyLatest){
             FindOptions findOptions = new FindOptions();
             findOptions.limit(configuration.getNumberLatest());
