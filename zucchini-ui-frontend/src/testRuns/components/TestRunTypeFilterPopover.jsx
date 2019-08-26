@@ -50,7 +50,7 @@ export default class TestRunTypeFilterPopover extends React.PureComponent {
 
     let allTypesLink = (
       <Link
-        to={{ pathname: "/", search: queryString.stringify({ env: selectedEnv, name: selectedName }) }}
+        to={{ search: queryString.stringify({ env: selectedEnv, name: selectedName }) }}
         onClick={this.onTypeSelected}
       >
         <i>Tous les types</i>
@@ -66,7 +66,7 @@ export default class TestRunTypeFilterPopover extends React.PureComponent {
       return (
         <p key={type}>
           <Link
-            to={{ pathname: "/", search: queryString.stringify({ type: type, name: selectedName, env: selectedEnv }) }}
+            to={{ search: queryString.stringify({ type: type, name: selectedName, env: selectedEnv }) }}
             onClick={this.onTypeSelected}
           >
             {type === selectedType ? <b>{type}</b> : type}

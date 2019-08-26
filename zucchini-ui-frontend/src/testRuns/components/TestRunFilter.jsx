@@ -11,7 +11,7 @@ import TestRunTypeFilterPopoverContainer from "./TestRunTypeFilterPopoverContain
 import TestRunEnvFilterPopoverContainer from "./TestRunEnvFilterPopoverContainer";
 import TestRunNameFilterPopoverContainer from "./TestRunNameFilterPopoverContainer";
 
-export default class TestRunTypeFilter extends React.PureComponent {
+export default class TestRunFilter extends React.PureComponent {
   static propTypes = {
     testRunTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
     testRunEnvs: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -30,7 +30,7 @@ export default class TestRunTypeFilter extends React.PureComponent {
       showSelectableNames: false,
       showSelectableEnvs: false,
       overlayTargetType: null,
-      overlayTargetenv: null,
+      overlayTargetEnv: null,
       overlayTargetName: null
     };
   }
@@ -56,10 +56,20 @@ export default class TestRunTypeFilter extends React.PureComponent {
     });
   };
 
-  onHidePopover = () => {
+  onHidePopoverType = () => {
     this.setState({
-      showSelectableTypes: false,
-      showSelectableEnvs: false,
+      showSelectableTypes: false
+    });
+  };
+
+  onHidePopoverEnv = () => {
+    this.setState({
+      showSelectableEnvs: false
+    });
+  };
+
+  onHidePopoverName = () => {
+    this.setState({
       showSelectableNames: false
     });
   };
@@ -89,14 +99,14 @@ export default class TestRunTypeFilter extends React.PureComponent {
           target={overlayTargetType}
           placement="bottom"
           rootClose
-          onHide={this.onHidePopover}
+          onHide={this.onHidePopoverType}
         >
           <Popover id="test-run-type-filter-container" title="Filter par type de tir" style={{ width: "30rem" }}>
             <TestRunTypeFilterPopoverContainer
               selectedType={selectedType}
               selectedEnv={selectedEnv}
               selectedName={selectedName}
-              onTypeSelected={this.onHidePopover}
+              onTypeSelected={this.onHidePopoverType}
             />
           </Popover>
         </Overlay>
@@ -112,7 +122,7 @@ export default class TestRunTypeFilter extends React.PureComponent {
           target={overlayTargetEnv}
           placement="bottom"
           rootClose
-          onHide={this.onHidePopover}
+          onHide={this.onHidePopoverEnv}
         >
           <Popover
             id="test-run-env-filter-container"
@@ -123,7 +133,7 @@ export default class TestRunTypeFilter extends React.PureComponent {
               selectedType={selectedType}
               selectedEnv={selectedEnv}
               selectedName={selectedName}
-              onEnvSelected={this.onHidePopover}
+              onEnvSelected={this.onHidePopoverEnv}
             />
           </Popover>
         </Overlay>
@@ -139,14 +149,14 @@ export default class TestRunTypeFilter extends React.PureComponent {
           target={overlayTargetName}
           placement="bottom"
           rootClose
-          onHide={this.onHidePopover}
+          onHide={this.onHidePopoverName}
         >
           <Popover id="test-run-name-filter-container" title="Filter par nom de tir" style={{ width: "30rem" }}>
             <TestRunNameFilterPopoverContainer
               selectedType={selectedType}
               selectedEnv={selectedEnv}
               selectedName={selectedName}
-              onNameSelected={this.onHidePopover}
+              onNameSelected={this.onHidePopoverName}
             />
           </Popover>
         </Overlay>

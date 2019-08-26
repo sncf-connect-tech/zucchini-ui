@@ -50,7 +50,7 @@ export default class TestRunEnvFilterPopover extends React.PureComponent {
 
     let allEnvsLink = (
       <Link
-        to={{ pathname: "/", search: queryString.stringify({ type: selectedType, name: selectedName }) }}
+        to={{ search: queryString.stringify({ type: selectedType, name: selectedName }) }}
         onClick={this.onEnvSelected}
       >
         <i>Tous les environnements</i>
@@ -65,7 +65,7 @@ export default class TestRunEnvFilterPopover extends React.PureComponent {
       return (
         <p key={env}>
           <Link
-            to={{ pathname: "/", search: queryString.stringify({ type: selectedType, name: selectedName, env: env }) }}
+            to={{ search: queryString.stringify({ type: selectedType, name: selectedName, env: env }) }}
             onClick={this.onEnvSelected}
           >
             {env === selectedEnv ? <b>{env}</b> : env}

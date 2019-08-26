@@ -37,7 +37,7 @@ export default class TestRunNameFilterPopover extends React.PureComponent {
 
     if (search) {
       const searchLowerCase = search.toLowerCase();
-      return type => type.toLowerCase().includes(searchLowerCase);
+      return name => name.toLowerCase().includes(searchLowerCase);
     }
 
     return () => true;
@@ -50,7 +50,7 @@ export default class TestRunNameFilterPopover extends React.PureComponent {
 
     let allNamesLink = (
       <Link
-        to={{ pathname: "/", search: queryString.stringify({ type: selectedType, env: selectedEnv }) }}
+        to={{ search: queryString.stringify({ type: selectedType, env: selectedEnv }) }}
         onClick={this.onNameSelected}
       >
         <i>Tous les noms</i>
@@ -66,7 +66,7 @@ export default class TestRunNameFilterPopover extends React.PureComponent {
       return (
         <p key={name}>
           <Link
-            to={{ pathname: "/", search: queryString.stringify({ type: selectedType, env: selectedEnv, name: name }) }}
+            to={{ search: queryString.stringify({ type: selectedType, env: selectedEnv, name: name }) }}
             onClick={this.onNameSelected}
           >
             {name === selectedName ? <b>{name}</b> : name}

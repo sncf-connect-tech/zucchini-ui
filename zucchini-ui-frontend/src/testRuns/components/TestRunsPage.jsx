@@ -5,7 +5,7 @@ import ButtonGroup from "react-bootstrap/lib/ButtonGroup";
 
 import Button from "../../ui/components/Button";
 import TestRunsTableContainer from "./TestRunsTableContainer";
-import TestRunTypeFilterContainer from "./TestRunTypeFilterContainer";
+import TestRunFilterContainer from "./TestRunFilterContainer";
 import CreateTestRunDialogContainer from "./CreateTestRunDialogContainer";
 import PurgeDialogContainer from "./PurgeDialogContainer";
 import Page from "../../ui/components/Page";
@@ -72,13 +72,20 @@ export default class TestRunsPage extends React.Component {
   };
 
   render() {
-    const { selectedType, selectedEnv, selectedName } = this.props;
+    const { selectedType, selectedEnv, selectedName, viewType } = this.props;
     const { showCreateTestRunDialog, showPurgeDialog } = this.state;
 
     return (
       <Page
-        title={<Fragment>Derniers tirs {selectedType && <small>Type {selectedType}</small>}</Fragment>}
-        breadcrumb={<TestRunsBreadcrumbContainer />}
+        title={
+          <Fragment>
+            {viewType === "latest" ? "Derniers tirs " : "Tous les tirs "}
+            {selectedType && <small>Type {selectedType} </small>}
+            {selectedEnv && <small>Environnement {selectedEnv} </small>}
+            {selectedName && <small>Nom {selectedName}</small>}
+          </Fragment>
+        }
+        breadcrumb={<TestRunsBreadcrumbContainer viewType={viewType} />}
       >
         <ButtonToolbar>
           <ButtonGroup>
@@ -93,7 +100,7 @@ export default class TestRunsPage extends React.Component {
           </ButtonGroup>
         </ButtonToolbar>
         <hr />
-        <TestRunTypeFilterContainer selectedType={selectedType} selectedEnv={selectedEnv} selectedName={selectedName} />
+        <TestRunFilterContainer selectedType={selectedType} selectedEnv={selectedEnv} selectedName={selectedName} />
         <TestRunsTableContainer selectedType={selectedType} selectedEnv={selectedEnv} selectedName={selectedName} />
         <CreateTestRunDialogContainer show={showCreateTestRunDialog} onClose={this.hideCreateTestRunDialog} />
         {showPurgeDialog && (
