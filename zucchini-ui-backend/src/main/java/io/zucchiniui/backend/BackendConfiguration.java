@@ -13,6 +13,9 @@ public class BackendConfiguration extends Configuration {
     @NotNull
     private String mongoUri;
 
+    @NotNull
+    private Integer numberLatest;
+
     @Valid
     private final MetricsFactory metrics = new MetricsFactory();
 
@@ -28,4 +31,11 @@ public class BackendConfiguration extends Configuration {
         return metrics;
     }
 
+    public Integer getNumberLatest() {
+        return numberLatest;
+    }
+
+    public void setNumberLatest(Integer numberLatest) {
+        this.numberLatest = numberLatest;
+    }
 }

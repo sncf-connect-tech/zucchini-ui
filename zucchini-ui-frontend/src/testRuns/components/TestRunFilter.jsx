@@ -101,7 +101,7 @@ export default class TestRunFilter extends React.PureComponent {
           rootClose
           onHide={this.onHidePopoverType}
         >
-          <Popover id="test-run-type-filter-container" title="Filter par type de tir" style={{ width: "30rem" }}>
+          <Popover id="test-run-type-filter-container" title="Filtrer par type de tir" style={{ width: "30rem" }}>
             <TestRunTypeFilterPopoverContainer
               selectedType={selectedType}
               selectedEnv={selectedEnv}
@@ -126,7 +126,7 @@ export default class TestRunFilter extends React.PureComponent {
         >
           <Popover
             id="test-run-env-filter-container"
-            title="Filter par environnement de tir"
+            title="Filtrer par environnement de tir"
             style={{ width: "30rem" }}
           >
             <TestRunEnvFilterPopoverContainer
@@ -151,7 +151,7 @@ export default class TestRunFilter extends React.PureComponent {
           rootClose
           onHide={this.onHidePopoverName}
         >
-          <Popover id="test-run-name-filter-container" title="Filter par nom de tir" style={{ width: "30rem" }}>
+          <Popover id="test-run-name-filter-container" title="Filtrer par nom de tir" style={{ width: "30rem" }}>
             <TestRunNameFilterPopoverContainer
               selectedType={selectedType}
               selectedEnv={selectedEnv}

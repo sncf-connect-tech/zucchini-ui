@@ -1,6 +1,7 @@
 package io.zucchiniui.backend.testrun.views;
 
 import com.google.common.collect.Sets;
+import io.zucchiniui.backend.BackendConfiguration;
 import io.zucchiniui.backend.scenario.views.ScenarioListItemView;
 import io.zucchiniui.backend.scenario.views.ScenarioStats;
 import io.zucchiniui.backend.scenario.views.ScenarioViewAccess;
@@ -13,9 +14,14 @@ import ma.glasnost.orika.BoundMapperFacade;
 import org.springframework.stereotype.Component;
 import xyz.morphia.query.FindOptions;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.function.Consumer;
-import java.util.stream.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class TestRunViewAccess {
@@ -28,14 +34,18 @@ public class TestRunViewAccess {
 
     private final BoundMapperFacade<TestRun, TestRunListItem> testRunToListItemMapper;
 
+    private final BackendConfiguration configuration;
+
     public TestRunViewAccess(
         final TestRunRepository testRunRepository,
         final TestRunDAO testRunDAO,
-        final ScenarioViewAccess scenarioViewAccess
+        final ScenarioViewAccess scenarioViewAccess,
+        BackendConfiguration backendConfiguration
     ) {
         this.testRunRepository = testRunRepository;
         this.testRunDAO = testRunDAO;
         this.scenarioViewAccess = scenarioViewAccess;
+        this.configuration = backendConfiguration;
 
         final TestRunMapper mapper = new TestRunMapper();
         testRunToListItemMapper = mapper.dedicatedMapperFor(TestRun.class, TestRunListItem.class, false);
@@ -46,7 +56,7 @@ public class TestRunViewAccess {
 
         if (onlyLatest){
             FindOptions findOptions = new FindOptions();
-            findOptions.limit(50);
+            findOptions.limit(configuration.getNumberLatest());
             testRunStream = MorphiaUtils.streamQuery(testRunDAO.prepareTypedQuery(preparator), findOptions);
         }else{
             testRunStream = MorphiaUtils.streamQuery(testRunDAO.prepareTypedQuery(preparator));

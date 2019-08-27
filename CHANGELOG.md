@@ -1,6 +1,16 @@
 Zucchini UI Changelog
 =====================
 
+Version 0.0.7-SNAPSHOT
+----------------------
+
+* **User experience:**
+  * Add latest run managment (ui and backend) to show only the latests runs
+  * Add filter on name and environment for runs
+  * Add slice for scroll
+* **Gradle job**  
+  * Fix Fat JAR creation
+
 Version 0.0.6-SNAPSHOT
 ----------------------
 

@@ -47,7 +47,6 @@ export default class TestRunEnvFilterPopover extends React.PureComponent {
     const { testRunEnvs, selectedEnv, selectedType, selectedName } = this.props;
 
     // Any type link
-
     let allEnvsLink = (
       <Link
         to={{ search: queryString.stringify({ type: selectedType, name: selectedName }) }}
