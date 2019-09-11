@@ -53,6 +53,24 @@ class ScenariosApi {
     });
   }
 
+  getPending({ testRunId }) {
+    return this.client.get({
+      path: "/pending",
+      query: {
+        testRunId
+      }
+    });
+  }
+
+  getUnplayed({ testRunId }) {
+    return this.client.get({
+      path: "/unplayed",
+      query: {
+        testRunId
+      }
+    });
+  }
+
   getSimilarFailureScenarios({ scenarioId }) {
     return this.client.get({ path: `/${scenarioId}/associatedFailures` });
   }

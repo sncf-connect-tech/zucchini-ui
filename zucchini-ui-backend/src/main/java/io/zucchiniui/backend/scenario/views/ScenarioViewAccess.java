@@ -110,6 +110,14 @@ public class ScenarioViewAccess {
             .collect(Collectors.toList());
     }
 
+    public List<ScenarioListItemView> getScenariiByStatus(final Consumer<ScenarioQuery> preparator) {
+        final Query<Scenario> query = scenarioDAO.prepareTypedQuery(preparator);
+
+        return MorphiaUtils.streamQuery(query)
+            .map(scenarioToListItemViewMapper::map)
+            .collect(Collectors.toList());
+    }
+
     public List<ScenarioHistoryItemView> getScenarioHistory(final String scenarioKey) {
         return testRunRepository.query(TestRunQuery::orderByLatestFirst)
             .stream()

@@ -98,7 +98,7 @@ export default class TestRunPage extends React.Component {
         <ButtonToolbar>
           <ButtonGroup>
             <Button glyph="upload" onClick={this.onImportCucumberResultButtonClick}>
-              Importer un résultat de tests Cucumber
+              Importer
             </Button>
           </ButtonGroup>
           <ButtonGroup>
@@ -119,6 +119,16 @@ export default class TestRunPage extends React.Component {
           <ButtonGroup>
             <ButtonLink glyph="exclamation-sign" to={`/test-runs/${testRunId}/failures`}>
               Échecs
+            </ButtonLink>
+          </ButtonGroup>
+          <ButtonGroup>
+            <ButtonLink glyph="exclamation-sign" to={`/test-runs/${testRunId}/unplayed`}>
+              Non joués
+            </ButtonLink>
+          </ButtonGroup>
+          <ButtonGroup>
+            <ButtonLink glyph="unchecked" to={`/test-runs/${testRunId}/pending`}>
+              En attente
             </ButtonLink>
           </ButtonGroup>
           <ButtonGroup>

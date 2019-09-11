@@ -14,6 +14,7 @@ import { errors } from "./errors/redux";
 import { presence } from "./presence/redux";
 import { loadingIndicator } from "./loadingIndicator/redux";
 import { failures } from "./failures/redux";
+import { testRunFiltered } from "./testRunFiltered/redux";
 import { stepDefinitions } from "./stepDefinitions/redux";
 
 const reducer = combineReducers({
@@ -34,6 +35,7 @@ const reducer = combineReducers({
   errors,
   presence,
   failures,
+  testRunFiltered,
   loadingIndicator,
   stepDefinitions
 });
