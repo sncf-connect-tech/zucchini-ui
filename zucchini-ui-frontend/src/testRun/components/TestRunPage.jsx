@@ -122,12 +122,12 @@ export default class TestRunPage extends React.Component {
             </ButtonLink>
           </ButtonGroup>
           <ButtonGroup>
-            <ButtonLink glyph="exclamation-sign" to={`/test-runs/${testRunId}/unplayed`}>
+            <ButtonLink glyph="unchecked" to={`/test-runs/${testRunId}/unplayed`}>
               Non joués
             </ButtonLink>
           </ButtonGroup>
           <ButtonGroup>
-            <ButtonLink glyph="unchecked" to={`/test-runs/${testRunId}/pending`}>
+            <ButtonLink glyph="pause" to={`/test-runs/${testRunId}/pending`}>
               En attente
             </ButtonLink>
           </ButtonGroup>
