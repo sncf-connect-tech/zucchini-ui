@@ -8,23 +8,51 @@ import selectQueryParams from "../../selectQueryParams";
 
 const selectBreadcumbItems = createSelector(
   (state, ownProps) => {
-    const queryParams = selectQueryParams(ownProps.location);
-    return queryParams.type || null;
+    return ownProps || null;
   },
-  selectedType => {
-    const items = [
-      {
-        value: "Derniers tirs",
-        link: "/"
-      }
-    ];
+  props => {
+    const selectedFilter = selectQueryParams(props.location);
+    const viewType = props.viewType || "latest";
+    let items;
+    if (viewType === "latest") {
+      items = [
+        {
+          value: "Derniers tirs",
+          link: "/"
+        }
+      ];
+    } else {
+      items = [
+        {
+          value: "Tous les tirs",
+          link: "/all"
+        }
+      ];
+    }
 
-    if (selectedType) {
+    if (selectedFilter.type) {
       items.push({
-        value: `Type ${selectedType}`,
+        value: `Type ${selectedFilter.type}`,
         link: {
-          pathname: "/",
-          search: queryString.stringify({ type: selectedType })
+          search: queryString.stringify({ type: selectedFilter.type })
+        }
+      });
+    }
+
+    if (selectedFilter.env) {
+      items.push({
+        value: `Environnement ${selectedFilter.env}`,
+        link: {
+          search: queryString.stringify({ env: selectedFilter.env })
+        }
+      });
+    }
+
+    if (selectedFilter.name) {
+      items.push({
+        value: `Name ${selectedFilter.name}`,
+        link: {
+          search: queryString.stringify({ name: selectedFilter.name })
         }
       });
     }

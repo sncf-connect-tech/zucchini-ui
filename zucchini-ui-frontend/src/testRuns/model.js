@@ -1,11 +1,11 @@
 import { default as testRunsApi } from "../api/testRuns";
 
-export function getLatestsTestRuns() {
-  return testRunsApi.getLatests({ withStats: false });
+export function getLatestsTestRuns({ viewType }) {
+  return testRunsApi.getLatests({ withStats: false, onlyLatest: viewType === "latest" });
 }
 
-export function getLatestsTestRunsWithStats() {
-  return testRunsApi.getLatests({ withStats: true });
+export function getLatestsTestRunsWithStats({ viewType }) {
+  return testRunsApi.getLatests({ withStats: true, onlyLatest: viewType === "latest" });
 }
 
 export async function createTestRun({ type, environment, name }) {

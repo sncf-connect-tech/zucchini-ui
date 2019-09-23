@@ -20,27 +20,27 @@ const DELETE_TEST_RUN_FULFILLED = `${DELETE_TEST_RUN}_FULFILLED`;
 
 // Action creators
 
-export function loadTestRunsPage() {
+export function loadTestRunsPage({ viewType }) {
   return async dispatch => {
-    const latestTestRunsResult$ = dispatch(getLatestTestRuns());
-    const latestTestRunsResultWithStats$ = dispatch(getLatestTestRunsWithStats());
+    const latestTestRunsResult$ = dispatch(getLatestTestRuns({ viewType }));
+    const latestTestRunsResultWithStats$ = dispatch(getLatestTestRunsWithStats({ viewType }));
     await latestTestRunsResult$;
     await latestTestRunsResultWithStats$;
     return null;
   };
 }
 
-export function getLatestTestRuns() {
+export function getLatestTestRuns({ viewType }) {
   return {
     type: GET_LATEST_TEST_RUNS,
-    payload: model.getLatestsTestRuns()
+    payload: model.getLatestsTestRuns({ viewType })
   };
 }
 
-export function getLatestTestRunsWithStats() {
+export function getLatestTestRunsWithStats({ viewType }) {
   return {
     type: GET_LATEST_TEST_RUNS_WITH_STATS,
-    payload: model.getLatestsTestRunsWithStats()
+    payload: model.getLatestsTestRunsWithStats({ viewType })
   };
 }
 

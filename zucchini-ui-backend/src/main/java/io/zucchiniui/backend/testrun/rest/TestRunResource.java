@@ -69,14 +69,15 @@ public class TestRunResource {
     @GET
     public List<TestRunListItem> getLatests(
         @QueryParam("type") final String type,
-        @QueryParam("withStats") @DefaultValue("false") final boolean withStats
+        @QueryParam("withStats") @DefaultValue("false") final boolean withStats,
+        @QueryParam("onlyLatest") @DefaultValue("false") final boolean onlyLatest
     ) {
         Consumer<TestRunQuery> queryPreparator = TestRunQuery::orderByLatestFirst;
         if (!Strings.isNullOrEmpty(type)) {
             queryPreparator = queryPreparator.andThen(q -> q.withType(type));
         }
 
-        return testRunViewAccess.getTestRunListItems(queryPreparator, withStats);
+        return testRunViewAccess.getTestRunListItems(queryPreparator, withStats, onlyLatest);
     }
 
     @POST

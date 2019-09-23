@@ -14,8 +14,32 @@ const selectSelectedType = createSelector(
   selectedType => selectedType
 );
 
+const selectSelectedEnv = createSelector(
+  (state, ownProps) => {
+    const queryParams = selectQueryParams(ownProps.location);
+    return queryParams.env || null;
+  },
+  selectedType => selectedType
+);
+
+const selectSelectedName = createSelector(
+  (state, ownProps) => {
+    const queryParams = selectQueryParams(ownProps.location);
+    return queryParams.name || null;
+  },
+  selectedType => selectedType
+);
+
+const selectView = createSelector(
+  (state, ownProps) => ownProps.match.params.viewType,
+  viewType => viewType || "latest"
+);
+
 const selectProps = createStructuredSelector({
-  selectedType: selectSelectedType
+  selectedType: selectSelectedType,
+  selectedEnv: selectSelectedEnv,
+  selectedName: selectSelectedName,
+  viewType: selectView
 });
 
 export default withRouter(

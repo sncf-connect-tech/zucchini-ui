@@ -5,5 +5,7 @@ server:
 
 mongoUri: "${ZUCCHINI_MONGO_URL:-mongodb://mongo/zucchini?w=majority&journal=true}"
 
+numberLatest: 100
+
 logging:
   level: "${ZUCCHINI_LOGGING_LEVEL:-INFO}"

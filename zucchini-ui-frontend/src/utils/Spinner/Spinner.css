@@ -1,0 +1,13 @@
+.spinner {
+    display: block;
+    position: fixed;
+    top: 50%;
+    right: 50%;
+}
+
+.spinner-bottom {
+    padding-top: 25px;
+    position: fixed;
+    left: 50%;
+    bottom: 0;
+}
