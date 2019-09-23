@@ -5,9 +5,9 @@ class TestRunsApi {
     this.client = new Client("/api/testRuns");
   }
 
-  getLatests({ withStats, type }) {
+  getLatests({ withStats, type, onlyLatest }) {
     return this.client.get({
-      query: { withStats, type }
+      query: { withStats, type, onlyLatest }
     });
   }
 

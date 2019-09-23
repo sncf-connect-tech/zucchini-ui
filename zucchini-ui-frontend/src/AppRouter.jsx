@@ -31,6 +31,7 @@ export default function AppRouter() {
             <Suspense fallback={<div>Loading...</div>}>
               <Switch>
                 <Route exact path="/" component={TestRunsPageContainer} />
+                <Route exact path="/:viewType" component={TestRunsPageContainer} />
                 <Route exact path="/test-runs/:testRunId" component={TestRunPageContainer} />
                 <Route exact path="/test-runs/:testRunId/search" component={TestRunSearchPageContainer} />
                 <Route exact path="/test-runs/:testRunId/tags" component={TagsPageContainer} />
