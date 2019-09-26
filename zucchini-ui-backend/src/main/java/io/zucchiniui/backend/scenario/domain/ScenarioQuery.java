@@ -19,4 +19,6 @@ public interface ScenarioQuery {
     ScenarioQuery withSelectedTags(TagSelection tagSelection);
 
     ScenarioQuery havingErrorMessage();
+
+    ScenarioQuery withSelectedStatus(ScenarioStatus scenarioStatus);
 }

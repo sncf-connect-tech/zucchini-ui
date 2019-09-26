@@ -17,6 +17,7 @@ const TagsPageContainer = lazy(() => import("./tags/components/TagsPageContainer
 const TagDetailsPageContainer = lazy(() => import("./tagDetails/components/TagDetailsPageContainer"));
 const TestRunDiffPageContainer = lazy(() => import("./testRunDiff/components/TestRunDiffPageContainer"));
 const FailuresPageContainer = lazy(() => import("./failures/components/FailuresPageContainer"));
+const TestRunFilteredPageContainer = lazy(() => import("./testRunFiltered/components/TestRunFilteredPageContainer"));
 const ReportsPageContainer = lazy(() => import("./reports/components/ReportsPageContainer"));
 const StepDefinitionsPageContainer = lazy(() => import("./stepDefinitions/components/StepDefinitionsPageContainer"));
 
@@ -35,6 +36,8 @@ export default function AppRouter() {
                 <Route exact path="/test-runs/:testRunId/search" component={TestRunSearchPageContainer} />
                 <Route exact path="/test-runs/:testRunId/tags" component={TagsPageContainer} />
                 <Route exact path="/test-runs/:testRunId/failures" component={FailuresPageContainer} />
+                <Route exact path="/test-runs/:testRunId/pending" component={TestRunFilteredPageContainer} />
+                <Route exact path="/test-runs/:testRunId/unplayed" component={TestRunFilteredPageContainer} />
                 <Route exact path="/test-runs/:testRunId/reports" component={ReportsPageContainer} />
                 <Route exact path="/test-runs/:testRunId/tag-details" component={TagDetailsPageContainer} />
                 <Route exact path="/test-runs/:testRunId/diff" component={TestRunDiffPageContainer} />

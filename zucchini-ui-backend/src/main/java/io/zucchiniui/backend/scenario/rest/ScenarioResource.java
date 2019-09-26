@@ -110,6 +110,24 @@ public class ScenarioResource {
     }
 
     @GET
+    @Path("{status:unplayed|pending}")
+    public List<ScenarioListItemView> getScenariiByStatus(@PathParam("status") String status,
+                                                          @BeanParam final GetScenariiRequestParams requestParams){
+        Consumer<ScenarioQuery> scenarioQueryConsumer = q -> {
+            if (!Strings.isNullOrEmpty(requestParams.getTestRunId())) {
+                q.withTestRunId(requestParams.getTestRunId());
+            }
+            if (!Strings.isNullOrEmpty(requestParams.getFeatureId())) {
+                q.withFeatureId(requestParams.getFeatureId());
+            }
+            q.withSelectedStatus(ScenarioStatus.getScenarioByStatus(status));
+        };
+        Consumer<ScenarioQuery> preparator = scenarioQueryConsumer.andThen(q -> q.withSelectedStatus(ScenarioStatus.getScenarioByStatus(status)));
+
+        return scenarioViewAccess.getScenariiByStatus(preparator);
+    }
+
+    @GET
     @Path("stepDefinitions")
     public List<GroupedStepsListItemView> getGroupedStepDefinitions(@QueryParam("testRunId") final String testRunId) {
         return scenarioViewAccess.getStepDefinitions(q -> {
