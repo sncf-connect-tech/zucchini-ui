@@ -68,4 +68,10 @@ class ScenarioQueryImpl extends BaseMorphiaQuery<Scenario> implements ScenarioQu
         return this;
     }
 
+    @Override
+    public ScenarioQuery withSelectedStatus(ScenarioStatus scenarioStatus) {
+        configureQuery(q -> q.field("status").equal(scenarioStatus.name()));
+        return this;
+    }
+
 }

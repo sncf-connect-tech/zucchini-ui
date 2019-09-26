@@ -15,14 +15,17 @@ export default function RoutePage({ search, children }) {
       <Navbar inverse staticTop collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <Link to="/">Zucchini UI</Link>
+            <Link to="/latest">Zucchini UI</Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
             <NavItem>
-              <Link to="/">Derniers tirs</Link>
+              <Link to="/latest">Derniers tirs</Link>
+            </NavItem>
+            <NavItem>
+              <Link to="/all">Tous les tirs</Link>
             </NavItem>
           </Nav>
           {search}

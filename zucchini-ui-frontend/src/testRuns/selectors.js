@@ -12,6 +12,26 @@ export const selectTestRunTypes = createSelector(
   }
 );
 
+export const selectTestRunEnvs = createSelector(
+  state => state.testRuns.testRuns,
+  testRuns => {
+    const envSet = new Set(testRuns.map(testRun => testRun.environment));
+    const envs = Array.from(envSet);
+    envs.sort();
+    return envs;
+  }
+);
+
+export const selectTestRunNames = createSelector(
+  state => state.testRuns.testRuns,
+  testRuns => {
+    const nameSet = new Set(testRuns.map(testRun => testRun.name));
+    const names = Array.from(nameSet);
+    names.sort();
+    return names;
+  }
+);
+
 export const selectLatestTestRuns = createSelector(
   state => state.testRuns.testRuns,
   testRuns => {
