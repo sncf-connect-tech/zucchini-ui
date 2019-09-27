@@ -9,10 +9,7 @@ import io.zucchiniui.backend.reportconverter.converter.ConversionResult;
 import io.zucchiniui.backend.reportconverter.converter.ReportConverter;
 import io.zucchiniui.backend.reportconverter.domain.ReportConverterService;
 import io.zucchiniui.backend.reportconverter.report.ReportFeature;
-import io.zucchiniui.backend.scenario.domain.Scenario;
-import io.zucchiniui.backend.scenario.domain.ScenarioRepository;
-import io.zucchiniui.backend.scenario.domain.ScenarioService;
-import io.zucchiniui.backend.scenario.domain.ScenarioStatus;
+import io.zucchiniui.backend.scenario.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -86,11 +83,7 @@ class ReportConverterServiceImpl implements ReportConverterService {
         final ConversionResult conversionResult = reportConverter.convert(testRunId, group, reportFeature);
 
         if (dryRun) {
-            conversionResult.getScenarii().forEach(s -> {
-                s.doIgnoringChanges(ignored -> {
-                    s.setStatus(ScenarioStatus.NOT_RUN);
-                });
-            });
+            conversionResult.getScenarii().forEach(s -> s.doIgnoringChanges(this::setScenarioStatus));
         }
 
         // If feature has been merged to an existing feature, re-link scenarii to this existing feature
@@ -116,6 +109,18 @@ class ReportConverterServiceImpl implements ReportConverterService {
                 LOGGER.debug("Scenario {} will not be imported", scenario);
             }
         }
+    }
+
+    private void setScenarioStatus(Scenario scenario) {
+        scenario.setStatus(ScenarioStatus.NOT_RUN);
+        final StepStatus newStepStatus = StepStatus.NOT_RUN;
+
+        scenario.getBeforeActions().forEach(step -> step.setStatus(newStepStatus));
+        if (scenario.getBackground() != null) {
+            scenario.getBackground().setStatus(newStepStatus);
+        }
+        scenario.getSteps().forEach(step -> step.setStatus(newStepStatus));
+        scenario.getAfterActions().forEach(step -> step.setStatus(newStepStatus));
     }
 
 }

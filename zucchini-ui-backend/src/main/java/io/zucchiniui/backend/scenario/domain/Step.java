@@ -97,7 +97,7 @@ public class Step {
             .toString();
     }
 
-    protected void setStatus(final StepStatus newStatus) {
+    public void setStatus(final StepStatus newStatus) {
         Objects.requireNonNull(newStatus);
 
         if (newStatus == status) {

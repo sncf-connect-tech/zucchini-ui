@@ -34,7 +34,7 @@ public class AroundAction {
         return newAroundAction;
     }
 
-    protected void setStatus(final StepStatus newStatus) {
+    public void setStatus(final StepStatus newStatus) {
         if (newStatus == status) {
             return;
         }

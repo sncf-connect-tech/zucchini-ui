@@ -43,7 +43,7 @@ export default class StepDefinitionsTable extends React.Component {
               Occurrence
             </th>
             <th className="col-md-1" style={{ textAlign: "center" }}>
-              Réussite
+              Échec
             </th>
           </tr>
         </thead>
@@ -81,18 +81,18 @@ class StepDefinitionsRow extends React.Component {
     const { stepDefinition } = this.props;
     const stepLocation = `${stepDefinition.stepDefinitionLocation.filename}:${stepDefinition.stepDefinitionLocation.line}`;
 
-    const nbSuccesses = stepDefinition.occurrences.filter(step => {
-      return step.status === "PASSED";
+    const nbFailures = stepDefinition.occurrences.filter(step => {
+      return step.status === "FAILED";
     }).length;
-    const successRate = Math.floor((nbSuccesses / stepDefinition.occurrences.length) * 100);
+    const failureRate = Math.floor((nbFailures / stepDefinition.occurrences.length) * 100);
 
-    let successBadge;
-    if (successRate >= 90) {
-      successBadge = "badge-success";
-    } else if (successRate >= 50 && successRate >= 90) {
-      successBadge = "badge-warning";
-    } else if (successRate < 50) {
-      successBadge = "badge-error";
+    let failureBadge;
+    if (failureRate >= 50) {
+      failureBadge = "badge-error";
+    } else if (failureRate >= 10 && failureRate <= 50) {
+      failureBadge = "badge-warning";
+    } else if (failureRate < 10) {
+      failureBadge = "badge-success";
     }
 
     return (
@@ -112,7 +112,7 @@ class StepDefinitionsRow extends React.Component {
           <b>{stepDefinition.occurrences.length}</b>
         </td>
         <td style={{ textAlign: "center" }}>
-          <Badge bsClass={successBadge}>{successRate} %</Badge>
+          <Badge bsClass={failureBadge}>{failureRate} %</Badge>
         </td>
       </tr>
     );
