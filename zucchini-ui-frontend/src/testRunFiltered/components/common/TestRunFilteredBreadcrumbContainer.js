@@ -2,13 +2,14 @@ import { connect } from "react-redux";
 import { createSelector, createStructuredSelector } from "reselect";
 import queryString from "query-string";
 
-import Breadcrumb from "../../ui/components/Breadcrumb";
-import toNiceDate from "../../ui/toNiceDate";
-import getTypeEnvName from "../../utils/testRunUtils";
+import Breadcrumb from "../../../ui/components/Breadcrumb";
+import toNiceDate from "../../../ui/toNiceDate";
+import getTypeEnvName from "../../../utils/testRunUtils";
 
 const selectBreadcumbItems = createSelector(
   state => state.testRun.testRun,
-  testRun => {
+  (state, props) => props.title,
+  (testRun, title) => {
     return [
       {
         value: getTypeEnvName(testRun),
@@ -22,7 +23,7 @@ const selectBreadcumbItems = createSelector(
         link: `/test-runs/${testRun.id}`
       },
       {
-        value: "Échecs"
+        value: title
       }
     ];
   }
