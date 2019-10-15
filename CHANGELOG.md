@@ -8,6 +8,8 @@ Version 0.0.7-SNAPSHOT
   * Add latest run managment (ui and backend) to show only the latests runs
   * Add filter on name and environment for runs
   * Add slice for scroll
+  * Keep error message and step status when scenario is validated after analyse
+  * Step definition view : Replace success rate by failure rate
 * **Gradle job**  
   * Fix Fat JAR creation
 

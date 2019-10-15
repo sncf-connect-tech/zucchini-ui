@@ -48,7 +48,7 @@ public class Background {
         return newBackground;
     }
 
-    protected void setStatus(final StepStatus newStatus) {
+    public void setStatus(final StepStatus newStatus) {
         for (final Step step : steps) {
             step.setStatus(newStatus);
         }

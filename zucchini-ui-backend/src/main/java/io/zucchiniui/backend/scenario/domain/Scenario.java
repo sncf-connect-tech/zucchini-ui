@@ -168,31 +168,6 @@ public class Scenario extends BaseEntity<String> {
             return;
         }
 
-        final StepStatus newStepStatus;
-        switch (newStatus) {
-            case PASSED:
-                newStepStatus = StepStatus.PASSED;
-                break;
-            case FAILED:
-                newStepStatus = StepStatus.FAILED;
-                break;
-            case NOT_RUN:
-                newStepStatus = StepStatus.NOT_RUN;
-                break;
-            case PENDING:
-                newStepStatus = StepStatus.PENDING;
-                break;
-            default:
-                throw new IllegalArgumentException("Unsupported status: " + newStatus);
-        }
-
-        beforeActions.forEach(step -> step.setStatus(newStepStatus));
-        if (background != null) {
-            background.setStatus(newStepStatus);
-        }
-        steps.forEach(step -> step.setStatus(newStepStatus));
-        afterActions.forEach(step -> step.setStatus(newStepStatus));
-
         modifiedAt = ZonedDateTime.now();
         changes.add(new ScenarioStatusChange(modifiedAt, status, newStatus));
 
