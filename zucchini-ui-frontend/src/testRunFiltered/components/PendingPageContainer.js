@@ -1,9 +1,9 @@
 import { connect } from "react-redux";
 
 import { loadPendingTestRunPage } from "../redux";
-import { createTestRunFilterPageSelector } from "./common/containerUtils";
+import { createTestRunFilterPageSelector } from "../selectors";
 
-import TestRunFilteredPage from "./common/TestRunFilteredPage";
+import TestRunFilteredPage from "./internal/TestRunFilteredPage";
 
 const selectProps = createTestRunFilterPageSelector("En attente");
 

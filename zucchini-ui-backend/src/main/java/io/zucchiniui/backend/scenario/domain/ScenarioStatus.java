@@ -1,6 +1,6 @@
 package io.zucchiniui.backend.scenario.domain;
 
-import java.util.Arrays;
+import java.util.stream.Stream;
 
 public enum ScenarioStatus {
 
@@ -18,7 +18,7 @@ public enum ScenarioStatus {
     }
 
     public static ScenarioStatus getScenarioByStatus(String status) {
-        return Arrays.stream(ScenarioStatus.values())
+        return Stream.of(ScenarioStatus.values())
             .filter(scenarioStatus -> status.equals(scenarioStatus.status))
             .findFirst()
             .orElse(null);
