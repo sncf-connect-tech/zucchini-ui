@@ -53,7 +53,7 @@ class ScenariosApi {
     });
   }
 
-  getPending({ testRunId }) {
+  getPendingScenarii({ testRunId }) {
     return this.client.get({
       path: "/pending",
       query: {
@@ -62,7 +62,7 @@ class ScenariosApi {
     });
   }
 
-  getUnplayed({ testRunId }) {
+  getUnplayedScenarii({ testRunId }) {
     return this.client.get({
       path: "/unplayed",
       query: {

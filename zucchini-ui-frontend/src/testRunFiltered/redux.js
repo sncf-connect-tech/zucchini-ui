@@ -5,45 +5,52 @@ import { handleActions } from "redux-actions";
 // Actions
 const UNPLAYED_PREFIX = "UNPLAYED";
 const GET_UNPLAYED = `${UNPLAYED_PREFIX}/GET_UNPLAYED`;
-// eslint-disable-next-line no-unused-vars
 const GET_UNPLAYED_FULFILLED = `${GET_UNPLAYED}_FULFILLED`;
 const PENDING_PREFIX = "PENDING";
 const GET_PENDING = `${PENDING_PREFIX}/GET_PENDING`;
 const GET_PENDING_FULFILLED = `${GET_PENDING}_FULFILLED`;
 
 // Action creators
+export function loadPendingTestRunPage({ testRunId }) {
+  return loadFilteredTestRunPage(testRunId, getPendingTestRun);
+}
 
-export function loadTestRunFilteredPage({ testRunId, filter }) {
+export function getPendingTestRun({ testRunId }) {
+  return {
+    type: GET_PENDING,
+    payload: model.getTestRunPending({ testRunId }),
+    exportmeta: {
+      testRunId
+    }
+  };
+}
+
+export function loadUnplayedTestRunPage({ testRunId }) {
+  return loadFilteredTestRunPage(testRunId, getUnplayedTestRun);
+}
+
+export function getUnplayedTestRun({ testRunId }) {
+  return {
+    type: GET_UNPLAYED,
+    payload: model.getTestRunUnplayed({ testRunId }),
+    exportmeta: {
+      testRunId
+    }
+  };
+}
+
+function loadFilteredTestRunPage(testRunId, resultProvider) {
   // eslint-disable-next-line no-console
   return async dispatch => {
     const testRunResult$ = dispatch(getTestRun({ testRunId }));
 
-    const testRunFilteredResult$ = dispatch(getTestRunFiltered({ testRunId, filter }));
+    const testRunFilteredResult$ = dispatch(resultProvider({ testRunId }));
     const stats$ = dispatch(getTestRunStats({ testRunId }));
 
     await testRunResult$;
     await testRunFilteredResult$;
     await stats$;
     return null;
-  };
-}
-
-export function getTestRunFiltered({ testRunId, filter }) {
-  var type;
-  var payload;
-  if (filter == "pending") {
-    type = GET_PENDING;
-    payload = model.getTestRunPending({ testRunId });
-  } else if (filter == "unplayed") {
-    type = GET_UNPLAYED;
-    payload = model.getTestRunUnplayed({ testRunId });
-  }
-  return {
-    type: type,
-    payload: payload,
-    exportmeta: {
-      testRunId
-    }
   };
 }
 

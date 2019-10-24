@@ -113,7 +113,7 @@ public class ScenarioResource {
     @Path("{status:unplayed|pending}")
     public List<ScenarioListItemView> getScenariiByStatus(@PathParam("status") String status,
                                                           @BeanParam final GetScenariiRequestParams requestParams){
-        Consumer<ScenarioQuery> scenarioQueryConsumer = q -> {
+        Consumer<ScenarioQuery> scenarioConstraints = q -> {
             if (!Strings.isNullOrEmpty(requestParams.getTestRunId())) {
                 q.withTestRunId(requestParams.getTestRunId());
             }
@@ -122,9 +122,8 @@ public class ScenarioResource {
             }
             q.withSelectedStatus(ScenarioStatus.getScenarioByStatus(status));
         };
-        Consumer<ScenarioQuery> preparator = scenarioQueryConsumer.andThen(q -> q.withSelectedStatus(ScenarioStatus.getScenarioByStatus(status)));
 
-        return scenarioViewAccess.getScenariiByStatus(preparator);
+        return scenarioViewAccess.getScenariiByStatus(scenarioConstraints);
     }
 
     @GET

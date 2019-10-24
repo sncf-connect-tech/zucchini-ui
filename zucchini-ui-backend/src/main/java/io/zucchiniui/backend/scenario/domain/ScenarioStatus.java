@@ -1,5 +1,7 @@
 package io.zucchiniui.backend.scenario.domain;
 
+import java.util.stream.Stream;
+
 public enum ScenarioStatus {
 
     NOT_RUN("unplayed"),
@@ -9,34 +11,16 @@ public enum ScenarioStatus {
 
     private String status;
 
-    ScenarioStatus() {
+    ScenarioStatus() {}
 
-    }
-
-    private ScenarioStatus(String status) {
-        this.status = status;
-    }
-
-    /**
-     * @return the status
-     */
-    public String getStatus() {
-        return status;
-    }
-
-    /**
-     * @param status
-     *            the status to set
-     */
-    public void setStatus(String status) {
+    ScenarioStatus(String status) {
         this.status = status;
     }
 
     public static ScenarioStatus getScenarioByStatus(String status) {
-        for (int i = 0; i < ScenarioStatus.values().length; i++) {
-            if (status.equals(ScenarioStatus.values()[i].status))
-                return ScenarioStatus.values()[i];
-        }
-        return null;
+        return Stream.of(ScenarioStatus.values())
+            .filter(scenarioStatus -> status.equals(scenarioStatus.status))
+            .findFirst()
+            .orElse(null);
     }
 }
