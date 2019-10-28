@@ -6,14 +6,23 @@ import Checkbox from "react-bootstrap/lib/Checkbox";
 import Radio from "react-bootstrap/lib/Radio";
 import ControlLabel from "react-bootstrap/lib/ControlLabel";
 import FormControl from "react-bootstrap/lib/FormControl";
+import DropdownButton from "react-bootstrap/lib/DropdownButton";
 
 import Button from "../../ui/components/Button";
+import MenuItem from "react-bootstrap/lib/MenuItem";
 
 const AVAILABLE_STATUS = {
   PASSED: "Succès",
   FAILED: "Échec",
   NOT_RUN: "Non joué",
   PENDING: "En attente"
+};
+
+const TYPE_ERROR = {
+  GLUE: "Problème de glue",
+  PARTENAIRE_KO: "Partenaire ko",
+  NO_SOLUTION: "Pas de solution",
+  UNKNOWN: "Error inconnue"
 };
 
 export default class UpdateScenarioStateDialog extends React.PureComponent {
@@ -83,6 +92,19 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
     };
   };
 
+  onTypeSelected = type => {
+    return () => {
+      this.setState(prevState => {
+        return {
+          scenario: {
+            ...prevState.scenario,
+            type
+          }
+        };
+      });
+    };
+  };
+
   onReviewedChange = () => {
     this.setState(prevState => {
       return {
@@ -113,6 +135,15 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
       );
     });
 
+    const typeErrorSelect = Object.keys(TYPE_ERROR).map(typeError => {
+      const type = TYPE_ERROR[typeError];
+      return (
+        <MenuItem key={typeError} eventKey={typeError} onSelect={this.onTypeSelected(typeError)}>
+          {type}
+        </MenuItem>
+      );
+    });
+
     return (
       <Modal bsSize="large" show={show} onHide={this.onCloseClick}>
         <Modal.Header closeButton>
@@ -129,6 +160,18 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
               <Checkbox checked={this.state.scenario.reviewed} onChange={this.onReviewedChange}>
                 Scénario analysé ?
               </Checkbox>
+            </FormGroup>
+            <FormGroup>
+              <ControlLabel>Type d{"'"}anomalie</ControlLabel>
+              <div>
+                <DropdownButton
+                  title={TYPE_ERROR[this.state.scenario.type]}
+                  key="dropdownTypeError"
+                  id="dropdownTypeError"
+                >
+                  {typeErrorSelect}
+                </DropdownButton>
+              </div>
             </FormGroup>
             <FormGroup controlId="comment">
               <ControlLabel>Commentaire</ControlLabel>

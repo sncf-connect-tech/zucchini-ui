@@ -228,6 +228,7 @@ const initialState = {
   },
   similarFailureScenarios: [],
   history: [],
+  typeError: [],
   comments: []
 };
 
