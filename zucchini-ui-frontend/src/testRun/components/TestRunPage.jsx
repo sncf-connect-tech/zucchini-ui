@@ -107,9 +107,9 @@ export default class TestRunPage extends React.Component {
             </Button>
           </ButtonGroup>
           <ButtonGroup>
-            <ButtonLink glyph="search" to={`/test-runs/${testRunId}/search`}>
-              Rechercher
-            </ButtonLink>
+            {/*<ButtonLink glyph="search" to={`/test-runs/${testRunId}/search`}>*/}
+            {/*  Rechercher*/}
+            {/*</ButtonLink>*/}
           </ButtonGroup>
           <ButtonGroup>
             <ButtonLink glyph="tags" to={`/test-runs/${testRunId}/tags`}>
