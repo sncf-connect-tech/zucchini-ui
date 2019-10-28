@@ -46,11 +46,17 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
   }
 
   createDefaultStateFromProps({ scenario }) {
-    const status = scenario ? scenario.status : null;
+    let status = null;
+    let type;
+    if (scenario) {
+      status = scenario.status;
+      type = scenario.typeError ? scenario.typeError : null;
+    }
     return {
       scenario: {
         status,
-        reviewed: true
+        reviewed: true,
+        type
       },
       comment: ""
     };
