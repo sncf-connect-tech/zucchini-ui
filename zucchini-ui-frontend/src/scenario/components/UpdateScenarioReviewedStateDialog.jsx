@@ -4,8 +4,17 @@ import Modal from "react-bootstrap/lib/Modal";
 import FormGroup from "react-bootstrap/lib/FormGroup";
 import ControlLabel from "react-bootstrap/lib/ControlLabel";
 import FormControl from "react-bootstrap/lib/FormControl";
+import DropdownButton from "react-bootstrap/lib/DropdownButton";
 
 import Button from "../../ui/components/Button";
+import MenuItem from "react-bootstrap/lib/MenuItem";
+
+const TYPE_ERROR = {
+  GLUE: "Problème de glue",
+  PARTENAIRE_KO: "Partenaire ko",
+  NO_SOLUTION: "Pas de solution",
+  UNKNOWN: "Error inconnue"
+};
 
 export default class UpdateScenarioReviewedStateDialog extends React.PureComponent {
   static propTypes = {
@@ -29,7 +38,8 @@ export default class UpdateScenarioReviewedStateDialog extends React.PureCompone
 
   createDefaultState() {
     return {
-      comment: ""
+      comment: "",
+      typeError: null
     };
   }
 
@@ -75,6 +85,17 @@ export default class UpdateScenarioReviewedStateDialog extends React.PureCompone
     };
   }
 
+  onTypeSelected = type => {
+    return () => {
+      this.setState(prevState => {
+        return {
+          ...prevState.scenario,
+          type
+        };
+      });
+    };
+  };
+
   onCommentChange = event => {
     const comment = event.target.value;
     this.setState({
@@ -85,6 +106,15 @@ export default class UpdateScenarioReviewedStateDialog extends React.PureCompone
   render() {
     const { show } = this.props;
 
+    const typeErrorSelect = Object.keys(TYPE_ERROR).map(typeError => {
+      const type = TYPE_ERROR[typeError];
+      return (
+        <MenuItem key={typeError} eventKey={typeError} onSelect={this.onTypeSelected(typeError)}>
+          {type}
+        </MenuItem>
+      );
+    });
+
     return (
       <Modal bsSize="large" show={show} onHide={this.onCloseClick}>
         <Modal.Header closeButton>
@@ -92,6 +122,18 @@ export default class UpdateScenarioReviewedStateDialog extends React.PureCompone
         </Modal.Header>
         <Modal.Body>
           <form onSubmit={this.onSetReviewedState}>
+            <FormGroup>
+              <ControlLabel>Type d{"'"}anomalie</ControlLabel>
+              <div>
+                <DropdownButton
+                  title={TYPE_ERROR[this.state.type]}
+                  key="dropdownTypeErrorAnalyse"
+                  id="dropdownTypeErrorAnalyse"
+                >
+                  {typeErrorSelect}
+                </DropdownButton>
+              </div>
+            </FormGroup>
             <FormGroup controlId="comment">
               <ControlLabel>Commentaire</ControlLabel>
               <FormControl
