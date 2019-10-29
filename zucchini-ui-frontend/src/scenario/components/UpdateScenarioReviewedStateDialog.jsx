@@ -126,7 +126,11 @@ export default class UpdateScenarioReviewedStateDialog extends React.PureCompone
               <ControlLabel>Type d{"'"}anomalie</ControlLabel>
               <div>
                 <DropdownButton
-                  title={TYPE_ERROR[this.state.type]}
+                  title={
+                    TYPE_ERROR[this.state.typeError]
+                      ? TYPE_ERROR[this.state.typeError]
+                      : "Sélectionnez un type d'erreur"
+                  }
                   key="dropdownTypeErrorAnalyse"
                   id="dropdownTypeErrorAnalyse"
                 >
