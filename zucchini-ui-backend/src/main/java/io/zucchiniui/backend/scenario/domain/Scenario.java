@@ -59,6 +59,8 @@ public class Scenario extends BaseEntity<String> {
 
     private ZonedDateTime modifiedAt;
 
+    private String analyseResult;
+
     /**
      * Private constructor for Morphia.
      */
@@ -91,6 +93,7 @@ public class Scenario extends BaseEntity<String> {
 
         info = Objects.requireNonNull(builder.getInfo());
         comment = builder.getComment();
+        analyseResult = builder.getAnalyseResult();
 
         for (final StepBuilder stepBuilder : builder.getStepBuilders()) {
             steps.add(stepBuilder.build());
@@ -159,6 +162,8 @@ public class Scenario extends BaseEntity<String> {
         if (oldStatus != status) {
             changes.add(new ScenarioStatusChange(modifiedAt, oldStatus, status));
         }
+
+        analyseResult = other.getAnalyseResult();
     }
 
     public void setStatus(final ScenarioStatus newStatus) {
@@ -183,6 +188,13 @@ public class Scenario extends BaseEntity<String> {
 
             this.reviewed = reviewed;
         }
+    }
+
+    public void setAnalyseResult(final String analyseResult) {
+        modifiedAt = ZonedDateTime.now();
+        changes.add(new ScenarioReviewedStateChange(modifiedAt, this.reviewed, reviewed));
+
+        this.analyseResult = analyseResult;
     }
 
     public void doIgnoringChanges(Consumer<Scenario> consumer) {
@@ -271,6 +283,10 @@ public class Scenario extends BaseEntity<String> {
 
     public boolean isReviewed() {
         return reviewed;
+    }
+
+    public String getAnalyseResult() {
+        return analyseResult;
     }
 
     public List<Step> getSteps() {

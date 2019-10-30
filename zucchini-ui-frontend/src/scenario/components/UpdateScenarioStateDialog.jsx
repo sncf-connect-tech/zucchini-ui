@@ -47,16 +47,16 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
 
   createDefaultStateFromProps({ scenario }) {
     let status = null;
-    let type;
+    let analyseResult;
     if (scenario) {
       status = scenario.status;
-      type = scenario.typeError ? scenario.typeError : null;
+      analyseResult = scenario.analyseResult ? scenario.analyseResult : null;
     }
     return {
       scenario: {
         status,
         reviewed: true,
-        type
+        analyseResult
       },
       comment: ""
     };
@@ -98,13 +98,13 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
     };
   };
 
-  onTypeSelected = type => {
+  onTypeSelected = analyseResult => {
     return () => {
       this.setState(prevState => {
         return {
           scenario: {
             ...prevState.scenario,
-            type
+            analyseResult
           }
         };
       });
@@ -141,10 +141,10 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
       );
     });
 
-    const typeErrorSelect = Object.keys(TYPE_ERROR).map(typeError => {
-      const type = TYPE_ERROR[typeError];
+    const analyseResultSelect = Object.keys(TYPE_ERROR).map(analyseResult => {
+      const type = TYPE_ERROR[analyseResult];
       return (
-        <MenuItem key={typeError} eventKey={typeError} onSelect={this.onTypeSelected(typeError)}>
+        <MenuItem key={analyseResult} eventKey={analyseResult} onSelect={this.onTypeSelected(analyseResult)}>
           {type}
         </MenuItem>
       );
@@ -172,14 +172,14 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
               <div>
                 <DropdownButton
                   title={
-                    TYPE_ERROR[this.state.scenario.type]
-                      ? TYPE_ERROR[this.state.scenario.type]
-                      : "Sélectionnez un type d'erreur"
+                    TYPE_ERROR[this.state.scenario.analyseResult]
+                      ? TYPE_ERROR[this.state.scenario.analyseResult]
+                      : "Sélectionnez un type d'anomalie"
                   }
-                  key="dropdownTypeError"
-                  id="dropdownTypeError"
+                  key="dropdownanalyseResult"
+                  id="dropdownanalyseResult"
                 >
-                  {typeErrorSelect}
+                  {analyseResultSelect}
                 </DropdownButton>
               </div>
             </FormGroup>

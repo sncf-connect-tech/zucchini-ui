@@ -89,6 +89,13 @@ public class ScenarioResource {
     }
 
     @GET
+    @Path("type-error")
+    public Set<String> getAnalyseResult(@BeanParam final GetScenariiRequestParams requestParams) {
+        final Consumer<ScenarioQuery> query = prepareQueryFromRequestParams(requestParams);
+        return scenarioViewAccess.getAnalyseResult(query);
+    }
+
+    @GET
     @Path("stats")
     public ScenarioStats getStats(@BeanParam final GetScenariiRequestParams requestParams) {
         final Consumer<ScenarioQuery> query = prepareQueryFromRequestParams(requestParams);
@@ -176,7 +183,8 @@ public class ScenarioResource {
     public void update(@PathParam("scenarioId") final String scenarioId, @Valid @NotNull final UpdateScenarioRequest request) {
         final UpdateScenarioParams updateScenarioParams = new UpdateScenarioParams(
             Optional.ofNullable(request.getStatus()),
-            Optional.ofNullable(request.isReviewed())
+            Optional.ofNullable(request.isReviewed()),
+            Optional.ofNullable(request.getAnalyseResult())
         );
         scenarioService.updateScenario(scenarioId, updateScenarioParams);
     }
@@ -227,6 +235,9 @@ public class ScenarioResource {
             }
             if (!Strings.isNullOrEmpty(requestParams.getName())) {
                 q.withName(requestParams.getName());
+            }
+            if (!Strings.isNullOrEmpty(requestParams.getAnalyseResult())){
+                q.withName(requestParams.getAnalyseResult());
             }
             final TagSelection tagSelection = new TagSelection(requestParams.getTags(), requestParams.getExcludedTags());
             q.withSelectedTags(tagSelection);

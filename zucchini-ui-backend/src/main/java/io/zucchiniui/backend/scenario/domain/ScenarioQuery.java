@@ -21,4 +21,6 @@ public interface ScenarioQuery {
     ScenarioQuery havingErrorMessage();
 
     ScenarioQuery withSelectedStatus(ScenarioStatus scenarioStatus);
+
+    ScenarioQuery withAnalyseResult(String analyseResult);
 }

@@ -8,6 +8,8 @@ public class UpdateScenarioRequest {
 
     private Boolean reviewed;
 
+    private String analyseResult;
+
     public ScenarioStatus getStatus() {
         return status;
     }
@@ -24,4 +26,15 @@ public class UpdateScenarioRequest {
         this.reviewed = reviewed;
     }
 
+    public Boolean getReviewed() {
+        return reviewed;
+    }
+
+    public String getAnalyseResult() {
+        return analyseResult;
+    }
+
+    public void setAnalyseResult(String analyseResult) {
+        this.analyseResult = analyseResult;
+    }
 }

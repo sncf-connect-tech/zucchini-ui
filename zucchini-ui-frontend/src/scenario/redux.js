@@ -170,11 +170,12 @@ export function setNonReviewedStateThenReload({ scenarioId }) {
   });
 }
 
-export function setScenarioReviewedStateAndComment({ scenarioId, comment }) {
+export function setScenarioReviewedStateAndComment({ scenarioId, comment, analyseResult }) {
   return updateScenarioStateAndComment({
     scenarioId,
     newState: {
-      reviewed: true
+      reviewed: true,
+      analyseResult
     },
     comment
   });
@@ -228,7 +229,7 @@ const initialState = {
   },
   similarFailureScenarios: [],
   history: [],
-  typeError: [],
+  analyseResult: [],
   comments: []
 };
 

@@ -162,6 +162,11 @@ public class ScenarioViewAccess {
         return stats;
     }
 
+    public Set<String> getAnalyseResult(final Consumer<ScenarioQuery> preparator) {
+        // TODO implement
+        return null;
+    }
+
     public List<ScenarioTagStats> getTagStats(final Consumer<ScenarioQuery> preparator, final Collection<String> tags) {
         // Filter tags if requested
         final Predicate<String> tagFilter;

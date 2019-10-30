@@ -24,6 +24,9 @@ public class GetScenariiRequestParams {
     @QueryParam("excludedTag")
     private Set<String> excludedTags;
 
+    @QueryParam("analyse-type")
+    private String analyseResult;
+
     public String getTestRunId() {
         return testRunId;
     }
@@ -76,6 +79,14 @@ public class GetScenariiRequestParams {
 
     public void setExcludedTags(final Set<String> excludedTags) {
         this.excludedTags = excludedTags;
+    }
+
+    public String getAnalyseResult() {
+        return analyseResult;
+    }
+
+    public void setAnalyseResult(String analyseResult) {
+        this.analyseResult = analyseResult;
     }
 
 }

@@ -17,6 +17,8 @@ public class ScenarioListItemView {
 
     private String featureId;
 
+    private String analyseResult;
+
     public String getId() {
         return id;
     }
@@ -65,4 +67,11 @@ public class ScenarioListItemView {
         this.featureId = featureId;
     }
 
+    public String getAnalyseResult() {
+        return analyseResult;
+    }
+
+    public void setAnalyseResult(String analyseResult) {
+        this.analyseResult = analyseResult;
+    }
 }

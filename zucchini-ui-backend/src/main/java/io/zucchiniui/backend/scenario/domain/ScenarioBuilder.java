@@ -28,6 +28,8 @@ public class ScenarioBuilder {
 
     private String comment;
 
+    private String analyseResult;
+
     private final List<StepBuilder> stepBuilders = new ArrayList<>();
 
     private final List<AroundActionBuilder> beforeActionBuilders = new ArrayList<>();
@@ -82,6 +84,11 @@ public class ScenarioBuilder {
 
     public ScenarioBuilder withComment(final String comment) {
         this.comment = comment;
+        return this;
+    }
+
+    public ScenarioBuilder withAnalyseResult(final String analyseResult) {
+        this.analyseResult = analyseResult;
         return this;
     }
 
@@ -140,6 +147,10 @@ public class ScenarioBuilder {
 
     protected String getComment() {
         return comment;
+    }
+
+    protected String getAnalyseResult() {
+        return analyseResult;
     }
 
     protected List<StepBuilder> getStepBuilders() {
