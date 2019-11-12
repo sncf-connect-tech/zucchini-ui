@@ -43,10 +43,7 @@ const selectProps = createStructuredSelector({
 });
 
 export default withRouter(
-  connect(
-    selectProps,
-    {
-      onLoad: loadTestRunsPage
-    }
-  )(TestRunsPage)
+  connect(selectProps, {
+    onLoad: loadTestRunsPage
+  })(TestRunsPage)
 );
