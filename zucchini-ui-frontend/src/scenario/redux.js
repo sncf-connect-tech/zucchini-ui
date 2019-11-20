@@ -32,6 +32,9 @@ const DELETE_COMMENT_PENDING = `${DELETE_COMMENT}_PENDING`;
 const UPDATE_COMMENT = `${PREFIX}/UPDATE_COMMENT`;
 const UPDATE_COMMENT_PENDING = `${UPDATE_COMMENT}_PENDING`;
 
+const GET_ANALYSIS_TAGS = `${PREFIX}/GET_ANALYSIS_TAGS`;
+const GET_ANALYSIS_TAGS_FULFILLED = `${GET_ANALYSIS_TAGS}_FULFILLED`;
+
 // Action creators
 
 export function loadScenarioPage({ scenarioId }) {
@@ -52,6 +55,7 @@ export function loadScenarioPage({ scenarioId }) {
     const testRunResult$ = dispatch(getTestRun({ testRunId }));
     const featureResult$ = dispatch(getFeature({ featureId }));
     const sameFeatureScenariosResult$ = dispatch(getScenarios({ featureId }));
+    const analysisTags = dispatch(getAnalysisTags());
 
     await scenarioResult$;
     await historyResult$;
@@ -60,6 +64,14 @@ export function loadScenarioPage({ scenarioId }) {
     await testRunResult$;
     await featureResult$;
     await sameFeatureScenariosResult$;
+    await analysisTags;
+  };
+}
+
+export function loadScenarioAnalysisTags() {
+  return async dispatch => {
+    const analysisTags = dispatch(getAnalysisTags());
+    await analysisTags;
   };
 }
 
@@ -204,6 +216,13 @@ export function updateComment({ scenarioId, commentId, newContent }) {
   };
 }
 
+export function getAnalysisTags() {
+  return {
+    type: GET_ANALYSIS_TAGS,
+    payload: model.getAnalysisTags()
+  };
+}
+
 export function updateCommentThenReload({ scenarioId, commentId, newContent }) {
   return async dispatch => {
     await dispatch(updateComment({ scenarioId, commentId, newContent }));
@@ -230,15 +249,18 @@ const initialState = {
   similarFailureScenarios: [],
   history: [],
   analyseResult: [],
+  analysisTags: [],
   comments: []
 };
 
 export const scenario = handleActions(
   {
-    [GET_SCENARIO_FULFILLED]: (state, action) => ({
-      ...state,
-      scenario: action.payload
-    }),
+    [GET_SCENARIO_FULFILLED]: (state, action) => {
+      return {
+        ...state,
+        scenario: action.payload
+      };
+    },
 
     [GET_SIMILAR_FAILURE_SCENARIOS_FULFILLED]: (state, action) => ({
       ...state,
@@ -283,6 +305,13 @@ export const scenario = handleActions(
       return {
         ...state,
         comments
+      };
+    },
+
+    [GET_ANALYSIS_TAGS_FULFILLED]: (state, action) => {
+      return {
+        ...state,
+        analyseTags: action.payload
       };
     }
   },

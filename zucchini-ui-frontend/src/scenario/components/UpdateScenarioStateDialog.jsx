@@ -18,24 +18,17 @@ const AVAILABLE_STATUS = {
   PENDING: "En attente"
 };
 
-const TYPE_ERROR = {
-  GLUE: "Problème de glue",
-  PARTENAIRE_KO: "Partenaire ko",
-  NO_SOLUTION: "Pas de solution",
-  UNKNOWN: "Error inconnue"
-};
-
 export default class UpdateScenarioStateDialog extends React.PureComponent {
   static propTypes = {
     show: PropTypes.bool.isRequired,
     scenario: PropTypes.object.isRequired,
     onClose: PropTypes.func.isRequired,
-    onUpdateState: PropTypes.func.isRequired
+    onUpdateState: PropTypes.func.isRequired,
+    tags: PropTypes.array
   };
 
   constructor(props) {
     super(props);
-
     this.state = this.createDefaultStateFromProps(props);
   }
 
@@ -129,9 +122,13 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
     });
   };
 
-  render() {
-    const { show } = this.props;
+  textCorrespondingToTag(analyseResult) {
+    const analyseResultSelected = this.props.tags.filter(tag => tag["shortLabel"] === analyseResult);
+    return analyseResultSelected[0]["longLabel"];
+  }
 
+  render() {
+    const { show, tags } = this.props;
     const statusRadios = Object.keys(AVAILABLE_STATUS).map(status => {
       const label = AVAILABLE_STATUS[status];
       return (
@@ -141,11 +138,13 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
       );
     });
 
-    const analyseResultSelect = Object.keys(TYPE_ERROR).map(analyseResult => {
-      const type = TYPE_ERROR[analyseResult];
+    const t = tags ? tags : [];
+    const analyseResultSelect = t.map(tag => {
+      const type = tag["shortLabel"];
+      const text = tag["longLabel"];
       return (
-        <MenuItem key={analyseResult} eventKey={analyseResult} onSelect={this.onTypeSelected(analyseResult)}>
-          {type}
+        <MenuItem key={type} eventKey={type} onSelect={this.onTypeSelected(type)}>
+          {text}
         </MenuItem>
       );
     });
@@ -172,8 +171,8 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
               <div>
                 <DropdownButton
                   title={
-                    TYPE_ERROR[this.state.scenario.analyseResult]
-                      ? TYPE_ERROR[this.state.scenario.analyseResult]
+                    this.state.analyseResult
+                      ? this.textCorrespondingToTag(this.state.analyseResult)
                       : "Sélectionnez un type d'anomalie"
                   }
                   key="dropdownanalyseResult"

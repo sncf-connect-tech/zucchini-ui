@@ -9,24 +9,17 @@ import DropdownButton from "react-bootstrap/lib/DropdownButton";
 import Button from "../../ui/components/Button";
 import MenuItem from "react-bootstrap/lib/MenuItem";
 
-const TYPE_ERROR = {
-  GLUE: "Problème de glue",
-  PARTENAIRE_KO: "Partenaire ko",
-  NO_SOLUTION: "Pas de solution",
-  UNKNOWN: "Error inconnue"
-};
-
 export default class UpdateScenarioReviewedStateDialog extends React.PureComponent {
   static propTypes = {
     show: PropTypes.bool.isRequired,
     scenarioId: PropTypes.string.isRequired,
     onClose: PropTypes.func.isRequired,
-    onSetReviewedState: PropTypes.func.isRequired
+    onSetReviewedState: PropTypes.func.isRequired,
+    tags: PropTypes.array
   };
 
   constructor(props) {
     super(props);
-
     this.state = this.createDefaultState();
   }
 
@@ -104,14 +97,21 @@ export default class UpdateScenarioReviewedStateDialog extends React.PureCompone
     });
   };
 
-  render() {
-    const { show } = this.props;
+  textCorrespondingToTag(analyseResult) {
+    const analyseResultSelected = this.props.tags.filter(tag => tag["shortLabel"] === analyseResult);
+    return analyseResultSelected[0]["longLabel"];
+  }
 
-    const analyseResultSelect = Object.keys(TYPE_ERROR).map(analyseResult => {
-      const type = TYPE_ERROR[analyseResult];
+  render() {
+    const { show, tags } = this.props;
+
+    const t = tags ? tags : [];
+    const analyseResultSelect = t.map(tag => {
+      const type = tag["shortLabel"];
+      const text = tag["longLabel"];
       return (
-        <MenuItem key={analyseResult} eventKey={analyseResult} onSelect={this.onTypeSelected(analyseResult)}>
-          {type}
+        <MenuItem key={type} eventKey={type} onSelect={this.onTypeSelected(type)}>
+          {text}
         </MenuItem>
       );
     });
@@ -128,8 +128,8 @@ export default class UpdateScenarioReviewedStateDialog extends React.PureCompone
               <div>
                 <DropdownButton
                   title={
-                    TYPE_ERROR[this.state.analyseResult]
-                      ? TYPE_ERROR[this.state.analyseResult]
+                    this.state.analyseResult
+                      ? this.textCorrespondingToTag(this.state.analyseResult)
                       : "Sélectionnez un type d'anomalie"
                   }
                   key="dropdownanalyseResultAnalyse"
