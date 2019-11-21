@@ -18,6 +18,32 @@ const AVAILABLE_STATUS = {
   PENDING: "En attente"
 };
 
+const PASSED = {
+  EXACT_REPLAY: "Rejeu à l'identique",
+  HAND_REPLAY: "Rejeu manuel",
+  DATE_CHANGE: "Changement de date",
+  PROFIL_CHANGE: "Changement de profil",
+  OD_CHANGE: "Changement d'OD",
+  CORRECT_REGRESSION: "Détection d'une régression corrigée directement",
+  OTHER: "Autre action (à indiquer en commentaire)"
+};
+
+const NOT_RUN = {
+  DATASET: "Absence de jeux de données",
+  PARTNER_KO: "Partenaire indisponible",
+  NOT_APPLICABLE: "Non applicable"
+};
+
+const FAILED = {
+  FUNCTIONAL_ANOMALY: "Anomalie fonctionnelle"
+};
+
+const ACTIONS = {
+  PASSED,
+  NOT_RUN,
+  FAILED
+};
+
 export default class UpdateScenarioStateDialog extends React.PureComponent {
   static propTypes = {
     show: PropTypes.bool.isRequired,
@@ -41,15 +67,18 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
   createDefaultStateFromProps({ scenario }) {
     let status = null;
     let analyseResult;
+    let analyse;
     if (scenario) {
       status = scenario.status;
       analyseResult = scenario.analyseResult ? scenario.analyseResult : null;
+      analyse = scenario.analyse ? scenario.analyse : null;
     }
     return {
       scenario: {
         status,
         reviewed: true,
-        analyseResult
+        analyseResult,
+        analyse
       },
       comment: ""
     };
@@ -69,7 +98,8 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
     this.props.onUpdateState({
       scenarioId: this.props.scenario.id,
       newState: this.state.scenario,
-      comment: this.state.comment
+      comment: this.state.comment,
+      analyse: this.state.analyse
     });
     this.props.onClose();
   };
@@ -84,7 +114,25 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
         return {
           scenario: {
             ...prevState.scenario,
-            status
+            status,
+            analyse: null
+          }
+        };
+      });
+    };
+  };
+
+  isActionSelected = analyse => {
+    return this.state.scenario.analyse === analyse;
+  };
+
+  onActionSelected = analyse => {
+    return () => {
+      this.setState(prevState => {
+        return {
+          scenario: {
+            ...prevState.scenario,
+            analyse
           }
         };
       });
@@ -138,6 +186,16 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
       );
     });
 
+    const setOfActions = ACTIONS[this.state.scenario.status] ? ACTIONS[this.state.scenario.status] : [];
+    const actionRadios = Object.keys(setOfActions).map(action => {
+      const label = setOfActions[action];
+      return (
+        <Radio key={action} checked={this.isActionSelected(action)} onChange={this.onActionSelected(action)}>
+          {label}
+        </Radio>
+      );
+    });
+
     const t = tags ? tags : [];
     const analyseResultSelect = t.map(tag => {
       const type = tag["shortLabel"];
@@ -171,16 +229,20 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
               <div>
                 <DropdownButton
                   title={
-                    this.state.analyseResult
-                      ? this.textCorrespondingToTag(this.state.analyseResult)
+                    this.state.scenario.analyseResult
+                      ? this.textCorrespondingToTag(this.state.scenario.analyseResult)
                       : "Sélectionnez un type d'anomalie"
                   }
-                  key="dropdownanalyseResult"
-                  id="dropdownanalyseResult"
+                  key="dropdownanalyseResultAnalyse"
+                  id="dropdownanalyseResultAnalyse"
                 >
                   {analyseResultSelect}
                 </DropdownButton>
               </div>
+            </FormGroup>
+            <FormGroup>
+              {this.state.scenario.status !== "PENDING" ? <ControlLabel>Action effectuée</ControlLabel> : null}
+              {actionRadios}
             </FormGroup>
             <FormGroup controlId="comment">
               <ControlLabel>Commentaire</ControlLabel>
