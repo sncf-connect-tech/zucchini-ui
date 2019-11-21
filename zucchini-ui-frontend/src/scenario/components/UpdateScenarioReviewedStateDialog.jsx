@@ -124,7 +124,7 @@ export default class UpdateScenarioReviewedStateDialog extends React.PureCompone
         <Modal.Body>
           <form onSubmit={this.onSetReviewedState}>
             <FormGroup>
-              <ControlLabel>Type d{"'"}anomalie</ControlLabel>
+              <ControlLabel>Quel était le problème?</ControlLabel>
               <div>
                 <DropdownButton
                   title={

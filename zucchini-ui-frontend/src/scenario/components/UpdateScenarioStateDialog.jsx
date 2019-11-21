@@ -167,7 +167,7 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
               </Checkbox>
             </FormGroup>
             <FormGroup>
-              <ControlLabel>Type d{"'"}anomalie</ControlLabel>
+              <ControlLabel>Quel était le problème?</ControlLabel>
               <div>
                 <DropdownButton
                   title={
