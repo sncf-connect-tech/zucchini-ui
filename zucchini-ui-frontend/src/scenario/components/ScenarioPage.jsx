@@ -92,7 +92,7 @@ export default class ScenarioPage extends React.Component {
 
   render() {
     const { scenario, scenarioId, analysisTags } = this.props;
-    const { featureId, reviewed } = scenario;
+    const { featureId, reviewed, status } = scenario;
 
     let similarFailureSection = null;
     if (scenario.status === "FAILED") {
@@ -184,6 +184,7 @@ export default class ScenarioPage extends React.Component {
           scenarioId={scenarioId}
           show={this.state.showSetReviewedStateDialog}
           onClose={this.hideSetReviewedStateDialog}
+          status={status}
           tags={analysisTags}
         />
       </Page>
