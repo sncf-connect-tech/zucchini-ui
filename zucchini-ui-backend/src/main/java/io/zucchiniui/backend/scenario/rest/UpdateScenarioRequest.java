@@ -10,6 +10,8 @@ public class UpdateScenarioRequest {
 
     private String analyseResult;
 
+    private String analyse;
+
     public ScenarioStatus getStatus() {
         return status;
     }
@@ -36,5 +38,13 @@ public class UpdateScenarioRequest {
 
     public void setAnalyseResult(String analyseResult) {
         this.analyseResult = analyseResult;
+    }
+
+    public String getAnalyse() {
+        return analyse;
+    }
+
+    public void setAnalyse(String analyse) {
+        this.analyse = analyse;
     }
 }

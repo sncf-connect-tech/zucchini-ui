@@ -61,6 +61,8 @@ public class Scenario extends BaseEntity<String> {
 
     private String analyseResult;
 
+    private String analyse;
+
     /**
      * Private constructor for Morphia.
      */
@@ -94,6 +96,7 @@ public class Scenario extends BaseEntity<String> {
         info = Objects.requireNonNull(builder.getInfo());
         comment = builder.getComment();
         analyseResult = builder.getAnalyseResult();
+        analyse = builder.getAnalyse();
 
         for (final StepBuilder stepBuilder : builder.getStepBuilders()) {
             steps.add(stepBuilder.build());
@@ -164,6 +167,7 @@ public class Scenario extends BaseEntity<String> {
         }
 
         analyseResult = other.getAnalyseResult();
+        analyse = other.getAnalyse();
     }
 
     public void setStatus(final ScenarioStatus newStatus) {
@@ -195,6 +199,10 @@ public class Scenario extends BaseEntity<String> {
         changes.add(new ScenarioReviewedStateChange(modifiedAt, this.reviewed, reviewed));
 
         this.analyseResult = analyseResult;
+    }
+
+    public void setAnalyse(String analyse) {
+        this.analyse = analyse;
     }
 
     public void doIgnoringChanges(Consumer<Scenario> consumer) {
@@ -287,6 +295,10 @@ public class Scenario extends BaseEntity<String> {
 
     public String getAnalyseResult() {
         return analyseResult;
+    }
+
+    public String getAnalyse() {
+        return analyse;
     }
 
     public List<Step> getSteps() {

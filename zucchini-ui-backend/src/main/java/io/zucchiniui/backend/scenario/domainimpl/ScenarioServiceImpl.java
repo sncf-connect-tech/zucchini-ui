@@ -29,6 +29,7 @@ class ScenarioServiceImpl implements ScenarioService {
         params.getStatus().ifPresent(scenario::setStatus);
         params.isReviewed().ifPresent(scenario::setReviewed);
         params.getAnalyseResult().ifPresent(scenario::setAnalyseResult);
+        params.getAnalyse().ifPresent(scenario::setAnalyse);
         scenarioRepository.save(scenario);
 
         if (params.getStatus().isPresent()) {

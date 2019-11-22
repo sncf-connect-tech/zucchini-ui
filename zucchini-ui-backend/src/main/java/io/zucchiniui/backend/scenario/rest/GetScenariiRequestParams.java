@@ -27,6 +27,9 @@ public class GetScenariiRequestParams {
     @QueryParam("analyse-type")
     private String analyseResult;
 
+    @QueryParam("analyse")
+    private String analyse;
+
     public String getTestRunId() {
         return testRunId;
     }
@@ -87,6 +90,14 @@ public class GetScenariiRequestParams {
 
     public void setAnalyseResult(String analyseResult) {
         this.analyseResult = analyseResult;
+    }
+
+    public String getAnalyse() {
+        return analyse;
+    }
+
+    public void setAnalyse(String analyse) {
+        this.analyse = analyse;
     }
 
 }

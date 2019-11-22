@@ -23,4 +23,6 @@ public interface ScenarioQuery {
     ScenarioQuery withSelectedStatus(ScenarioStatus scenarioStatus);
 
     ScenarioQuery withAnalyseResult(String analyseResult);
+
+    ScenarioQuery withAnalyse(String analyse);
 }

@@ -48,7 +48,6 @@ export default class UpdateScenarioReviewedStateDialog extends React.PureCompone
 
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = this.createDefaultState();
   }
 

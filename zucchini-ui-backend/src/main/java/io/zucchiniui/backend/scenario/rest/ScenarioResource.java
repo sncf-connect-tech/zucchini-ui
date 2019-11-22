@@ -90,9 +90,16 @@ public class ScenarioResource {
 
     @GET
     @Path("type-error")
-    public Set<String> getAnalyseResult(@BeanParam final GetScenariiRequestParams requestParams) {
+    public List<ScenarioListItemView> getAnalyseResult(@BeanParam final GetScenariiRequestParams requestParams) {
         final Consumer<ScenarioQuery> query = prepareQueryFromRequestParams(requestParams);
         return scenarioViewAccess.getAnalyseResult(query);
+    }
+
+    @GET
+    @Path("analyse")
+    public List<ScenarioListItemView> getAnalyse(@BeanParam final GetScenariiRequestParams requestParams) {
+        final Consumer<ScenarioQuery> query = prepareQueryFromRequestParams(requestParams);
+        return scenarioViewAccess.getScenarioByAnalyse(query);
     }
 
     @GET
@@ -184,7 +191,8 @@ public class ScenarioResource {
         final UpdateScenarioParams updateScenarioParams = new UpdateScenarioParams(
             Optional.ofNullable(request.getStatus()),
             Optional.ofNullable(request.isReviewed()),
-            Optional.ofNullable(request.getAnalyseResult())
+            Optional.ofNullable(request.getAnalyseResult()),
+            Optional.ofNullable(request.getAnalyse())
         );
         scenarioService.updateScenario(scenarioId, updateScenarioParams);
     }

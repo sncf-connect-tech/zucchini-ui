@@ -19,6 +19,8 @@ public class ScenarioListItemView {
 
     private String analyseResult;
 
+    private String analyse;
+
     public String getId() {
         return id;
     }
@@ -73,5 +75,13 @@ public class ScenarioListItemView {
 
     public void setAnalyseResult(String analyseResult) {
         this.analyseResult = analyseResult;
+    }
+
+    public String getAnalyse() {
+        return analyse;
+    }
+
+    public void setAnalyse(String analyse) {
+        this.analyse = analyse;
     }
 }

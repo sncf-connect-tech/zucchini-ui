@@ -79,4 +79,10 @@ class ScenarioQueryImpl extends BaseMorphiaQuery<Scenario> implements ScenarioQu
         configureQuery(q -> q.field("analyseResult").equal(analyseResult));
         return this;
     }
+
+    @Override
+    public ScenarioQuery withAnalyse(String analyse) {
+        configureQuery(q -> q.field("analyse").equal(analyse));
+        return this;
+    }
 }

@@ -57,7 +57,8 @@ public class ScenarioViewAccess {
             .project("status", true)
             .project("testRunId", true)
             .project("featureId", true)
-            .project("reviewed", true);
+            .project("reviewed", true)
+            .project("analyse", true);
 
         return MorphiaUtils.streamQuery(query)
             .map(scenarioToListItemViewMapper::map)
@@ -71,9 +72,11 @@ public class ScenarioViewAccess {
             .project("testRunId", true)
             .project("featureId", true)
             .project("reviewed", true)
-            .project("scenarioKey", true);
+            .project("scenarioKey", true)
+            .project("analyse", true);
 
-        return MorphiaUtils.streamQuery(query).collect(Collectors.toMap(Scenario::getScenarioKey, scenarioToListItemViewMapper::map));
+        return MorphiaUtils.streamQuery(query)
+            .collect(Collectors.toMap(Scenario::getScenarioKey, scenarioToListItemViewMapper::map));
     }
 
     public List<GroupedFailuresListItemView> getGroupedFailedScenarii(final Consumer<ScenarioQuery> preparator) {
@@ -162,9 +165,20 @@ public class ScenarioViewAccess {
         return stats;
     }
 
-    public Set<String> getAnalyseResult(final Consumer<ScenarioQuery> preparator) {
-        // TODO implement
-        return null;
+    public List<ScenarioListItemView> getAnalyseResult(final Consumer<ScenarioQuery> preparator) {
+        final Query<Scenario> query = scenarioDAO.prepareTypedQuery(preparator);
+
+        return MorphiaUtils.streamQuery(query)
+            .map(scenarioToListItemViewMapper::map)
+            .collect(Collectors.toList());
+    }
+
+    public List<ScenarioListItemView> getScenarioByAnalyse(final Consumer<ScenarioQuery> preparator) {
+        final Query<Scenario> query = scenarioDAO.prepareTypedQuery(preparator);
+
+        return MorphiaUtils.streamQuery(query)
+            .map(scenarioToListItemViewMapper::map)
+            .collect(Collectors.toList());
     }
 
     public List<ScenarioTagStats> getTagStats(final Consumer<ScenarioQuery> preparator, final Collection<String> tags) {
@@ -247,5 +261,4 @@ public class ScenarioViewAccess {
             .sorted(Comparator.comparing((GroupedStepsListItemView grp) -> grp.getOccurrences().size()).reversed())
             .collect(Collectors.toList());
     }
-
 }

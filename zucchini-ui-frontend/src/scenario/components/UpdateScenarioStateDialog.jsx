@@ -115,7 +115,7 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
           scenario: {
             ...prevState.scenario,
             status,
-            analyse: null
+            analyse: ""
           }
         };
       });
