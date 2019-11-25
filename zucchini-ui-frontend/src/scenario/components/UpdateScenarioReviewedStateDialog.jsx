@@ -60,8 +60,8 @@ export default class UpdateScenarioReviewedStateDialog extends React.PureCompone
   createDefaultState() {
     return {
       comment: "",
-      analyseResult: null,
-      analyse: null
+      analyseResult: "",
+      analyseAction: ""
     };
   }
 
@@ -78,13 +78,13 @@ export default class UpdateScenarioReviewedStateDialog extends React.PureCompone
     }
 
     const { scenarioId, onClose, onSetReviewedState } = this.props;
-    const { comment, analyseResult, analyse } = this.state;
+    const { comment, analyseResult, analyseAction } = this.state;
 
     onSetReviewedState({
       scenarioId,
       comment,
       analyseResult,
-      analyse
+      analyseAction
     });
 
     this.setState(this.createDefaultState());
@@ -116,15 +116,15 @@ export default class UpdateScenarioReviewedStateDialog extends React.PureCompone
   }
 
   isActionSelected = analyse => {
-    return this.state.analyse === analyse;
+    return this.state.analyseAction === analyse;
   };
 
-  onActionSelected = analyse => {
+  onActionSelected = analyseAction => {
     return () => {
       this.setState(prevState => {
         return {
           ...prevState.scenario,
-          analyse
+          analyseAction
         };
       });
     };
@@ -165,22 +165,24 @@ export default class UpdateScenarioReviewedStateDialog extends React.PureCompone
               <ControlLabel>Action effectuée</ControlLabel>
               {actionRadios}
             </FormGroup>
-            <FormGroup>
-              <ControlLabel>Quel était le problème?</ControlLabel>
-              <div>
-                <DropdownButton
-                  title={
-                    this.state.analyseResult
-                      ? this.textCorrespondingToTag(this.state.analyseResult)
-                      : "Sélectionnez un type d'anomalie"
-                  }
-                  key="dropdownanalyseResultAnalyse"
-                  id="dropdownanalyseResultAnalyse"
-                >
-                  {analyseResultSelect}
-                </DropdownButton>
-              </div>
-            </FormGroup>
+            {this.props.tags ? (
+              <FormGroup>
+                <ControlLabel>Quel était le problème?</ControlLabel>
+                <div>
+                  <DropdownButton
+                    title={
+                      this.state.analyseResult
+                        ? this.textCorrespondingToTag(this.state.analyseResult)
+                        : "Sélectionnez un type d'anomalie"
+                    }
+                    key="dropdownanalyseResultAnalyse"
+                    id="dropdownanalyseResultAnalyse"
+                  >
+                    {analyseResultSelect}
+                  </DropdownButton>
+                </div>
+              </FormGroup>
+            ) : null}
             <FormGroup controlId="comment">
               <ControlLabel>Commentaire</ControlLabel>
               <FormControl

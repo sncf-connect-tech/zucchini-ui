@@ -25,6 +25,8 @@ export default class ScenarioChangeTable extends React.PureComponent {
             <th className="col-md-3">Type</th>
             <th className="col-md-3">Ancienne&nbsp;valeur</th>
             <th className="col-md-3">Nouvelle&nbsp;valeur</th>
+            <th className="col-md-3">Problème d{"'"}orgine</th>
+            <th className="col-md-3">Action</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>

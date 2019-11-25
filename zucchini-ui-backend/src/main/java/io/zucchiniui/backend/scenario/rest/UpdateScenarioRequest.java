@@ -10,7 +10,7 @@ public class UpdateScenarioRequest {
 
     private String analyseResult;
 
-    private String analyse;
+    private String analyseAction;
 
     public ScenarioStatus getStatus() {
         return status;
@@ -40,11 +40,11 @@ public class UpdateScenarioRequest {
         this.analyseResult = analyseResult;
     }
 
-    public String getAnalyse() {
-        return analyse;
+    public String getAnalyseAction() {
+        return analyseAction;
     }
 
-    public void setAnalyse(String analyse) {
-        this.analyse = analyse;
+    public void setAnalyseAction(String analyseAction) {
+        this.analyseAction = analyseAction;
     }
 }

@@ -182,13 +182,13 @@ export function setNonReviewedStateThenReload({ scenarioId }) {
   });
 }
 
-export function setScenarioReviewedStateAndComment({ scenarioId, comment, analyseResult, analyse }) {
+export function setScenarioReviewedStateAndComment({ scenarioId, comment, analyseResult, analyseAction }) {
   return updateScenarioStateAndComment({
     scenarioId,
     newState: {
       reviewed: true,
       analyseResult,
-      analyse
+      analyseAction
     },
     comment
   });

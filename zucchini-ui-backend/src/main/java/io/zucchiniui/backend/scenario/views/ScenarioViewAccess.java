@@ -58,7 +58,8 @@ public class ScenarioViewAccess {
             .project("testRunId", true)
             .project("featureId", true)
             .project("reviewed", true)
-            .project("analyse", true);
+            .project("analyse", true)
+            .project("analysis", true);
 
         return MorphiaUtils.streamQuery(query)
             .map(scenarioToListItemViewMapper::map)
@@ -73,7 +74,8 @@ public class ScenarioViewAccess {
             .project("featureId", true)
             .project("reviewed", true)
             .project("scenarioKey", true)
-            .project("analyse", true);
+            .project("analyse", true)
+            .project("analysis", true);
 
         return MorphiaUtils.streamQuery(query)
             .collect(Collectors.toMap(Scenario::getScenarioKey, scenarioToListItemViewMapper::map));

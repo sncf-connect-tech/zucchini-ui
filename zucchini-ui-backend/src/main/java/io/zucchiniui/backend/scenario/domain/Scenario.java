@@ -63,6 +63,8 @@ public class Scenario extends BaseEntity<String> {
 
     private String analyse;
 
+    private Analysis analysis;
+
     /**
      * Private constructor for Morphia.
      */
@@ -98,6 +100,12 @@ public class Scenario extends BaseEntity<String> {
         analyseResult = builder.getAnalyseResult();
         analyse = builder.getAnalyse();
 
+        if (builder.getAnalysis() ==  null) {
+            analysis = new Analysis();
+        } else {
+            analysis = builder.getAnalysis();
+        }
+
         for (final StepBuilder stepBuilder : builder.getStepBuilders()) {
             steps.add(stepBuilder.build());
         }
@@ -112,6 +120,17 @@ public class Scenario extends BaseEntity<String> {
 
         calculateStatusFromSteps();
         calculateReviewStateFromStatus();
+    }
+
+    public Analysis getAnalysis() {
+        if (analysis == null) {
+            analysis = new Analysis();
+        }
+        return analysis;
+    }
+
+    public void setAnalysis(Analysis analysis) {
+        this.analysis = analysis;
     }
 
     public void mergeWith(final Scenario other) {
@@ -137,10 +156,13 @@ public class Scenario extends BaseEntity<String> {
 
         final boolean oldReviewed = reviewed;
         final ScenarioStatus oldStatus = status;
+        // todo store old anlaysis values
+        final Analysis oldAnalysis = analysis;
 
         status = other.status;
         info = other.info;
         comment = other.comment;
+        analysis = other.analysis;
 
         steps = other.steps.stream()
             .map(Step::copy)
@@ -168,6 +190,7 @@ public class Scenario extends BaseEntity<String> {
 
         analyseResult = other.getAnalyseResult();
         analyse = other.getAnalyse();
+        analysis = other.getAnalysis();
     }
 
     public void setStatus(final ScenarioStatus newStatus) {

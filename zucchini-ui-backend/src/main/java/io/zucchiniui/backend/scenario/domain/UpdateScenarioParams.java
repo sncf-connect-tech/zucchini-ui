@@ -10,17 +10,17 @@ public class UpdateScenarioParams {
 
     private final Optional<String> analyseResult;
 
-    private final Optional<String> analyse;
+    private final Optional<String> analyseAction;
 
     public UpdateScenarioParams(
         final Optional<ScenarioStatus> status,
         final Optional<Boolean> reviewed,
         final Optional<String> analyseResult,
-        Optional<String> analyse) {
+        final Optional<String> analyseAction) {
         this.status = status;
         this.reviewed = reviewed;
         this.analyseResult = analyseResult;
-        this.analyse = analyse;
+        this.analyseAction = analyseAction;
     }
 
     public Optional<ScenarioStatus> getStatus() {
@@ -35,8 +35,7 @@ public class UpdateScenarioParams {
         return analyseResult;
     }
 
-    public Optional<String> getAnalyse() {
-        return analyse;
+    public Optional<String> getAnalyseAction() {
+        return analyseAction;
     }
-
 }

@@ -1,5 +1,6 @@
 package io.zucchiniui.backend.scenario.views;
 
+import io.zucchiniui.backend.scenario.domain.Analysis;
 import io.zucchiniui.backend.scenario.domain.ScenarioStatus;
 import io.zucchiniui.backend.shared.domain.BasicInfo;
 
@@ -20,6 +21,16 @@ public class ScenarioListItemView {
     private String analyseResult;
 
     private String analyse;
+
+    private Analysis analysis;
+
+    public Analysis getAnalysis() {
+        return analysis;
+    }
+
+    public void setAnalysis(Analysis analysis) {
+        this.analysis = analysis;
+    }
 
     public String getId() {
         return id;

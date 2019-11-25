@@ -67,18 +67,18 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
   createDefaultStateFromProps({ scenario }) {
     let status = null;
     let analyseResult;
-    let analyse;
+    let analyseAction;
     if (scenario) {
       status = scenario.status;
       analyseResult = scenario.analyseResult ? scenario.analyseResult : null;
-      analyse = scenario.analyse ? scenario.analyse : null;
+      analyseAction = scenario.analyse ? scenario.analyse : "";
     }
     return {
       scenario: {
         status,
         reviewed: true,
         analyseResult,
-        analyse
+        analyseAction
       },
       comment: ""
     };
@@ -99,7 +99,8 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
       scenarioId: this.props.scenario.id,
       newState: this.state.scenario,
       comment: this.state.comment,
-      analyse: this.state.analyse
+      analyseAction: this.state.analyseAction,
+      analyseResult: this.state.analyseResult
     });
     this.props.onClose();
   };
@@ -115,24 +116,24 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
           scenario: {
             ...prevState.scenario,
             status,
-            analyse: ""
+            analyseAction: ""
           }
         };
       });
     };
   };
 
-  isActionSelected = analyse => {
-    return this.state.scenario.analyse === analyse;
+  isActionSelected = analyseAction => {
+    return this.state.scenario.analyseAction === analyseAction;
   };
 
-  onActionSelected = analyse => {
+  onActionSelected = analyseAction => {
     return () => {
       this.setState(prevState => {
         return {
           scenario: {
             ...prevState.scenario,
-            analyse
+            analyseAction
           }
         };
       });
@@ -224,22 +225,24 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
                 Scénario analysé ?
               </Checkbox>
             </FormGroup>
-            <FormGroup>
-              <ControlLabel>Quel était le problème?</ControlLabel>
-              <div>
-                <DropdownButton
-                  title={
-                    this.state.scenario.analyseResult
-                      ? this.textCorrespondingToTag(this.state.scenario.analyseResult)
-                      : "Sélectionnez un type d'anomalie"
-                  }
-                  key="dropdownanalyseResultAnalyse"
-                  id="dropdownanalyseResultAnalyse"
-                >
-                  {analyseResultSelect}
-                </DropdownButton>
-              </div>
-            </FormGroup>
+            {this.props.tags ? (
+              <FormGroup>
+                <ControlLabel>Quel était le problème?</ControlLabel>
+                <div>
+                  <DropdownButton
+                    title={
+                      this.state.scenario.analyseResult
+                        ? this.textCorrespondingToTag(this.state.scenario.analyseResult)
+                        : "Sélectionnez un type d'anomalie"
+                    }
+                    key="dropdownanalyseResultAnalyse"
+                    id="dropdownanalyseResultAnalyse"
+                  >
+                    {analyseResultSelect}
+                  </DropdownButton>
+                </div>
+              </FormGroup>
+            ) : null}
             <FormGroup>
               {this.state.scenario.status !== "PENDING" ? <ControlLabel>Action effectuée</ControlLabel> : null}
               {actionRadios}

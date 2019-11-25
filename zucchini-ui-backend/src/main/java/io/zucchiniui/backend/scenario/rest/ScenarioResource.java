@@ -192,8 +192,7 @@ public class ScenarioResource {
             Optional.ofNullable(request.getStatus()),
             Optional.ofNullable(request.isReviewed()),
             Optional.ofNullable(request.getAnalyseResult()),
-            Optional.ofNullable(request.getAnalyse())
-        );
+            Optional.ofNullable(request.getAnalyseAction()));
         scenarioService.updateScenario(scenarioId, updateScenarioParams);
     }
 
