@@ -59,10 +59,6 @@ public class Scenario extends BaseEntity<String> {
 
     private ZonedDateTime modifiedAt;
 
-    private String analyseResult;
-
-    private String analyse;
-
     private Analysis analysis;
 
     /**
@@ -97,8 +93,6 @@ public class Scenario extends BaseEntity<String> {
 
         info = Objects.requireNonNull(builder.getInfo());
         comment = builder.getComment();
-        analyseResult = builder.getAnalyseResult();
-        analyse = builder.getAnalyse();
 
         if (builder.getAnalysis() ==  null) {
             analysis = new Analysis();
@@ -191,9 +185,6 @@ public class Scenario extends BaseEntity<String> {
         if (oldStatus != status) {
             changes.add(new ScenarioStatusChange(modifiedAt, oldStatus, status));
         }
-
-        analyseResult = other.getAnalyseResult();
-        analyse = other.getAnalyse();
         analysis = other.getAnalysis();
     }
 
@@ -230,8 +221,6 @@ public class Scenario extends BaseEntity<String> {
         changes.add(new ScenarioAnalysisResultChange(modifiedAt, this.analysis.getResult(), analyseResult));
 
         this.analysis.setResult(analyseResult);
-
-        this.analyseResult = analyseResult;
     }
 
     public void setAnalyseAction(String analyseAction) {
@@ -243,7 +232,6 @@ public class Scenario extends BaseEntity<String> {
         changes.add(new ScenarioAnalysisActionChange(modifiedAt, this.analysis.getAction(), analyseAction));
 
         this.analysis.setAction(analyseAction);
-        this.analyse = analyseAction;
     }
 
     public void doIgnoringChanges(Consumer<Scenario> consumer) {
@@ -332,14 +320,6 @@ public class Scenario extends BaseEntity<String> {
 
     public boolean isReviewed() {
         return reviewed;
-    }
-
-    public String getAnalyseResult() {
-        return analyseResult;
-    }
-
-    public String getAnalyse() {
-        return analyse;
     }
 
     public List<Step> getSteps() {

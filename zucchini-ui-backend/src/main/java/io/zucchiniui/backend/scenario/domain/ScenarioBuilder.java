@@ -28,10 +28,6 @@ public class ScenarioBuilder {
 
     private String comment;
 
-    private String analyseResult;
-
-    private String analyse;
-
     private Analysis analysis;
 
     private final List<StepBuilder> stepBuilders = new ArrayList<>();
@@ -88,16 +84,6 @@ public class ScenarioBuilder {
 
     public ScenarioBuilder withComment(final String comment) {
         this.comment = comment;
-        return this;
-    }
-
-    public ScenarioBuilder withAnalyseResult(final String analyseResult) {
-        this.analyseResult = analyseResult;
-        return this;
-    }
-
-    public ScenarioBuilder withAnalyse(final String analyse) {
-        this.analyse = analyse;
         return this;
     }
 
@@ -166,14 +152,6 @@ public class ScenarioBuilder {
 
     protected String getComment() {
         return comment;
-    }
-
-    protected String getAnalyseResult() {
-        return analyseResult;
-    }
-
-    protected String getAnalyse() {
-        return analyse;
     }
 
     protected List<StepBuilder> getStepBuilders() {

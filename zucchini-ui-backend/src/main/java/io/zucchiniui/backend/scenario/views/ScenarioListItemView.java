@@ -18,10 +18,6 @@ public class ScenarioListItemView {
 
     private String featureId;
 
-    private String analyseResult;
-
-    private String analyse;
-
     private Analysis analysis;
 
     public Analysis getAnalysis() {
@@ -78,21 +74,5 @@ public class ScenarioListItemView {
 
     public void setFeatureId(final String featureId) {
         this.featureId = featureId;
-    }
-
-    public String getAnalyseResult() {
-        return analyseResult;
-    }
-
-    public void setAnalyseResult(String analyseResult) {
-        this.analyseResult = analyseResult;
-    }
-
-    public String getAnalyse() {
-        return analyse;
-    }
-
-    public void setAnalyse(String analyse) {
-        this.analyse = analyse;
     }
 }
