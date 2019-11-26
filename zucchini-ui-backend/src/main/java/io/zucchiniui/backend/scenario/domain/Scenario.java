@@ -130,7 +130,13 @@ public class Scenario extends BaseEntity<String> {
     }
 
     public void setAnalysis(Analysis analysis) {
-        this.analysis = analysis;
+        if (this.analysis.getResult().equals(analysis.getResult())) {
+            this.setAnalyseResult(analysis.getResult());
+        }
+
+        if (this.analysis.getAction().equals(analysis.getAction())) {
+            this.setAnalyseAction(analysis.getAction());
+        }
     }
 
     public void mergeWith(final Scenario other) {
@@ -156,13 +162,11 @@ public class Scenario extends BaseEntity<String> {
 
         final boolean oldReviewed = reviewed;
         final ScenarioStatus oldStatus = status;
-        // todo store old anlaysis values
-        final Analysis oldAnalysis = analysis;
 
         status = other.status;
         info = other.info;
         comment = other.comment;
-        analysis = other.analysis;
+        this.setAnalysis(other.analysis);
 
         steps = other.steps.stream()
             .map(Step::copy)
@@ -218,14 +222,28 @@ public class Scenario extends BaseEntity<String> {
     }
 
     public void setAnalyseResult(final String analyseResult) {
+        if (this.analysis == null) {
+            this.analysis = new Analysis();
+        }
+
         modifiedAt = ZonedDateTime.now();
-        changes.add(new ScenarioReviewedStateChange(modifiedAt, this.reviewed, reviewed));
+        changes.add(new ScenarioAnalysisResultChange(modifiedAt, this.analysis.getResult(), analyseResult));
+
+        this.analysis.setResult(analyseResult);
 
         this.analyseResult = analyseResult;
     }
 
-    public void setAnalyse(String analyse) {
-        this.analyse = analyse;
+    public void setAnalyseAction(String analyseAction) {
+        if (this.analysis == null) {
+            this.analysis = new Analysis();
+        }
+
+        modifiedAt = ZonedDateTime.now();
+        changes.add(new ScenarioAnalysisActionChange(modifiedAt, this.analysis.getAction(), analyseAction));
+
+        this.analysis.setAction(analyseAction);
+        this.analyse = analyseAction;
     }
 
     public void doIgnoringChanges(Consumer<Scenario> consumer) {
