@@ -124,9 +124,11 @@ class AnalysisAction extends React.PureComponent {
   render() {
     const { value } = this.props;
     let prettifiedValue = value
-      .split("_")
-      .map(word => word.toLowerCase())
-      .reduce((sentence, word) => sentence + " " + word);
+      ? value
+          .split("_")
+          .map(word => word.toLowerCase())
+          .reduce((sentence, word) => sentence + " " + word)
+      : " ";
     prettifiedValue = prettifiedValue[0].toUpperCase() + prettifiedValue.slice(1);
     return <span>{prettifiedValue}</span>;
   }
