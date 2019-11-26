@@ -25,8 +25,6 @@ export default class ScenarioChangeTable extends React.PureComponent {
             <th className="col-md-3">Type</th>
             <th className="col-md-3">Ancienne&nbsp;valeur</th>
             <th className="col-md-3">Nouvelle&nbsp;valeur</th>
-            <th className="col-md-3">Problème d{"'"}orgine</th>
-            <th className="col-md-3">Action</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>
@@ -48,6 +46,10 @@ class ScenarioChangeTableRow extends React.PureComponent {
         return "Analysé ?";
       case "STATUS":
         return "Statut";
+      case "ANALYSE_ACTION":
+        return "Action";
+      case "ANALYSE_RESULT":
+        return "Problème rencontré";
       default:
         return change.type;
     }
@@ -61,6 +63,10 @@ class ScenarioChangeTableRow extends React.PureComponent {
         return ReviewedStateContent;
       case "STATUS":
         return StatusContent;
+      case "ANALYSE_ACTION":
+        return AnalysisAction;
+      case "ANALYSE_RESULT":
+        return AnalysisAction;
       default:
         return null;
     }
@@ -107,5 +113,21 @@ class ReviewedStateContent extends React.PureComponent {
   render() {
     const { value } = this.props;
     return <span>{value ? "Oui" : "Non"}</span>;
+  }
+}
+
+class AnalysisAction extends React.PureComponent {
+  static propTypes = {
+    value: PropTypes.any.isRequired
+  };
+
+  render() {
+    const { value } = this.props;
+    let prettifiedValue = value
+      .split("_")
+      .map(word => word.toLowerCase())
+      .reduce((sentence, word) => sentence + " " + word);
+    prettifiedValue = prettifiedValue[0].toUpperCase() + prettifiedValue.slice(1);
+    return <span>{prettifiedValue}</span>;
   }
 }
