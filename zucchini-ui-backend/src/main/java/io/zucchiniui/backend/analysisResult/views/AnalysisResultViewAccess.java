@@ -1,5 +1,6 @@
 package io.zucchiniui.backend.analysisResult.views;
 
+import io.zucchiniui.backend.config.EncounteredProblem;
 import ma.glasnost.orika.BoundMapperFacade;
 import org.springframework.stereotype.Component;
 import xyz.morphia.query.Query;
@@ -19,18 +20,18 @@ public class AnalysisResultViewAccess {
 
     private final AnalysisResultDAO analysisResultDAO;
 
-    private final BoundMapperFacade<AnalysisResult, AnalysisResultListItemView> analysisresultToListItemViewMapper;
+    private final BoundMapperFacade<AnalysisResult, EncounteredProblem> analysisresultToListItemViewMapper;
 
     public AnalysisResultViewAccess(final AnalysisResultDAO analysisResultDAO) {
         this.analysisResultDAO = analysisResultDAO;
 
         final AnalysisResultViewMapper mapper = new AnalysisResultViewMapper();
         analysisresultToListItemViewMapper =  mapper.dedicatedMapperFor(AnalysisResult.class,
-            AnalysisResultListItemView.class,
+            EncounteredProblem.class,
             false);
     }
 
-    public List<AnalysisResultListItemView> getAnalysisResultListItems(final Consumer<AnalysisResultQuery> preparator) {
+    public List<EncounteredProblem> getAnalysisResultListItems(final Consumer<AnalysisResultQuery> preparator) {
         final Query<AnalysisResult> query = analysisResultDAO.prepareTypedQuery(preparator)
             .project("shortLabel", true)
             .project("longLabel", true);

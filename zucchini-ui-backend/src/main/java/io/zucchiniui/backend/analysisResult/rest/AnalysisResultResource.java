@@ -1,9 +1,10 @@
 package io.zucchiniui.backend.analysisResult.rest;
 
+import io.zucchiniui.backend.config.BackendConfiguration;
 import io.zucchiniui.backend.analysisResult.domain.AnalysisResultQuery;
 import io.zucchiniui.backend.analysisResult.domain.AnalysisResultRepository;
 import io.zucchiniui.backend.analysisResult.views.AnalysisResultViewAccess;
-import io.zucchiniui.backend.analysisResult.views.AnalysisResultListItemView;
+import io.zucchiniui.backend.config.EncounteredProblem;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
@@ -19,32 +20,14 @@ import java.util.function.Consumer;
 @Produces(MediaType.APPLICATION_JSON)
 public class AnalysisResultResource {
 
-    private final AnalysisResultRepository analysisResultRepository;
+    private final BackendConfiguration configuration;
 
-    private final AnalysisResultViewAccess analysisResultViewAccess;
-
-    private UriInfo uriInfo;
-
-    public AnalysisResultResource(
-        AnalysisResultRepository analysisResultRepository,
-        AnalysisResultViewAccess analysisResultViewAccess
-        ) {
-        this.analysisResultRepository = analysisResultRepository;
-        this.analysisResultViewAccess = analysisResultViewAccess;
-    }
-
-    @Context
-    public void setUriInfo(final UriInfo uriInfo) {
-        this.uriInfo = uriInfo;
+    public AnalysisResultResource(BackendConfiguration configuration) {
+        this.configuration = configuration;
     }
 
     @GET
-    public List<AnalysisResultListItemView> getAnalysisResults(@BeanParam final GetAnalysisResultRequestParams resultRequestParams) {
-        final Consumer<AnalysisResultQuery> query = prepareQueryFromRequestParams(resultRequestParams);
-        return analysisResultViewAccess.getAnalysisResultListItems(query);
-    }
-
-    private static Consumer<AnalysisResultQuery> prepareQueryFromRequestParams(final GetAnalysisResultRequestParams requestParams) {
-        return AnalysisResultQuery::orderByShortLabel;
+    public List<EncounteredProblem> getAnalysisResults(@BeanParam final GetAnalysisResultRequestParams resultRequestParams) {
+        return configuration.getEncounteredProblem();
     }
 }

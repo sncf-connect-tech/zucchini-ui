@@ -1,6 +1,7 @@
 import { default as scenariosApi } from "../api/scenarios";
 import { default as testRunsApi } from "../api/testRuns";
 import { default as analysisResultApi } from "../api/AnalysisResult";
+import { default as config } from "../api/Config";
 
 export function getScenario({ scenarioId }) {
   return scenariosApi.getScenario({ scenarioId });
@@ -92,4 +93,8 @@ class PromiseMapper {
 
 export function getAnalysisTags() {
   return analysisResultApi.getAnalysisTags();
+}
+
+export function getConfig() {
+  return config.getConfig();
 }

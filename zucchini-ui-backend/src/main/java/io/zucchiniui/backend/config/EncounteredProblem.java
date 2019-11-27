@@ -1,6 +1,6 @@
-package io.zucchiniui.backend.analysisResult.views;
+package io.zucchiniui.backend.config;
 
-public class AnalysisResultListItemView {
+public class EncounteredProblem {
 
     private String shortLabel;
 

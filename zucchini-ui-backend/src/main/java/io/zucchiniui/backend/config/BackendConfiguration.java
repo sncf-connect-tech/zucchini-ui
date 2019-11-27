@@ -1,4 +1,4 @@
-package io.zucchiniui.backend;
+package io.zucchiniui.backend.config;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.dropwizard.Configuration;
@@ -6,6 +6,7 @@ import io.dropwizard.metrics.MetricsFactory;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BackendConfiguration extends Configuration {
@@ -15,6 +16,12 @@ public class BackendConfiguration extends Configuration {
 
     @NotNull
     private Integer numberLatest;
+
+    @NotNull
+    private List<EncounteredProblem> encounteredProblem;
+
+    @NotNull
+    private List<CorrectionActionConfig> correctionAction;
 
     @Valid
     private final MetricsFactory metrics = new MetricsFactory();
@@ -37,5 +44,21 @@ public class BackendConfiguration extends Configuration {
 
     public void setNumberLatest(Integer numberLatest) {
         this.numberLatest = numberLatest;
+    }
+
+    public List<EncounteredProblem> getEncounteredProblem() {
+        return encounteredProblem;
+    }
+
+    public void setEncounteredProblem(List<EncounteredProblem> encounteredProblem) {
+        this.encounteredProblem = encounteredProblem;
+    }
+
+    public List<CorrectionActionConfig> getCorrectionAction() {
+        return correctionAction;
+    }
+
+    public void setCorrectionAction(List<CorrectionActionConfig> correctionAction) {
+        this.correctionAction = correctionAction;
     }
 }

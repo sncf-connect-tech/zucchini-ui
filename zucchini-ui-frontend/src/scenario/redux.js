@@ -35,6 +35,9 @@ const UPDATE_COMMENT_PENDING = `${UPDATE_COMMENT}_PENDING`;
 const GET_ANALYSIS_TAGS = `${PREFIX}/GET_ANALYSIS_TAGS`;
 const GET_ANALYSIS_TAGS_FULFILLED = `${GET_ANALYSIS_TAGS}_FULFILLED`;
 
+const GET_CONFIG = `${PREFIX}/GET_UI_CONFIG`;
+const GET_CONFIG_FULFILLED = `${GET_CONFIG}_FULFILLED`;
+
 // Action creators
 
 export function loadScenarioPage({ scenarioId }) {
@@ -56,6 +59,7 @@ export function loadScenarioPage({ scenarioId }) {
     const featureResult$ = dispatch(getFeature({ featureId }));
     const sameFeatureScenariosResult$ = dispatch(getScenarios({ featureId }));
     const analysisTags = dispatch(getAnalysisTags());
+    const config = dispatch(getConfig());
 
     await scenarioResult$;
     await historyResult$;
@@ -65,6 +69,7 @@ export function loadScenarioPage({ scenarioId }) {
     await featureResult$;
     await sameFeatureScenariosResult$;
     await analysisTags;
+    await config;
   };
 }
 
@@ -224,6 +229,13 @@ export function getAnalysisTags() {
   };
 }
 
+export function getConfig() {
+  return {
+    type: GET_CONFIG,
+    payload: model.getConfig()
+  };
+}
+
 export function updateCommentThenReload({ scenarioId, commentId, newContent }) {
   return async dispatch => {
     await dispatch(updateComment({ scenarioId, commentId, newContent }));
@@ -251,7 +263,8 @@ const initialState = {
   history: [],
   analyseResult: [],
   analysisTags: [],
-  comments: []
+  comments: [],
+  config: {}
 };
 
 export const scenario = handleActions(
@@ -313,6 +326,13 @@ export const scenario = handleActions(
       return {
         ...state,
         analyseTags: action.payload
+      };
+    },
+
+    [GET_CONFIG_FULFILLED]: (state, action) => {
+      return {
+        ...state,
+        config: action.payload
       };
     }
   },

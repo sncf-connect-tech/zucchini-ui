@@ -8,6 +8,7 @@ import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.jersey.setup.JerseyEnvironment;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import io.zucchiniui.backend.config.BackendConfiguration;
 import io.zucchiniui.backend.support.ddd.rest.ConcurrentEntityModificationExceptionMapper;
 import io.zucchiniui.backend.support.ddd.rest.EntityNotFoundExceptionMapper;
 import io.zucchiniui.backend.support.spring.SpringBundle;

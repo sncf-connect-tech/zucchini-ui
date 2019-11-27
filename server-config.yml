@@ -13,3 +13,23 @@ numberLatest: 100
 
 logging:
   level: INFO
+
+correctionAction:
+  - actionCode: EXACT_REPLAY
+    actionLabel: Rejeu à l'identique
+    type: passedActions
+  - actionCode: HAND_REPLAY
+    actionLabel: Rejeu manuel
+    type: passedActions
+  - actionCode: DATASET
+    actionLabel: Absence de jeux de données
+    type: notRunActions
+  - actionCode: FUNCTIONAL_ANOMALY
+    actionLabel: Anomalie fonctionnelle
+    type: failedActions
+
+encounteredProblem:
+  - longLabel: OTHER
+    shortLabel: UNKNOWN
+  - longLabel: AAA
+    shortLabel: BBB
