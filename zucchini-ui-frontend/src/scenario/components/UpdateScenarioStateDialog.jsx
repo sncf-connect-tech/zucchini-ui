@@ -18,39 +18,14 @@ const AVAILABLE_STATUS = {
   PENDING: "En attente"
 };
 
-const PASSED = {
-  EXACT_REPLAY: "Rejeu à l'identique",
-  HAND_REPLAY: "Rejeu manuel",
-  DATE_CHANGE: "Changement de date",
-  PROFIL_CHANGE: "Changement de profil",
-  OD_CHANGE: "Changement d'OD",
-  CORRECT_REGRESSION: "Détection d'une régression corrigée directement",
-  OTHER: "Autre action (à indiquer en commentaire)"
-};
-
-const NOT_RUN = {
-  DATASET: "Absence de jeux de données",
-  PARTNER_KO: "Partenaire indisponible",
-  NOT_APPLICABLE: "Non applicable"
-};
-
-const FAILED = {
-  FUNCTIONAL_ANOMALY: "Anomalie fonctionnelle"
-};
-
-const ACTIONS = {
-  PASSED,
-  NOT_RUN,
-  FAILED
-};
-
 export default class UpdateScenarioStateDialog extends React.PureComponent {
   static propTypes = {
     show: PropTypes.bool.isRequired,
     scenario: PropTypes.object.isRequired,
     onClose: PropTypes.func.isRequired,
     onUpdateState: PropTypes.func.isRequired,
-    tags: PropTypes.array
+    tags: PropTypes.array,
+    config: PropTypes.object
   };
 
   constructor(props) {
@@ -172,12 +147,14 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
   };
 
   textCorrespondingToTag(analyseResult) {
-    const analyseResultSelected = this.props.tags.filter(tag => tag["shortLabel"] === analyseResult);
+    const analyseResultSelected = this.props.config.encounteredProblems.filter(
+      tag => tag["shortLabel"] === analyseResult
+    );
     return analyseResultSelected[0]["longLabel"];
   }
 
   render() {
-    const { show, tags } = this.props;
+    const { show, config } = this.props;
     const statusRadios = Object.keys(AVAILABLE_STATUS).map(status => {
       const label = AVAILABLE_STATUS[status];
       return (
@@ -187,17 +164,23 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
       );
     });
 
-    const setOfActions = ACTIONS[this.state.scenario.status] ? ACTIONS[this.state.scenario.status] : [];
-    const actionRadios = Object.keys(setOfActions).map(action => {
-      const label = setOfActions[action];
-      return (
-        <Radio key={action} checked={this.isActionSelected(action)} onChange={this.onActionSelected(action)}>
-          {label}
-        </Radio>
-      );
-    });
+    const setOfActions = config.correctionActionConfig ? config.correctionActionConfig : [];
+    const actionRadios = setOfActions
+      .filter(action => action.type === this.state.scenario.status)
+      .map(action => {
+        const { actionLabel, actionCode } = action;
+        return (
+          <Radio
+            key={actionCode}
+            checked={this.isActionSelected(actionCode)}
+            onChange={this.onActionSelected(actionCode)}
+          >
+            {actionLabel}
+          </Radio>
+        );
+      });
 
-    const t = tags ? tags : [];
+    const t = config.encounteredProblems ? config.encounteredProblems : [];
     const analyseResultSelect = t.map(tag => {
       const type = tag["shortLabel"];
       const text = tag["longLabel"];
@@ -225,7 +208,7 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
                 Scénario analysé ?
               </Checkbox>
             </FormGroup>
-            {this.props.tags ? (
+            {this.props.config.encounteredProblems ? (
               <FormGroup>
                 <ControlLabel>Quel était le problème?</ControlLabel>
                 <div>

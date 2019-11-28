@@ -10,32 +10,6 @@ import Button from "../../ui/components/Button";
 import MenuItem from "react-bootstrap/lib/MenuItem";
 import Radio from "react-bootstrap/lib/Radio";
 
-const PASSED = {
-  EXACT_REPLAY: "Rejeu à l'identique",
-  HAND_REPLAY: "Rejeu manuel",
-  DATE_CHANGE: "Changement de date",
-  PROFIL_CHANGE: "Changement de profil",
-  OD_CHANGE: "Changement d'OD",
-  CORRECT_REGRESSION: "Détection d'une régression corrigée directement",
-  OTHER: "Autre action (à indiquer en commentaire)"
-};
-
-const NOT_RUN = {
-  DATASET: "Absence de jeux de données",
-  PARTNER_KO: "Partenaire indisponible",
-  NOT_APPLICABLE: "Non applicable"
-};
-
-const FAILED = {
-  FUNCTIONAL_ANOMALY: "Anomalie fonctionnelle"
-};
-
-const ACTIONS = {
-  PASSED,
-  NOT_RUN,
-  FAILED
-};
-
 export default class UpdateScenarioReviewedStateDialog extends React.PureComponent {
   static propTypes = {
     show: PropTypes.bool.isRequired,
@@ -43,7 +17,7 @@ export default class UpdateScenarioReviewedStateDialog extends React.PureCompone
     onClose: PropTypes.func.isRequired,
     onSetReviewedState: PropTypes.func.isRequired,
     status: PropTypes.string,
-    tags: PropTypes.array
+    config: PropTypes.object
   };
 
   constructor(props) {
@@ -111,7 +85,9 @@ export default class UpdateScenarioReviewedStateDialog extends React.PureCompone
   };
 
   textCorrespondingToTag(analyseResult) {
-    const analyseResultSelected = this.props.tags.filter(tag => tag["shortLabel"] === analyseResult);
+    const analyseResultSelected = this.props.config.encounteredProblems.filter(
+      tag => tag["shortLabel"] === analyseResult
+    );
     return analyseResultSelected[0]["longLabel"];
   }
 
@@ -131,19 +107,25 @@ export default class UpdateScenarioReviewedStateDialog extends React.PureCompone
   };
 
   render() {
-    const { show, tags, status } = this.props;
+    const { show, status, config } = this.props;
 
-    const setOfActions = ACTIONS[status] ? ACTIONS[status] : [];
-    const actionRadios = Object.keys(setOfActions).map(action => {
-      const label = setOfActions[action];
-      return (
-        <Radio key={action} checked={this.isActionSelected(action)} onChange={this.onActionSelected(action)}>
-          {label}
-        </Radio>
-      );
-    });
+    const setOfActions = config.correctionActionConfig ? config.correctionActionConfig : [];
+    const actionRadios = setOfActions
+      .filter(action => action.type === status)
+      .map(action => {
+        const { actionLabel, actionCode } = action;
+        return (
+          <Radio
+            key={actionCode}
+            checked={this.isActionSelected(actionCode)}
+            onChange={this.onActionSelected(actionCode)}
+          >
+            {actionLabel}
+          </Radio>
+        );
+      });
 
-    const t = tags ? tags : [];
+    const t = config.encounteredProblems ? config.encounteredProblems : [];
     const analyseResultSelect = t.map(tag => {
       const type = tag["shortLabel"];
       const text = tag["longLabel"];
@@ -165,7 +147,7 @@ export default class UpdateScenarioReviewedStateDialog extends React.PureCompone
               <ControlLabel>Action effectuée</ControlLabel>
               {actionRadios}
             </FormGroup>
-            {this.props.tags ? (
+            {this.props.config.encounteredProblems ? (
               <FormGroup>
                 <ControlLabel>Quel était le problème?</ControlLabel>
                 <div>

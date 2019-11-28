@@ -17,16 +17,16 @@ logging:
 correctionAction:
   - actionCode: EXACT_REPLAY
     actionLabel: Rejeu à l'identique
-    type: passedActions
+    type: PASSED
   - actionCode: HAND_REPLAY
     actionLabel: Rejeu manuel
-    type: passedActions
+    type: PASSED
   - actionCode: DATASET
     actionLabel: Absence de jeux de données
-    type: notRunActions
+    type: NOT_RUN
   - actionCode: FUNCTIONAL_ANOMALY
     actionLabel: Anomalie fonctionnelle
-    type: failedActions
+    type: FAILED
 
 encounteredProblem:
   - longLabel: OTHER
