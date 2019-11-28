@@ -10,6 +10,7 @@ import DropdownButton from "react-bootstrap/lib/DropdownButton";
 
 import Button from "../../ui/components/Button";
 import MenuItem from "react-bootstrap/lib/MenuItem";
+import Alert from "react-bootstrap/lib/Alert";
 
 const AVAILABLE_STATUS = {
   PASSED: "Succès",
@@ -55,7 +56,10 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
         analyseResult,
         analyseAction
       },
-      comment: ""
+      comment: "",
+      isAnalyseResultValid: false,
+      isAnalyseActionValid: false,
+      showValidation: false
     };
   }
 
@@ -66,10 +70,30 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
     this.props.onClose();
   };
 
+  isFormValid() {
+    const { isAnalyseActionValid, isAnalyseResultValid } = this.state;
+    if (this.state.status === "PENDING") {
+      return isAnalyseResultValid;
+    }
+    return isAnalyseActionValid && isAnalyseResultValid;
+  }
+
   onUpdateState = event => {
     if (event) {
       event.preventDefault();
     }
+
+    const valid = this.isFormValid();
+    if (!valid) {
+      this.setState(prevState => {
+        return {
+          ...prevState,
+          showValidation: true
+        };
+      });
+      return;
+    }
+
     this.props.onUpdateState({
       scenarioId: this.props.scenario.id,
       newState: this.state.scenario,
@@ -88,11 +112,13 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
     return () => {
       this.setState(prevState => {
         return {
+          ...prevState,
           scenario: {
             ...prevState.scenario,
             status,
             analyseAction: ""
-          }
+          },
+          isAnalyseActionValid: status === "PENDING"
         };
       });
     };
@@ -106,10 +132,12 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
     return () => {
       this.setState(prevState => {
         return {
+          ...prevState,
           scenario: {
             ...prevState.scenario,
             analyseAction
-          }
+          },
+          isAnalyseActionValid: true
         };
       });
     };
@@ -119,10 +147,12 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
     return () => {
       this.setState(prevState => {
         return {
+          ...prevState,
           scenario: {
             ...prevState.scenario,
             analyseResult
-          }
+          },
+          isAnalyseResultValid: true
         };
       });
     };
@@ -211,6 +241,9 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
             {this.props.config.encounteredProblems ? (
               <FormGroup>
                 <ControlLabel>Quel était le problème?</ControlLabel>
+                {this.state.showValidation && !this.state.isAnalyseResultValid ? (
+                  <Alert bsStyle="danger">Requis</Alert>
+                ) : null}
                 <div>
                   <DropdownButton
                     title={
@@ -228,6 +261,9 @@ export default class UpdateScenarioStateDialog extends React.PureComponent {
             ) : null}
             <FormGroup>
               {this.state.scenario.status !== "PENDING" ? <ControlLabel>Action effectuée</ControlLabel> : null}
+              {this.state.showValidation && !this.state.isAnalyseActionValid ? (
+                <Alert bsStyle="danger">Requis</Alert>
+              ) : null}
               {actionRadios}
             </FormGroup>
             <FormGroup controlId="comment">

@@ -9,6 +9,7 @@ import DropdownButton from "react-bootstrap/lib/DropdownButton";
 import Button from "../../ui/components/Button";
 import MenuItem from "react-bootstrap/lib/MenuItem";
 import Radio from "react-bootstrap/lib/Radio";
+import Alert from "react-bootstrap/lib/Alert";
 
 export default class UpdateScenarioReviewedStateDialog extends React.PureComponent {
   static propTypes = {
@@ -49,19 +50,29 @@ export default class UpdateScenarioReviewedStateDialog extends React.PureCompone
     this.props.onClose();
   };
 
+  isFormValid() {
+    const { isAnalyseActionValid, isAnalyseResultValid } = this.state;
+    if (this.state.status === "PENDING") {
+      return isAnalyseResultValid;
+    }
+    return isAnalyseActionValid && isAnalyseResultValid;
+  }
+
   onSetReviewedState = event => {
     if (event) {
       event.preventDefault();
     }
 
     const { scenarioId, onClose, onSetReviewedState } = this.props;
-    const { comment, analyseResult, analyseAction, isAnalyseResultValid, isAnalyseActionValid } = this.state;
+    const { comment, analyseResult, analyseAction } = this.state;
 
-    if (!(isAnalyseActionValid && isAnalyseResultValid)) {
+    if (!this.isFormValid()) {
+      const isAnalyseActionValid = this.props.status === "PENDING";
       this.setState(prevState => {
         return {
           ...prevState,
-          showValidation: true
+          showValidation: true,
+          isAnalyseActionValid
         };
       });
       return;
@@ -158,15 +169,19 @@ export default class UpdateScenarioReviewedStateDialog extends React.PureCompone
         </Modal.Header>
         <Modal.Body>
           <form onSubmit={this.onSetReviewedState}>
-            <FormGroup validationState={this.state.isAnalyseActionValid ? null : "error"}>
-              <ControlLabel>Action effectuée</ControlLabel>
-              {this.state.showValidation && !this.state.isAnalyseActionValid ? <div>Remplir le champs</div> : null}
+            <FormGroup>
+              {this.props.status !== "PENDING" ? <ControlLabel>Action effectuée</ControlLabel> : null}
+              {this.state.showValidation && !this.state.isAnalyseActionValid ? (
+                <Alert bsStyle="danger">Requis</Alert>
+              ) : null}
               {actionRadios}
             </FormGroup>
             {this.props.config.encounteredProblems ? (
-              <FormGroup validationState={this.state.isAnalyseResultValid ? null : "error"}>
+              <FormGroup>
                 <ControlLabel>Quel était le problème?</ControlLabel>
-                {this.state.showValidation && !this.state.isAnalyseResultValid ? <div>Remplir le champs</div> : null}
+                {this.state.showValidation && !this.state.isAnalyseResultValid ? (
+                  <Alert bsStyle="danger">Requis</Alert>
+                ) : null}
                 <div>
                   <DropdownButton
                     title={
