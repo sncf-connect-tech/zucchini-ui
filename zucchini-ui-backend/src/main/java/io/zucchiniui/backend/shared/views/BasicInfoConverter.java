@@ -13,7 +13,7 @@ class BasicInfoConverter extends CustomConverter<BasicInfo, BasicInfo> {
             return null;
         }
 
-        return new BasicInfo(source.getKeyword(), source.getName(), source.getArguments());
+        return new BasicInfo(source.getKeyword(), source.getName(), source.getLocation(), source.getArguments());
     }
 
 }

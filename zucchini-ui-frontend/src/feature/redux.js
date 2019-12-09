@@ -99,8 +99,9 @@ export function deleteFeature({ featureId }) {
 
 const initialState = {
   feature: {
-    info: {},
-    location: {},
+    info: {
+      location: {}
+    },
     tags: []
   },
   stats: model.createStatsWithZeros(),
