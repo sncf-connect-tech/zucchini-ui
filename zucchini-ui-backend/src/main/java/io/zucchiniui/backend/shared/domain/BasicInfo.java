@@ -11,6 +11,8 @@ public final class BasicInfo {
 
     private String name;
 
+    private Location location;
+
     private List<Argument> arguments = new ArrayList<>();
 
     /**
@@ -19,13 +21,14 @@ public final class BasicInfo {
     private BasicInfo() {
     }
 
-    public BasicInfo(final String keyword, final String name) {
-        this(keyword, name, new ArrayList<>());
+    public BasicInfo(final String keyword, final String name, final Location location) {
+        this(keyword, name, location, new ArrayList<>());
     }
 
-    public BasicInfo(final String keyword, final String name, final List<Argument> arguments) {
+    public BasicInfo(final String keyword, final String name, final Location location, final List<Argument> arguments) {
         this.keyword = Objects.requireNonNull(keyword);
         this.name = Objects.requireNonNull(name);
+        this.location = Objects.requireNonNull(location);
         this.arguments = new ArrayList<>(arguments);
     }
 
@@ -35,6 +38,10 @@ public final class BasicInfo {
 
     public String getName() {
         return name;
+    }
+
+    public Location getLocation() {
+        return location;
     }
 
     public List<Argument> getArguments() {
@@ -54,18 +61,19 @@ public final class BasicInfo {
         }
 
         final BasicInfo other = (BasicInfo) obj;
-        return keyword.equals(other.keyword) && name.equals(other.name) && arguments.equals(other.arguments);
+        return keyword.equals(other.keyword) && name.equals(other.name) && arguments.equals(other.arguments) && location.equals(other.location);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(keyword, name, arguments);
+        return Objects.hash(keyword, name, location, arguments);
     }
 
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         builder.append(keyword).append(": ").append(name);
+        builder.append("; location = ").append(location);
         if (!arguments.isEmpty()) {
             builder.append("; arguments = ").append(arguments);
         }

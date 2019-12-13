@@ -71,7 +71,7 @@ export default class FeaturePage extends React.Component {
         )}
 
         <p>
-          <b>Source :</b> <code>{feature.location.filename}</code>, ligne <code>{feature.location.line}</code>
+          <b>Source :</b> <code>{feature.info.location.filename}</code>, ligne <code>{feature.info.location.line}</code>
         </p>
 
         {feature.tags.length > 0 && (

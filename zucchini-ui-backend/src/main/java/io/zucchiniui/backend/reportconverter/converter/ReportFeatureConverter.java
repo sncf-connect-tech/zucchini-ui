@@ -26,16 +26,15 @@ class ReportFeatureConverter {
 
         final BasicInfo info = new BasicInfo(
             ConversionUtils.trimString(reportFeature.getKeyword()),
-            ConversionUtils.trimString(reportFeature.getName())
-        );
-
-        final Location location = new Location(
-            ConversionUtils.trimString(reportFeature.getFilename()),
-            reportFeature.getLine()
+            ConversionUtils.trimString(reportFeature.getName()),
+            new Location(
+                ConversionUtils.trimString(reportFeature.getFilename()),
+                reportFeature.getLine()
+            )
         );
 
         final String language = getLanguage(reportFeature);
-        final Feature feature = new Feature(featureKey, testRunId, info, location, language);
+        final Feature feature = new Feature(featureKey, testRunId, info, language);
         feature.setDescription(reportFeature.getDescription());
         group.ifPresent(feature::setGroup);
 

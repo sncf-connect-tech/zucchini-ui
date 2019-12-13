@@ -13,12 +13,14 @@ public class BasicInfoTest {
 
     private static final String NAME = "name";
 
+    private static final Location LOCATION = new Location("filename", 1L);
+
     @Test
     public void should_create_info_with_no_arguments() throws Exception {
         // given
 
         // when
-        final BasicInfo info = new BasicInfo(KEYWORD, NAME);
+        final BasicInfo info = new BasicInfo(KEYWORD, NAME, LOCATION);
 
         // then
         assertThat(info.getKeyword()).isEqualTo(KEYWORD);
@@ -35,7 +37,7 @@ public class BasicInfoTest {
         );
 
         // when
-        final BasicInfo info = new BasicInfo(KEYWORD, NAME, arguments);
+        final BasicInfo info = new BasicInfo(KEYWORD, NAME, LOCATION, arguments);
 
         // then
         assertThat(info.getKeyword()).isEqualTo(KEYWORD);

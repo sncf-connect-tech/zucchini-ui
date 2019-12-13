@@ -71,7 +71,8 @@ public class ReportConverter {
                 scenarioBuilders.add(scenarioBuilder);
 
             } else if (reportFeatureElement instanceof ReportBackground) {
-                backgroundBuilderConsumer = reportScenarioConverter.createBackgroundBuilderConsumer((ReportBackground) reportFeatureElement);
+                backgroundBuilderConsumer = reportScenarioConverter.createBackgroundBuilderConsumer(feature,
+                    (ReportBackground) reportFeatureElement);
             } else if (reportFeatureElement instanceof ReportScenarioOutline) {
                 LOGGER.debug("Ignoring scenario outline: {}", reportFeatureElement);
             } else {
