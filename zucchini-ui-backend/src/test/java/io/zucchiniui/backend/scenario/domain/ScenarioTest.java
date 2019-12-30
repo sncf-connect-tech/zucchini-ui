@@ -1,6 +1,7 @@
 package io.zucchiniui.backend.scenario.domain;
 
 import io.zucchiniui.backend.shared.domain.BasicInfo;
+import io.zucchiniui.backend.shared.domain.Location;
 import org.junit.Test;
 
 import java.util.Collections;
@@ -187,8 +188,8 @@ public class ScenarioTest {
             .withFeatureId(featureId)
             .withScenarioKey(scenarioKey)
             .withLanguage("en")
-            .withInfo(new BasicInfo("Feature A", "Feature name A"))
-            .addStep(sb -> sb.withInfo(new BasicInfo("Step", "Step E")).withStatus(StepStatus.PASSED))
+            .withInfo(new BasicInfo("Feature A", "Feature name A", generateLocation()))
+            .addStep(sb -> sb.withInfo(new BasicInfo("Step", "Step E", generateLocation())).withStatus(StepStatus.PASSED))
             .build();
 
         final Scenario inputScenario = new ScenarioBuilder()
@@ -196,22 +197,22 @@ public class ScenarioTest {
             .withFeatureId(featureId)
             .withScenarioKey(scenarioKey)
             .withLanguage("en")
-            .withInfo(new BasicInfo("Feature B", "Feature name B"))
+            .withInfo(new BasicInfo("Feature B", "Feature name B", generateLocation()))
             .withComment("Feature comment")
             .withTags(Collections.singleton("toto"))
             .withExtraTags(Collections.singleton("tutu"))
             .addBeforeAction(sb -> sb.withStatus(StepStatus.FAILED).withErrorMessage("Error A"))
             .withBackground(bb -> {
-                bb.withInfo(new BasicInfo("Background", "Background C"));
+                bb.withInfo(new BasicInfo("Background", "Background C", generateLocation()));
                 bb.addStep(sb -> {
-                    sb.withInfo(new BasicInfo("Step", "Step D"))
+                    sb.withInfo(new BasicInfo("Step", "Step D", generateLocation()))
                         .withStatus(StepStatus.FAILED)
                         .withErrorMessage("Error B")
                         .withOutput("Failed output")
                         .withComment("Comment A");
                 });
             })
-            .addStep(sb -> sb.withInfo(new BasicInfo("Step", "Step E")).withStatus(StepStatus.FAILED).withErrorMessage("Error C").withComment("Comment B"))
+            .addStep(sb -> sb.withInfo(new BasicInfo("Step", "Step E", generateLocation())).withStatus(StepStatus.FAILED).withErrorMessage("Error C").withComment("Comment B"))
             .addAfterAction(sb -> sb.withStatus(StepStatus.FAILED).withErrorMessage("Error D"))
             .build();
 
@@ -346,7 +347,7 @@ public class ScenarioTest {
             .withFeatureId(UUID.randomUUID().toString())
             .withScenarioKey(UUID.randomUUID().toString())
             .withLanguage("en")
-            .withInfo(new BasicInfo("Feature", "Test"));
+            .withInfo(new BasicInfo("Feature", "Test", generateLocation()));
 
         private Consumer<BackgroundBuilder> backgroundBuilderConsumer;
 
@@ -362,18 +363,18 @@ public class ScenarioTest {
 
         public StatusTestScenarioBuilder withBackgroundStep(final StepStatus status) {
             if (backgroundBuilderConsumer == null) {
-                backgroundBuilderConsumer = bb -> bb.withInfo(new BasicInfo("Background", "Test"));
+                backgroundBuilderConsumer = bb -> bb.withInfo(new BasicInfo("Background", "Test", generateLocation()));
             }
 
             backgroundBuilderConsumer = backgroundBuilderConsumer.andThen(bb -> {
-                bb.addStep(sb -> sb.withInfo(new BasicInfo("Step", "Test")).withStatus(status));
+                bb.addStep(sb -> sb.withInfo(new BasicInfo("Step", "Test", generateLocation())).withStatus(status));
             });
 
             return this;
         }
 
         public StatusTestScenarioBuilder withStep(final StepStatus status) {
-            scenarioBuilder.addStep(sb -> sb.withInfo(new BasicInfo("Step", "Test")).withStatus(status));
+            scenarioBuilder.addStep(sb -> sb.withInfo(new BasicInfo("Step", "Test", generateLocation())).withStatus(status));
             return this;
         }
 
@@ -384,6 +385,10 @@ public class ScenarioTest {
             return scenarioBuilder.build();
         }
 
+    }
+
+    private static Location generateLocation() {
+        return new Location("filename", 1L);
     }
 
 }

@@ -20,17 +20,20 @@ public class BasicInfoPropertiesTest {
     public void infos_with_same_values_should_be_equal(
         final String keyword,
         final String name,
+        final @From(LocationGenerator.class) Location location,
         final List<@From(ArgumentGenerator.class) Argument> arguments
     ) throws Exception {
         final BasicInfo leftInfo = new BasicInfo(
             keyword,
             name,
+            location,
             arguments
         );
 
         final BasicInfo rightInfo = new BasicInfo(
             keyword,
             name,
+            location,
             arguments
         );
 
@@ -51,6 +54,21 @@ public class BasicInfoPropertiesTest {
             final int offset = random.nextInt(Integer.MAX_VALUE);
             final String value = stringGenerator.generate(random, status);
             return new Argument(offset, value);
+        }
+
+    }
+
+    public static class LocationGenerator extends Generator<Location> {
+
+        private final StringGenerator stringGenerator = new StringGenerator();
+
+        public LocationGenerator() {
+            super(Location.class);
+        }
+
+        @Override
+        public Location generate(SourceOfRandomness random, GenerationStatus status) {
+            return new Location(stringGenerator.generate(random, status), random.nextLong(1, Long.MAX_VALUE));
         }
 
     }
