@@ -9,3 +9,23 @@ numberLatest: 100
 
 logging:
   level: "${ZUCCHINI_LOGGING_LEVEL:-INFO}"
+
+correctionAction:
+  - actionCode: EXACT_REPLAY
+    actionLabel: Rejeu à l'identique
+    type: PASSED
+  - actionCode: HAND_REPLAY
+    actionLabel: Rejeu manuel
+    type: PASSED
+  - actionCode: DATASET
+    actionLabel: Absence de jeux de données
+    type: NOT_RUN
+  - actionCode: FUNCTIONAL_ANOMALY
+    actionLabel: Anomalie fonctionnelle
+    type: FAILED
+
+encounteredProblem:
+  - longLabel: OTHER
+    shortLabel: UNKNOWN
+  - longLabel: AAA
+    shortLabel: BBB
