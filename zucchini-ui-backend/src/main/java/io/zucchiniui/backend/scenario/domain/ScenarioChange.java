@@ -9,7 +9,9 @@ public abstract class ScenarioChange<T> {
 
     public enum ChangeType {
         STATUS,
-        REVIEWED_STATE
+        REVIEWED_STATE,
+        ANALYSE_ACTION,
+        ANALYSE_RESULT
     }
 
     private String id;

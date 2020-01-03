@@ -46,6 +46,10 @@ class ScenarioChangeTableRow extends React.PureComponent {
         return "Analysé ?";
       case "STATUS":
         return "Statut";
+      case "ANALYSE_ACTION":
+        return "Action";
+      case "ANALYSE_RESULT":
+        return "Problème rencontré";
       default:
         return change.type;
     }
@@ -59,6 +63,10 @@ class ScenarioChangeTableRow extends React.PureComponent {
         return ReviewedStateContent;
       case "STATUS":
         return StatusContent;
+      case "ANALYSE_ACTION":
+        return AnalysisAction;
+      case "ANALYSE_RESULT":
+        return AnalysisAction;
       default:
         return null;
     }
@@ -105,5 +113,23 @@ class ReviewedStateContent extends React.PureComponent {
   render() {
     const { value } = this.props;
     return <span>{value ? "Oui" : "Non"}</span>;
+  }
+}
+
+class AnalysisAction extends React.PureComponent {
+  static propTypes = {
+    value: PropTypes.any.isRequired
+  };
+
+  render() {
+    const { value } = this.props;
+    let prettifiedValue = value
+      ? value
+          .split("_")
+          .map(word => word.toLowerCase())
+          .reduce((sentence, word) => sentence + " " + word)
+      : " ";
+    prettifiedValue = prettifiedValue[0].toUpperCase() + prettifiedValue.slice(1);
+    return <span>{prettifiedValue}</span>;
   }
 }

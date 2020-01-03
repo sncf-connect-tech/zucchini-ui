@@ -6,7 +6,7 @@ import io.dropwizard.servlets.assets.AssetServlet;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.zucchiniui.backend.BackendBundle;
-import io.zucchiniui.backend.BackendConfiguration;
+import io.zucchiniui.backend.config.BackendConfiguration;
 import io.zucchiniui.backend.support.exceptionhandler.ExitExceptionHandler;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -37,6 +37,15 @@ public class ZucchiniUIApplication extends Application<BackendConfiguration> {
         final ServletHolder redirectServletHolder = new ServletHolder(new RedirectServlet(BASE_PATH + "/"));
         environment.getApplicationContext().addServlet(redirectServletHolder, "");
         environment.getApplicationContext().addServlet(redirectServletHolder, BASE_PATH);
+
+        final  ServletHolder uiConfigServletHolder = new ServletHolder(new UIConfigServlet(
+            configuration,
+            environment.getObjectMapper()
+        ));
+        environment.getApplicationContext().addServlet(
+            uiConfigServletHolder,
+             "/assets/config.js"
+        );
 
         // Forward 404 pages to index (used for browser history)
         final FilterHolder forwardFilterHolder = new FilterHolder(new ForwardToIndexFilter(BASE_PATH));

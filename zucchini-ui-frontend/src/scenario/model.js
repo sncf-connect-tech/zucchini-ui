@@ -1,5 +1,6 @@
 import { default as scenariosApi } from "../api/scenarios";
 import { default as testRunsApi } from "../api/testRuns";
+import { default as config } from "../api/Config";
 
 export function getScenario({ scenarioId }) {
   return scenariosApi.getScenario({ scenarioId });
@@ -87,4 +88,8 @@ class PromiseMapper {
     }
     return promise$;
   }
+}
+
+export function getConfig() {
+  return config.getConfig();
 }

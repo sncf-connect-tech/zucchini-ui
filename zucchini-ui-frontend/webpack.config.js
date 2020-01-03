@@ -39,6 +39,9 @@ module.exports = {
       "/api": {
         target: apiUrl
       },
+      "/assets": {
+        target: apiUrl
+      },
       "/ws": {
         target: apiUrl.replace(/^http/, "ws"),
         ws: true

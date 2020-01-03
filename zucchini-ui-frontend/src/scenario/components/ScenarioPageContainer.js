@@ -14,9 +14,15 @@ const selectScenario = createSelector(
   scenario => scenario
 );
 
+const selectConfig = createSelector(
+  state => state.scenario.config,
+  config => config
+);
+
 const selectProps = createStructuredSelector({
   scenarioId: selectScenarioId,
-  scenario: selectScenario
+  scenario: selectScenario,
+  config: selectConfig
 });
 
 const ScenarioPageContainer = connect(

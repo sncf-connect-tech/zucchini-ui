@@ -44,9 +44,17 @@ describe("Scenario", () => {
       .click();
 
     cy.get("[role=dialog]").within(() => {
+
+      cy.get("button#dropdownanalyseResultAnalyse").click();
+
+      cy.get('.dropdown-menu > :nth-child(1) > a').click();
+
+      cy.get(':nth-child(2) > label > input').click();
+
       cy.get("textarea#comment").type(
         "Coucou{enter}Voir https://example.org pour plus d'infos"
       );
+
       cy.contains("button", "Valider")
         .click();
     });
@@ -68,9 +76,16 @@ describe("Scenario", () => {
 
       cy.contains("label", "Échec").click();
 
+      cy.get("button#dropdownanalyseResultAnalyse").click();
+
+      cy.get('.dropdown-menu > :nth-child(1) > a').click();
+
+      cy.get(':nth-child(4) > :nth-child(2) > label').click();
+
       cy.get("textarea#comment").type(
         "Ca ne marche pas. Encore un bug, dis donc"
       );
+
       cy.contains("button", "Valider").click();
     });
 
