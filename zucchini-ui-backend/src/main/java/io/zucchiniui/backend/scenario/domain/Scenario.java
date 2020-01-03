@@ -124,11 +124,11 @@ public class Scenario extends BaseEntity<String> {
     }
 
     public void setAnalysis(Analysis analysis) {
-        if (this.analysis.getResult().equals(analysis.getResult())) {
+        if (!this.analysis.getResult().equals(analysis.getResult())) {
             this.setAnalyseResult(analysis.getResult());
         }
 
-        if (this.analysis.getAction().equals(analysis.getAction())) {
+        if (!this.analysis.getAction().equals(analysis.getAction())) {
             this.setAnalyseAction(analysis.getAction());
         }
     }
@@ -217,8 +217,10 @@ public class Scenario extends BaseEntity<String> {
             this.analysis = new Analysis();
         }
 
-        modifiedAt = ZonedDateTime.now();
-        changes.add(new ScenarioAnalysisResultChange(modifiedAt, this.analysis.getResult(), analyseResult));
+        if (!this.analysis.getResult().equals(analyseResult)) {
+            modifiedAt = ZonedDateTime.now();
+            changes.add(new ScenarioAnalysisResultChange(modifiedAt, this.analysis.getResult(), analyseResult));
+        }
 
         this.analysis.setResult(analyseResult);
     }
@@ -228,8 +230,10 @@ public class Scenario extends BaseEntity<String> {
             this.analysis = new Analysis();
         }
 
-        modifiedAt = ZonedDateTime.now();
-        changes.add(new ScenarioAnalysisActionChange(modifiedAt, this.analysis.getAction(), analyseAction));
+        if (!this.analysis.getAction().equals(analyseAction)) {
+            modifiedAt = ZonedDateTime.now();
+            changes.add(new ScenarioAnalysisActionChange(modifiedAt, this.analysis.getAction(), analyseAction));
+        }
 
         this.analysis.setAction(analyseAction);
     }
