@@ -47,6 +47,13 @@ describe("Scenario", () => {
       cy.get("textarea#comment").type(
         "Coucou{enter}Voir https://example.org pour plus d'infos"
       );
+
+      cy.contains("button#dropdownanalyseResultAnalyse", "Sélectionnez un type d'anomalie")
+        .find("OTHER").click();
+
+      cy.contains("label", "Anomalie fonctionnelle")
+        .find("input").check();
+
       cy.contains("button", "Valider")
         .click();
     });
@@ -71,6 +78,13 @@ describe("Scenario", () => {
       cy.get("textarea#comment").type(
         "Ca ne marche pas. Encore un bug, dis donc"
       );
+
+      cy.contains("button#dropdownanalyseResultAnalyse", "Sélectionnez un type d'anomalie")
+        .find("OTHER").click();
+
+      cy.contains("label", "Anomalie fonctionnelle")
+        .find("input").check();
+
       cy.contains("button", "Valider").click();
     });
 
