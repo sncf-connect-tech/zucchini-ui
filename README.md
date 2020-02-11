@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/voyages-sncf-technologies/zucchini-ui.svg?branch=master)](https://travis-ci.org/voyages-sncf-technologies/zucchini-ui)
-[![Docker Stars](https://img.shields.io/docker/stars/pgentile/zucchini-ui.svg)](https://hub.docker.com/r/pgentile/zucchini-ui)
+![Build status](https://github.com/voyages-sncf-technologies/zucchini-ui/workflows/Build/badge.svg)
+[![Docker stars](https://img.shields.io/docker/stars/pgentile/zucchini-ui.svg)](https://hub.docker.com/r/pgentile/zucchini-ui)
 
 Zucchini UI
 ===========
