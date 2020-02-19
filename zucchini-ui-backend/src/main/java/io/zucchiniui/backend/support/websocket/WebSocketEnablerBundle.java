@@ -1,6 +1,8 @@
 package io.zucchiniui.backend.support.websocket;
 
 import io.dropwizard.Bundle;
+import io.dropwizard.Configuration;
+import io.dropwizard.ConfiguredBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.eclipse.jetty.websocket.jsr356.server.deploy.WebSocketServerContainerInitializer;
@@ -11,7 +13,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.ServletException;
 
-public class WebSocketEnablerBundle implements Bundle {
+public class WebSocketEnablerBundle implements ConfiguredBundle<Configuration> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebSocketEnablerBundle.class);
 
@@ -21,7 +23,7 @@ public class WebSocketEnablerBundle implements Bundle {
     }
 
     @Override
-    public void run(final Environment environment) {
+    public void run(final Configuration configuration, final Environment environment) {
         environment.servlets().addServletListeners(new ServletContextListener() {
 
             @Override

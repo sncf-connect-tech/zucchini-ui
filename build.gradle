@@ -285,13 +285,13 @@ project("${rootProject.name}-app") {
     runShadow {
         args 'server', "${rootDir}/server-config.yml"
     }
-    
+
     shadowJar {
         mergeServiceFiles()
         exclude 'META-INF/*.DSA'
         exclude 'META-INF/*.RSA'
     }
-    
+
    tasks.assemble.dependsOn shadowJar
 
     docker {

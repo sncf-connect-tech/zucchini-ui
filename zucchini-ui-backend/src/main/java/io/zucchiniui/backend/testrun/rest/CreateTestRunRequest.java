@@ -1,6 +1,6 @@
 package io.zucchiniui.backend.testrun.rest;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotEmpty;
 
 import javax.validation.Valid;
 import java.util.List;
