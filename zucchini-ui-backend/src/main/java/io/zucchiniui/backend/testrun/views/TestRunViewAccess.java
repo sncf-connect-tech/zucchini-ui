@@ -1,7 +1,7 @@
 package io.zucchiniui.backend.testrun.views;
 
 import com.google.common.collect.Sets;
-import io.zucchiniui.backend.BackendConfiguration;
+import io.zucchiniui.backend.config.BackendConfiguration;
 import io.zucchiniui.backend.scenario.views.ScenarioListItemView;
 import io.zucchiniui.backend.scenario.views.ScenarioStats;
 import io.zucchiniui.backend.scenario.views.ScenarioViewAccess;
