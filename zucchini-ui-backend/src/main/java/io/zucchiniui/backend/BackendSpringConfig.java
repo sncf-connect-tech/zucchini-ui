@@ -3,6 +3,7 @@ package io.zucchiniui.backend;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.dropwizard.setup.Environment;
+import io.zucchiniui.backend.config.BackendConfiguration;
 import io.zucchiniui.backend.support.morphia.MorphiaDatastoreBuilder;
 import xyz.morphia.Datastore;
 import org.springframework.beans.factory.annotation.Autowired;

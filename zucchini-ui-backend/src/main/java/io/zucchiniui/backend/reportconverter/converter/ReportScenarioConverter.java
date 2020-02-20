@@ -25,9 +25,12 @@ class ReportScenarioConverter {
 
     public ScenarioBuilder createScenarioBuilder(final Feature parentFeature, final ReportScenario reportScenario) {
 
+        final String fileName = parentFeature.getInfo().getLocation().getFilename();
+
         final BasicInfo scenarioInfo = new BasicInfo(
             ConversionUtils.trimString(reportScenario.getKeyword()),
-            ConversionUtils.trimString(reportScenario.getName())
+            ConversionUtils.trimString(reportScenario.getName()),
+            new Location(fileName, reportScenario.getLine())
         );
 
         final Set<String> scenarioTags = reportScenario.getTags().stream()
@@ -48,7 +51,7 @@ class ReportScenarioConverter {
             .withComment(comment);
 
         for (final ReportStep reportStep : reportScenario.getSteps()) {
-            scenarioBuilder.addStep(b -> buildStep(reportStep, b));
+            scenarioBuilder.addStep(b -> buildStep(fileName, reportStep, b));
         }
 
         for (final ReportAroundAction reportAroundAction : reportScenario.getBeforeActions()) {
@@ -62,23 +65,25 @@ class ReportScenarioConverter {
         return scenarioBuilder;
     }
 
-    public Consumer<BackgroundBuilder> createBackgroundBuilderConsumer(final ReportBackground reportBackground) {
+    public Consumer<BackgroundBuilder> createBackgroundBuilderConsumer(final Feature parentFeature, final ReportBackground reportBackground) {
         return backgroundBuilder -> {
 
+            final String fileName = parentFeature.getInfo().getLocation().getFilename();
             final BasicInfo backgroundInfo = new BasicInfo(
                 ConversionUtils.trimString(reportBackground.getKeyword()),
-                ConversionUtils.trimString(reportBackground.getName())
+                ConversionUtils.trimString(reportBackground.getName()),
+                new Location(fileName, reportBackground.getLine())
             );
 
             backgroundBuilder.withInfo(backgroundInfo);
 
             for (final ReportStep reportStep : reportBackground.getSteps()) {
-                backgroundBuilder.addStep(b -> buildStep(reportStep, b));
+                backgroundBuilder.addStep(b -> buildStep(fileName, reportStep, b));
             }
         };
     }
 
-    private static void buildStep(final ReportStep reportStep, final StepBuilder stepBuilder) {
+    private static void buildStep(String fileName, final ReportStep reportStep, final StepBuilder stepBuilder) {
 
         final List<Argument> arguments = reportStep.getMatch().getArguments().stream()
             .filter(a -> !Strings.isNullOrEmpty(a.getValue()))
@@ -88,6 +93,7 @@ class ReportScenarioConverter {
         final BasicInfo stepInfo = new BasicInfo(
             ConversionUtils.trimString(reportStep.getKeyword()),
             ConversionUtils.trimString(reportStep.getName()),
+            new Location(fileName, reportStep.getLine()),
             arguments
         );
 

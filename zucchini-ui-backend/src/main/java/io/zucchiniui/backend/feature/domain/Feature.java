@@ -1,7 +1,6 @@
 package io.zucchiniui.backend.feature.domain;
 
 import io.zucchiniui.backend.shared.domain.BasicInfo;
-import io.zucchiniui.backend.shared.domain.Location;
 import io.zucchiniui.backend.support.ddd.BaseEntity;
 import xyz.morphia.annotations.Entity;
 import xyz.morphia.annotations.Id;
@@ -48,11 +47,6 @@ public class Feature extends BaseEntity<String> {
     private Set<String> tags = new HashSet<>();
 
     /**
-     * Location.
-     */
-    private Location location;
-
-    /**
      * Description.
      */
     private String description;
@@ -95,9 +89,8 @@ public class Feature extends BaseEntity<String> {
      * @param featureKey Feature key
      * @param testRunId  Test run ID
      * @param info       Basic information
-     * @param location   Feature location
      */
-    public Feature(final String featureKey, final String testRunId, final BasicInfo info, final Location location, final String language) {
+    public Feature(final String featureKey, final String testRunId, final BasicInfo info, final String language) {
         id = UUID.randomUUID().toString();
         status = FeatureStatus.NOT_RUN;
 
@@ -108,7 +101,6 @@ public class Feature extends BaseEntity<String> {
         this.featureKey = featureKey;
         this.testRunId = testRunId;
         this.info = info;
-        this.location = location;
         this.language = language;
     }
 
@@ -127,9 +119,8 @@ public class Feature extends BaseEntity<String> {
 
         info = other.info;
         tags = new HashSet<>(other.tags);
-        location = other.location;
-        description = other.description;
 
+        description = other.description;
         if (other.group != null) {
             group = other.group;
         }
@@ -204,10 +195,6 @@ public class Feature extends BaseEntity<String> {
 
     public Set<String> getTags() {
         return Collections.unmodifiableSet(tags);
-    }
-
-    public Location getLocation() {
-        return location;
     }
 
     public String getDescription() {

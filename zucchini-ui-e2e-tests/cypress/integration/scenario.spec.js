@@ -30,36 +30,40 @@ describe("Scenario", () => {
   });
 
   it("should change the reviewed status to not analyzed", () => {
-    cy.contains("button", "Marquer comme non analysé")
-      .click();
+    cy.contains("button", "Marquer comme non analysé").click();
 
-    cy.contains("button", "Marquer comme analysé")
-      .should("exist");
+    cy.contains("button", "Marquer comme analysé").should("exist");
   });
 
   it("should change the reviewed status to analyzed", () => {
-    cy.contains("button", "Marquer comme non analysé")
-      .click();
-    cy.contains("button", "Marquer comme analysé")
-      .click();
+    cy.contains("button", "Marquer comme non analysé").click();
+    cy.contains("button", "Marquer comme analysé").click();
 
     cy.get("[role=dialog]").within(() => {
+
+      cy.get("button#dropdownanalyseResultAnalyse").click();
+
+      cy.get('.dropdown-menu > :nth-child(1) > a').click();
+
+      cy.get(':nth-child(2) > label > input').click();
+
       cy.get("textarea#comment").type(
         "Coucou{enter}Voir https://example.org pour plus d'infos"
       );
+
       cy.contains("button", "Valider")
         .click();
     });
 
-    cy.contains("button", "Marquer comme non analysé")
-      .should("exist");
+    cy.contains("button", "Marquer comme non analysé").should("exist");
   });
 
   it("should change scenario status", () => {
+    cy.route("PATCH", "/api/scenarii/*").as("updateScenario");
+    cy.route("POST", "/api/scenarii/*/comments/create").as("addComment");
     cy.route("GET", "/api/scenarii/*").as("scenarioRefresh");
 
-    cy.contains("button", "Modifier le statut")
-      .click();
+    cy.contains("button", "Modifier le statut").click();
 
     cy.get("[role=dialog]").within(() => {
       cy.contains("label", "Scénario analysé ?")
@@ -68,15 +72,24 @@ describe("Scenario", () => {
 
       cy.contains("label", "Échec").click();
 
+      cy.get("button#dropdownanalyseResultAnalyse").click();
+
+      cy.get('.dropdown-menu > :nth-child(1) > a').click();
+
+      cy.get(':nth-child(4) > :nth-child(2) > label').click();
+
       cy.get("textarea#comment").type(
         "Ca ne marche pas. Encore un bug, dis donc"
       );
+
       cy.contains("button", "Valider").click();
     });
 
+    cy.wait("@updateScenario");
+    cy.wait("@addComment");
     cy.wait("@scenarioRefresh");
 
-    cy.contains("h1 .label", "Échec").should("exist");
+    cy.get("h1 .label").should("contain.text", "Échec");
     cy.contains("button", "Marquer comme non analysé").should("exist");
   });
 

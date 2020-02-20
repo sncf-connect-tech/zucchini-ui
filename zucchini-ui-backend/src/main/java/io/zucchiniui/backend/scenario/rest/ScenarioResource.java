@@ -40,8 +40,6 @@ public class ScenarioResource {
 
     private final CommentResource.Factory commentResourceFactory;
 
-    private UriInfo uriInfo;
-
     public ScenarioResource(
         final ScenarioViewAccess scenarioViewAccess,
         final ScenarioRepository scenarioRepository,
@@ -52,11 +50,6 @@ public class ScenarioResource {
         this.scenarioRepository = scenarioRepository;
         this.scenarioService = scenarioService;
         this.commentResourceFactory = commentResourceFactory;
-    }
-
-    @Context
-    public void setUriInfo(final UriInfo uriInfo) {
-        this.uriInfo = uriInfo;
     }
 
     @GET
@@ -89,6 +82,20 @@ public class ScenarioResource {
     }
 
     @GET
+    @Path("type-error")
+    public List<ScenarioListItemView> getAnalyseResult(@BeanParam final GetScenariiRequestParams requestParams) {
+        final Consumer<ScenarioQuery> query = prepareQueryFromRequestParams(requestParams);
+        return scenarioViewAccess.getAnalyseResult(query);
+    }
+
+    @GET
+    @Path("analyse")
+    public List<ScenarioListItemView> getAnalyse(@BeanParam final GetScenariiRequestParams requestParams) {
+        final Consumer<ScenarioQuery> query = prepareQueryFromRequestParams(requestParams);
+        return scenarioViewAccess.getScenarioByAnalyse(query);
+    }
+
+    @GET
     @Path("stats")
     public ScenarioStats getStats(@BeanParam final GetScenariiRequestParams requestParams) {
         final Consumer<ScenarioQuery> query = prepareQueryFromRequestParams(requestParams);
@@ -113,7 +120,7 @@ public class ScenarioResource {
     @Path("{status:unplayed|pending}")
     public List<ScenarioListItemView> getScenariiByStatus(@PathParam("status") String status,
                                                           @BeanParam final GetScenariiRequestParams requestParams){
-        Consumer<ScenarioQuery> scenarioQueryConsumer = q -> {
+        Consumer<ScenarioQuery> scenarioConstraints = q -> {
             if (!Strings.isNullOrEmpty(requestParams.getTestRunId())) {
                 q.withTestRunId(requestParams.getTestRunId());
             }
@@ -122,9 +129,8 @@ public class ScenarioResource {
             }
             q.withSelectedStatus(ScenarioStatus.getScenarioByStatus(status));
         };
-        Consumer<ScenarioQuery> preparator = scenarioQueryConsumer.andThen(q -> q.withSelectedStatus(ScenarioStatus.getScenarioByStatus(status)));
 
-        return scenarioViewAccess.getScenariiByStatus(preparator);
+        return scenarioViewAccess.getScenariiByStatus(scenarioConstraints);
     }
 
     @GET
@@ -177,8 +183,9 @@ public class ScenarioResource {
     public void update(@PathParam("scenarioId") final String scenarioId, @Valid @NotNull final UpdateScenarioRequest request) {
         final UpdateScenarioParams updateScenarioParams = new UpdateScenarioParams(
             Optional.ofNullable(request.getStatus()),
-            Optional.ofNullable(request.isReviewed())
-        );
+            Optional.ofNullable(request.isReviewed()),
+            Optional.ofNullable(request.getAnalyseResult()),
+            Optional.ofNullable(request.getAnalyseAction()));
         scenarioService.updateScenario(scenarioId, updateScenarioParams);
     }
 
@@ -196,7 +203,7 @@ public class ScenarioResource {
     }
 
     @Path("{scenarioId}/comments")
-    public CommentResource getComments(@PathParam("scenarioId") final String scenarioId) {
+    public CommentResource getComments(@Context UriInfo uriInfo, @PathParam("scenarioId") final String scenarioId) {
         final Scenario scenario = scenarioRepository.getById(scenarioId);
 
         final Set<ItemReference> mainReferences = Collections.singleton(
@@ -228,6 +235,9 @@ public class ScenarioResource {
             }
             if (!Strings.isNullOrEmpty(requestParams.getName())) {
                 q.withName(requestParams.getName());
+            }
+            if (!Strings.isNullOrEmpty(requestParams.getAnalyseResult())){
+                q.withName(requestParams.getAnalyseResult());
             }
             final TagSelection tagSelection = new TagSelection(requestParams.getTags(), requestParams.getExcludedTags());
             q.withSelectedTags(tagSelection);

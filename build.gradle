@@ -15,11 +15,11 @@ buildscript {
 }
 
 plugins {
-    id 'com.github.ben-manes.versions' version '0.25.0'
+    id 'com.github.ben-manes.versions' version '0.27.0'
     id 'com.google.osdetector' version '1.6.2'
-    id 'org.ajoberstar.grgit' version '3.1.1'
-    id 'com.github.spotbugs' version '2.0.0' apply false
-    id 'com.github.johnrengelman.shadow' version '5.1.0' apply false
+    id 'org.ajoberstar.grgit' version '4.0.1'
+    id 'com.github.spotbugs' version '3.0.0' apply false
+    id 'com.github.johnrengelman.shadow' version '5.2.0' apply false
 }
 
 /**
@@ -51,13 +51,10 @@ allprojects {
     }
 
     ext.getDockerTags = {
-        boolean isTravisCI = (System.env.TRAVIS == 'true')
         List<String> dockerTags = []
 
-        // Get branch from Travis env var, otherwise, from Git
-        String branchName = isTravisCI ? System.env.TRAVIS_BRANCH : project.grgit.branch.current.name
-
         // Branch slug, without special characters
+        String branchName = project.grgit.branch.current.name
         String branchSlug = branchName.replace('/', '-')
 
         // If the Git branch is the master branch, then the Docker image will be tagged "latest"
@@ -79,15 +76,15 @@ allprojects {
 
             project.dependencies {
 
-                testCompile 'junit:junit:4.12'
-                testCompile 'org.assertj:assertj-core:3.13.2'
-                testCompile 'org.mockito:mockito-core:3.0.0'
+                testImplementation 'junit:junit:4.13'
+                testImplementation 'org.assertj:assertj-core:3.15.0'
+                testImplementation 'org.mockito:mockito-core:3.2.4'
 
             }
 
             // Maven plugin
 
-            project.apply plugin: 'maven'
+            project.apply plugin: 'maven-publish'
 
             // PMD plugin
 
@@ -106,7 +103,7 @@ allprojects {
 
             // Spotbugs plugin
             // Only on JDK < 11
-            if (JavaVersion.current() < JavaVersion.VERSION_12) {
+            if (JavaVersion.current() <= JavaVersion.VERSION_11) {
                 project.apply plugin: 'com.github.spotbugs'
 
                 project.spotbugs {
@@ -127,7 +124,8 @@ allprojects {
         // Shared Java compiler config
         project.tasks.withType(JavaCompile) {
 
-            project.sourceCompatibility = '1.8'
+            project.sourceCompatibility = '11'
+            project.targetCompatibility = '11'
 
             options.encoding = 'UTF-8'
             options.deprecation = true
@@ -180,25 +178,25 @@ project("${rootProject.name}-backend") {
 
     dependencies {
 
-        annotationProcessor 'org.hibernate:hibernate-validator-annotation-processor:5.4.3.Final'
+        annotationProcessor 'org.hibernate:hibernate-validator-annotation-processor:6.1.2.Final'
 
-        compile 'io.dropwizard:dropwizard-core:1.3.14'
-        compile 'ma.glasnost.orika:orika-core:1.5.4'
-        compile 'xyz.morphia.morphia:core:1.4.0'
-        compile 'xyz.morphia.morphia:logging-slf4j:1.4.0'
-        compile 'org.slf4j:slf4j-api:1.7.28'
-        compile 'org.springframework:spring-context:5.1.9.RELEASE'
-        compile 'org.eclipse.jetty.websocket:javax-websocket-server-impl:9.4.18.v20190429'
-        compile 'org.apache.commons:commons-text:1.8'
+        implementation 'io.dropwizard:dropwizard-core:2.0.1'
+        implementation 'ma.glasnost.orika:orika-core:1.5.4'
+        implementation 'xyz.morphia.morphia:core:1.4.0'
+        implementation 'xyz.morphia.morphia:logging-slf4j:1.4.0'
+        implementation 'org.slf4j:slf4j-api:1.7.30'
+        implementation 'org.springframework:spring-context:5.2.3.RELEASE'
+        implementation 'org.eclipse.jetty.websocket:javax-websocket-server-impl:9.4.18.v20190429'
+        implementation 'org.apache.commons:commons-text:1.8'
 
-        compile 'org.javassist:javassist:3.25.0-GA'
+        implementation 'org.javassist:javassist:3.26.0-GA'
 
-        compile 'javax.xml.bind:jaxb-api:2.3.1'
-        runtime 'org.glassfish.jaxb:jaxb-runtime:2.3.2'
+        implementation 'javax.xml.bind:jaxb-api:2.3.1'
+        runtimeOnly 'org.glassfish.jaxb:jaxb-runtime:2.3.2'
 
-        testCompile 'org.assertj:assertj-core:3.12.2'
-        testCompile 'com.pholser:junit-quickcheck-core:0.9'
-        testCompile 'com.pholser:junit-quickcheck-generators:0.9'
+        testImplementation 'org.assertj:assertj-core:3.12.2'
+        testImplementation 'com.pholser:junit-quickcheck-core:0.9.1'
+        testImplementation 'com.pholser:junit-quickcheck-generators:0.9.1'
 
     }
 
@@ -278,22 +276,22 @@ project("${rootProject.name}-app") {
 
     dependencies {
 
-        compile project(":${rootProject.name}-backend")
-        compile project(":${rootProject.name}-frontend")
-        compile 'io.dropwizard:dropwizard-assets:1.3.14'
+        implementation project(":${rootProject.name}-backend")
+        implementation project(":${rootProject.name}-frontend")
+        implementation 'io.dropwizard:dropwizard-assets:2.0.1'
 
     }
 
     runShadow {
         args 'server', "${rootDir}/server-config.yml"
     }
-    
+
     shadowJar {
         mergeServiceFiles()
         exclude 'META-INF/*.DSA'
         exclude 'META-INF/*.RSA'
     }
-    
+
    tasks.assemble.dependsOn shadowJar
 
     docker {
@@ -319,10 +317,10 @@ project("${rootProject.name}-example-features") {
 
     dependencies {
 
-        compile 'info.cukes:cucumber-java:1.2.5'
-        compile 'org.slf4j:slf4j-api:1.7.26'
-        compile 'org.assertj:assertj-core:3.12.2'
-        compile 'com.google.guava:guava:27.1-jre'
+        implementation 'info.cukes:cucumber-java:1.2.6'
+        implementation 'org.slf4j:slf4j-api:1.7.26'
+        implementation 'org.assertj:assertj-core:3.12.2'
+        implementation 'com.google.guava:guava:28.2-jre'
 
     }
 

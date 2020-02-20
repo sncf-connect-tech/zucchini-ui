@@ -28,12 +28,12 @@ export default class ScenarioPage extends React.Component {
     onLoad: PropTypes.func.isRequired,
     onSetNonReviewedState: PropTypes.func.isRequired,
     scenarioId: PropTypes.string.isRequired,
-    scenario: PropTypes.object
+    scenario: PropTypes.object,
+    config: PropTypes.object
   };
 
   constructor(props) {
     super(props);
-
     this.state = {
       showUpdateStateDialog: false,
       showSetReviewedStateDialog: false
@@ -91,8 +91,8 @@ export default class ScenarioPage extends React.Component {
   };
 
   render() {
-    const { scenario, scenarioId } = this.props;
-    const { featureId, reviewed } = scenario;
+    const { scenario, scenarioId, config } = this.props;
+    const { featureId, reviewed, status } = scenario;
 
     let similarFailureSection = null;
     if (scenario.status === "FAILED") {
@@ -177,12 +177,15 @@ export default class ScenarioPage extends React.Component {
         <UpdateScenarioStateDialogContainer
           show={this.state.showUpdateStateDialog}
           onClose={this.hideUpdateStateDialog}
+          config={config}
         />
 
         <UpdateScenarioReviewedStateDialogContainer
           scenarioId={scenarioId}
           show={this.state.showSetReviewedStateDialog}
           onClose={this.hideSetReviewedStateDialog}
+          status={status}
+          config={config}
         />
       </Page>
     );

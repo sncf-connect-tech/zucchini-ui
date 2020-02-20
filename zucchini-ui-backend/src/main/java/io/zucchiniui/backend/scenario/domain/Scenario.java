@@ -59,6 +59,8 @@ public class Scenario extends BaseEntity<String> {
 
     private ZonedDateTime modifiedAt;
 
+    private Analysis analysis;
+
     /**
      * Private constructor for Morphia.
      */
@@ -92,6 +94,12 @@ public class Scenario extends BaseEntity<String> {
         info = Objects.requireNonNull(builder.getInfo());
         comment = builder.getComment();
 
+        if (builder.getAnalysis() ==  null) {
+            analysis = new Analysis();
+        } else {
+            analysis = builder.getAnalysis();
+        }
+
         for (final StepBuilder stepBuilder : builder.getStepBuilders()) {
             steps.add(stepBuilder.build());
         }
@@ -106,6 +114,23 @@ public class Scenario extends BaseEntity<String> {
 
         calculateStatusFromSteps();
         calculateReviewStateFromStatus();
+    }
+
+    public Analysis getAnalysis() {
+        if (analysis == null) {
+            analysis = new Analysis();
+        }
+        return analysis;
+    }
+
+    public void setAnalysis(Analysis analysis) {
+        if (!this.analysis.getResult().equals(analysis.getResult())) {
+            this.setAnalyseResult(analysis.getResult());
+        }
+
+        if (!this.analysis.getAction().equals(analysis.getAction())) {
+            this.setAnalyseAction(analysis.getAction());
+        }
     }
 
     public void mergeWith(final Scenario other) {
@@ -135,6 +160,7 @@ public class Scenario extends BaseEntity<String> {
         status = other.status;
         info = other.info;
         comment = other.comment;
+        this.setAnalysis(other.analysis);
 
         steps = other.steps.stream()
             .map(Step::copy)
@@ -159,6 +185,7 @@ public class Scenario extends BaseEntity<String> {
         if (oldStatus != status) {
             changes.add(new ScenarioStatusChange(modifiedAt, oldStatus, status));
         }
+        analysis = other.getAnalysis();
     }
 
     public void setStatus(final ScenarioStatus newStatus) {
@@ -183,6 +210,32 @@ public class Scenario extends BaseEntity<String> {
 
             this.reviewed = reviewed;
         }
+    }
+
+    public void setAnalyseResult(final String analyseResult) {
+        if (this.analysis == null) {
+            this.analysis = new Analysis();
+        }
+
+        if (!this.analysis.getResult().equals(analyseResult)) {
+            modifiedAt = ZonedDateTime.now();
+            changes.add(new ScenarioAnalysisResultChange(modifiedAt, this.analysis.getResult(), analyseResult));
+        }
+
+        this.analysis.setResult(analyseResult);
+    }
+
+    public void setAnalyseAction(String analyseAction) {
+        if (this.analysis == null) {
+            this.analysis = new Analysis();
+        }
+
+        if (!this.analysis.getAction().equals(analyseAction)) {
+            modifiedAt = ZonedDateTime.now();
+            changes.add(new ScenarioAnalysisActionChange(modifiedAt, this.analysis.getAction(), analyseAction));
+        }
+
+        this.analysis.setAction(analyseAction);
     }
 
     public void doIgnoringChanges(Consumer<Scenario> consumer) {

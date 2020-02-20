@@ -1,6 +1,7 @@
 package io.zucchiniui.backend.scenario.domain;
 
 import io.zucchiniui.backend.shared.domain.BasicInfo;
+import io.zucchiniui.backend.shared.domain.Location;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,7 +38,7 @@ public class StepTest {
 
     private static Step createStep() {
         return new StepBuilder()
-            .withInfo(new BasicInfo("Step", "step1"))
+            .withInfo(new BasicInfo("Step", "step1", new Location("filename", 3L)))
             .withStatus(StepStatus.FAILED)
             .withErrorMessage("error")
             .withComment("comment")
