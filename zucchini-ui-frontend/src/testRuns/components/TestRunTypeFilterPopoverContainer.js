@@ -5,7 +5,9 @@ import TestRunTypeFilterPopover from "./TestRunTypeFilterPopover";
 import { selectTestRunTypes } from "../selectors";
 
 const selectProps = createStructuredSelector({
-  testRunTypes: selectTestRunTypes
+  testRunTypes: selectTestRunTypes,
+  testRunNames: selectTestRunTypes,
+  testRunEnvs: selectTestRunTypes
 });
 
 export default connect(selectProps)(TestRunTypeFilterPopover);

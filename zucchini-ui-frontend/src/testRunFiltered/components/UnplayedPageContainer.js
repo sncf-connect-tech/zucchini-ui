@@ -7,11 +7,8 @@ import TestRunFilteredPage from "./internal/TestRunFilteredPage";
 
 const selectProps = createTestRunFilterPageSelector("Non joués");
 
-const UnplayedPageContainer = connect(
-  selectProps,
-  {
-    onLoad: loadUnplayedTestRunPage
-  }
-)(TestRunFilteredPage);
+const UnplayedPageContainer = connect(selectProps, {
+  onLoad: loadUnplayedTestRunPage
+})(TestRunFilteredPage);
 
 export default UnplayedPageContainer;

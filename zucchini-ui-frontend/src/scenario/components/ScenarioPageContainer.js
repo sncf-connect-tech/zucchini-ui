@@ -25,12 +25,9 @@ const selectProps = createStructuredSelector({
   config: selectConfig
 });
 
-const ScenarioPageContainer = connect(
-  selectProps,
-  {
-    onLoad: loadScenarioPage,
-    onSetNonReviewedState: setNonReviewedStateThenReload
-  }
-)(ScenarioPage);
+const ScenarioPageContainer = connect(selectProps, {
+  onLoad: loadScenarioPage,
+  onSetNonReviewedState: setNonReviewedStateThenReload
+})(ScenarioPage);
 
 export default ScenarioPageContainer;
