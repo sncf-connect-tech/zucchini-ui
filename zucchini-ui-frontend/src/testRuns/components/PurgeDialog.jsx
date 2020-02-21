@@ -55,7 +55,7 @@ export default class PurgeDialog extends React.PureComponent {
 
   handleNameChange = changedNameItem => {
     this.updateState({
-      name: changedNameItem[0] !== undefined ? changedNameItem[0].name : ""
+      name: changedNameItem[0] ? changedNameItem[0].name : ""
     });
   };
 
@@ -94,9 +94,9 @@ export default class PurgeDialog extends React.PureComponent {
 
   filterTestRunIdsToPurge(testRuns, { type, name, maxDate }) {
     return testRuns
-      .filter(testRun => (type !== "" ? testRun.type === type : true))
-      .filter(testRun => (name !== "" ? testRun.name === name : true))
-      .filter(testRun => (maxDate !== "" ? isBefore(parseISO(testRun.date), parseISO(maxDate)) : true))
+      .filter(testRun => (type ? testRun.type === type : true))
+      .filter(testRun => (name ? testRun.name === name : true))
+      .filter(testRun => (maxDate ? isBefore(parseISO(testRun.date), parseISO(maxDate)) : true))
       .map(testRun => testRun.id);
   }
 
@@ -104,7 +104,6 @@ export default class PurgeDialog extends React.PureComponent {
     const { show, testRunTypes, testRunNames } = this.props;
     const { type, maxDate, selectedTestRunIds } = this.state;
 
-    console.log("render");
     const testRunTypeOptions = testRunTypes.map(testRunType => {
       return (
         <option key={testRunType} value={testRunType}>
@@ -113,9 +112,7 @@ export default class PurgeDialog extends React.PureComponent {
       );
     });
 
-    const testRunNameOpts = testRunNames.map(testRunName => {
-      return { name: testRunName };
-    });
+    const testRunNameOpts = testRunNames.map(testRunName => ({ name: testRunName }));
 
     let selectionAlert = null;
 
