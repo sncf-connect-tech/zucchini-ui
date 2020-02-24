@@ -105,7 +105,8 @@ export default class TestRunsPage extends React.Component {
         <CreateTestRunDialogContainer show={showCreateTestRunDialog} onClose={this.hideCreateTestRunDialog} />
         {showPurgeDialog && (
           <PurgeDialogContainer
-            currentSelectedType={selectedType}
+            selectedType={selectedType}
+            selectedName={selectedName}
             show={showPurgeDialog}
             onClose={this.hidePurgeDialog}
           />
