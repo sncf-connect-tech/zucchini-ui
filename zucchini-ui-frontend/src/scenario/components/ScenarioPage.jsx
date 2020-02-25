@@ -147,7 +147,7 @@ export default class ScenarioPage extends React.Component {
         <hr />
 
         <h2>Commentaires</h2>
-        <CommentListContainer />
+        <CommentListContainer config={config} />
 
         <h4>Ajouter un nouveau commentaire</h4>
         <AddCommentFormContainer scenarioId={scenarioId} />

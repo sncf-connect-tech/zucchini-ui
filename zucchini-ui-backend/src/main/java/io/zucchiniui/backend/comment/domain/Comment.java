@@ -42,6 +42,8 @@ public class Comment extends BaseEntity<String> {
     @Embedded(concreteClass = HashSet.class)
     private Set<ItemReference> references;
 
+    private String analyseAction;
+
     /**
      * Private constructor for Morphia.
      */
@@ -54,11 +56,12 @@ public class Comment extends BaseEntity<String> {
      * @param references References
      * @param content    Comment content
      */
-    public Comment(final Iterable<ItemReference> references, final String content) {
+    public Comment(final Iterable<ItemReference> references, final String content, final String analyseAction) {
         id = UUID.randomUUID().toString();
         date = ZonedDateTime.now();
         this.references = Sets.newHashSet(references);
         this.content = Objects.requireNonNull(content);
+        this.analyseAction = analyseAction;
     }
 
     public void setContent(final String content) {
@@ -81,9 +84,16 @@ public class Comment extends BaseEntity<String> {
         return Collections.unmodifiableSet(references);
     }
 
+    public String getAnalyseAction() {
+        return analyseAction;
+    }
+
+    public void setAnalyseAction(String analyseAction) {
+        this.analyseAction = analyseAction;
+    }
+
     @Override
     protected String getEntityId() {
         return id;
     }
-
 }

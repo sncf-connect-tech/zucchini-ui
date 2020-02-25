@@ -18,8 +18,8 @@ export function updateScenarioState({ scenarioId, newState }) {
   return scenariosApi.updateScenarioState({ scenarioId, newState });
 }
 
-export function addScenarioComment({ scenarioId, comment }) {
-  return scenariosApi.addComment({ scenarioId, comment });
+export function addScenarioComment({ scenarioId, comment, analyseAction }) {
+  return scenariosApi.addComment({ scenarioId, comment, analyseAction });
 }
 
 export function deleteScenario({ scenarioId }) {

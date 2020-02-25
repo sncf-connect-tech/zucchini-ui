@@ -9,6 +9,7 @@ export default class CommentList extends React.PureComponent {
   };
 
   render() {
+    console.log("CommentList", this.props);
     const { comments } = this.props;
 
     const commentList = comments.map(comment => {
