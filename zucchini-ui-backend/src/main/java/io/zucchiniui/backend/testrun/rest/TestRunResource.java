@@ -12,6 +12,7 @@ import io.zucchiniui.backend.testrun.domain.TestRunService;
 import io.zucchiniui.backend.testrun.views.TestRunListItem;
 import io.zucchiniui.backend.testrun.views.TestRunScenarioDiff;
 import io.zucchiniui.backend.testrun.views.TestRunViewAccess;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -30,6 +31,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 @Component
 @Path("/testRuns")
@@ -79,6 +82,10 @@ public class TestRunResource {
         final TestRun testRun = new TestRun(request.getType(), request.getEnvironment(), request.getName());
         testRun.setLabels(convertRequestLabels(request.getLabels()));
 
+        if (isNotEmpty(request.getCampaign())) {
+            testRun.setCampaign(request.getCampaign());
+        }
+
         testRunRepository.save(testRun);
 
         final URI location = uriInfo.getBaseUriBuilder()
@@ -101,14 +108,17 @@ public class TestRunResource {
     public void update(@PathParam("testRunId") final String testRunId, @Valid @NotNull final UpdateTestRunRequest request) {
         final TestRun testRun = testRunRepository.getById(testRunId);
 
-        if (!Strings.isNullOrEmpty(request.getType())) {
+        if (isNotEmpty(request.getType())) {
             testRun.setType(request.getType());
         }
-        if (!Strings.isNullOrEmpty(request.getEnvironment())) {
+        if (isNotEmpty(request.getEnvironment())) {
             testRun.setEnvironment(request.getEnvironment());
         }
-        if (!Strings.isNullOrEmpty(request.getName())) {
+        if (isNotEmpty(request.getName())) {
             testRun.setName(request.getName());
+        }
+        if (isNotEmpty(request.getCampaign())) {
+            testRun.setCampaign(request.getCampaign());
         }
         testRun.setLabels(convertRequestLabels(request.getLabels()));
 

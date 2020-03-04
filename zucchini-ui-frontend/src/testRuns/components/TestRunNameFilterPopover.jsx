@@ -11,6 +11,7 @@ export default class TestRunNameFilterPopover extends React.PureComponent {
     selectedType: PropTypes.string,
     selectedEnv: PropTypes.string,
     selectedName: PropTypes.string,
+    selectedCampaign: PropTypes.string,
     onNameSelected: PropTypes.func.isRequired
   };
 
@@ -44,13 +45,19 @@ export default class TestRunNameFilterPopover extends React.PureComponent {
   }
 
   render() {
-    const { testRunNames, selectedType, selectedEnv, selectedName } = this.props;
+    const { testRunNames, selectedType, selectedEnv, selectedName, selectedCampaign } = this.props;
 
     // Any type link
 
     let allNamesLink = (
       <Link
-        to={{ search: queryString.stringify({ type: selectedType, env: selectedEnv }) }}
+        to={{
+          search: queryString.stringify({
+            type: selectedType,
+            env: selectedEnv,
+            campaign: selectedCampaign
+          })
+        }}
         onClick={this.onNameSelected}
       >
         <i>Tous les noms</i>
@@ -66,7 +73,14 @@ export default class TestRunNameFilterPopover extends React.PureComponent {
       return (
         <p key={name}>
           <Link
-            to={{ search: queryString.stringify({ type: selectedType, env: selectedEnv, name: name }) }}
+            to={{
+              search: queryString.stringify({
+                type: selectedType,
+                env: selectedEnv,
+                name: name,
+                campaign: selectedCampaign
+              })
+            }}
             onClick={this.onNameSelected}
           >
             {name === selectedName ? <b>{name}</b> : name}

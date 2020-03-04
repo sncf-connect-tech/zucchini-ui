@@ -32,6 +32,16 @@ export const selectTestRunNames = createSelector(
   }
 );
 
+export const selectTestRunCampaigns = createSelector(
+  state => state.testRuns.testRuns,
+  testRuns => {
+    const campaignsSet = new Set(testRuns.filter(testRun => !!testRun.campaign).map(testRun => testRun.campaign));
+    const campaigns = Array.from(campaignsSet);
+    campaigns.sort();
+    return campaigns;
+  }
+);
+
 export const selectLatestTestRuns = createSelector(
   state => state.testRuns.testRuns,
   testRuns => {

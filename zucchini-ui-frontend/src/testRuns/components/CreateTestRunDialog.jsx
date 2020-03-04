@@ -21,7 +21,8 @@ export default class CreateTestRunDialog extends React.PureComponent {
       newTestRun: {
         type: "",
         environment: "",
-        name: ""
+        name: "",
+        campaign: ""
       }
     };
   }
@@ -48,6 +49,19 @@ export default class CreateTestRunDialog extends React.PureComponent {
       newTestRun: {
         ...previousState.newTestRun,
         name
+      }
+    }));
+  };
+
+  onCampaignChange = event => {
+    event.preventDefault();
+
+    const campaign = event.target.value;
+
+    this.setState(previousState => ({
+      newTestRun: {
+        ...previousState.newTestRun,
+        campaign
       }
     }));
   };
@@ -101,6 +115,10 @@ export default class CreateTestRunDialog extends React.PureComponent {
             <FormGroup controlId="name">
               <ControlLabel>Nom</ControlLabel>
               <FormControl type="text" value={this.state.newTestRun.name} onChange={this.onNameChange} />
+            </FormGroup>
+            <FormGroup controlId="campaign">
+              <ControlLabel>Campagne</ControlLabel>
+              <FormControl type="text" value={this.state.newTestRun.campaign} onChange={this.onCampaignChange} />
             </FormGroup>
           </form>
         </Modal.Body>

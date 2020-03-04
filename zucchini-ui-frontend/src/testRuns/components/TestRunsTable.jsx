@@ -43,6 +43,7 @@ const TestRunsTable = props => {
             <th className="col-md-1">Type</th>
             <th className="col-md-1">Environnement</th>
             <th className="col-md-1">Nom</th>
+            <th className="col-md-1">Campagne</th>
             <th className="col-md-3">Tir de test</th>
             <th className="col-md-1">Total</th>
             <th className="col-md-1">Succès</th>
@@ -82,6 +83,9 @@ class TestRunTableRow extends React.PureComponent {
         </td>
         <td>
           <Label>{testRun.name}</Label>
+        </td>
+        <td>
+          <Label>{testRun.campaign}</Label>
         </td>
         <td>
           <Link to={`/test-runs/${testRun.id}`}>Tir du {toNiceDate(testRun.date)}</Link>

@@ -11,6 +11,7 @@ export default class TestRunTypeFilterPopover extends React.PureComponent {
     selectedType: PropTypes.string,
     selectedEnv: PropTypes.string,
     selectedName: PropTypes.string,
+    selectedCampaign: PropTypes.string,
     onTypeSelected: PropTypes.func.isRequired
   };
 
@@ -44,13 +45,19 @@ export default class TestRunTypeFilterPopover extends React.PureComponent {
   }
 
   render() {
-    const { testRunTypes, selectedType, selectedEnv, selectedName } = this.props;
+    const { testRunTypes, selectedType, selectedEnv, selectedName, selectedCampaign } = this.props;
 
     // Any type link
 
     let allTypesLink = (
       <Link
-        to={{ search: queryString.stringify({ env: selectedEnv, name: selectedName }) }}
+        to={{
+          search: queryString.stringify({
+            name: selectedName,
+            env: selectedEnv,
+            campaign: selectedCampaign
+          })
+        }}
         onClick={this.onTypeSelected}
       >
         <i>Tous les types</i>
@@ -66,7 +73,14 @@ export default class TestRunTypeFilterPopover extends React.PureComponent {
       return (
         <p key={type}>
           <Link
-            to={{ search: queryString.stringify({ type: type, name: selectedName, env: selectedEnv }) }}
+            to={{
+              search: queryString.stringify({
+                type: type,
+                name: selectedName,
+                env: selectedEnv,
+                campaign: selectedCampaign
+              })
+            }}
             onClick={this.onTypeSelected}
           >
             {type === selectedType ? <b>{type}</b> : type}

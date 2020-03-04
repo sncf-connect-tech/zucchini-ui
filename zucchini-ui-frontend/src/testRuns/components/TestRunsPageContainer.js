@@ -30,6 +30,14 @@ const selectSelectedName = createSelector(
   selectedType => selectedType
 );
 
+const selectSelectedCampaign = createSelector(
+  (state, ownProps) => {
+    const queryParams = selectQueryParams(ownProps.location);
+    return queryParams.campaign || null;
+  },
+  selectedType => selectedType
+);
+
 const selectView = createSelector(
   (state, ownProps) => ownProps.match.params.viewType,
   viewType => viewType || "latest"
@@ -39,6 +47,7 @@ const selectProps = createStructuredSelector({
   selectedType: selectSelectedType,
   selectedEnv: selectSelectedEnv,
   selectedName: selectSelectedName,
+  selectedCampaign: selectSelectedCampaign,
   viewType: selectView
 });
 

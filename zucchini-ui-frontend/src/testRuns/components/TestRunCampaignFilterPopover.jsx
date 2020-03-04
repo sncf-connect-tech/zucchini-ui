@@ -5,14 +5,14 @@ import queryString from "query-string";
 import FormGroup from "react-bootstrap/lib/FormGroup";
 import FormControl from "react-bootstrap/lib/FormControl";
 
-export default class TestRunEnvFilterPopover extends React.PureComponent {
+export default class TestRunTypeFilterPopover extends React.PureComponent {
   static propTypes = {
-    testRunEnvs: PropTypes.arrayOf(PropTypes.string).isRequired,
-    selectedEnv: PropTypes.string,
+    testRunCampaigns: PropTypes.arrayOf(PropTypes.string).isRequired,
     selectedType: PropTypes.string,
+    selectedEnv: PropTypes.string,
     selectedName: PropTypes.string,
     selectedCampaign: PropTypes.string,
-    onEnvSelected: PropTypes.func.isRequired
+    onCampaignSelected: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -29,8 +29,8 @@ export default class TestRunEnvFilterPopover extends React.PureComponent {
     });
   };
 
-  onEnvSelected = () => {
-    this.props.onEnvSelected();
+  onCampaignSelected = () => {
+    this.props.onCampaignSelected();
   };
 
   createFilter() {
@@ -38,50 +38,52 @@ export default class TestRunEnvFilterPopover extends React.PureComponent {
 
     if (search) {
       const searchLowerCase = search.toLowerCase();
-      return env => env.toLowerCase().includes(searchLowerCase);
+      return type => type.toLowerCase().includes(searchLowerCase);
     }
 
     return () => true;
   }
 
   render() {
-    const { testRunEnvs, selectedEnv, selectedType, selectedName, selectedCampaign } = this.props;
+    const { testRunCampaigns, selectedType, selectedEnv, selectedName, selectedCampaign } = this.props;
 
     // Any type link
-    let allEnvsLink = (
+
+    let allCampaignsLink = (
       <Link
         to={{
           search: queryString.stringify({
             type: selectedType,
             name: selectedName,
-            campaign: selectedCampaign
+            env: selectedEnv
           })
         }}
-        onClick={this.onEnvSelected}
+        onClick={this.onCampaignSelected}
       >
-        <i>Tous les environnements</i>
+        <i>Tous les types</i>
       </Link>
     );
-    if (selectedEnv === "" || selectedEnv === null) {
-      allEnvsLink = <b>{allEnvsLink}</b>;
+    if (selectedType === "" || selectedType === null) {
+      allCampaignsLink = <b>{allCampaignsLink}</b>;
     }
 
-    // Links to test run envs
-    const testRunEnvLinks = testRunEnvs.filter(this.createFilter()).map(env => {
+    // Links to test run types
+
+    const testRunCampaignLinks = testRunCampaigns.filter(this.createFilter()).map(campaign => {
       return (
-        <p key={env}>
+        <p key={campaign}>
           <Link
             to={{
               search: queryString.stringify({
                 type: selectedType,
                 name: selectedName,
-                env: env,
-                campaign: selectedCampaign
+                env: selectedEnv,
+                campaign: campaign
               })
             }}
-            onClick={this.onEnvSelected}
+            onClick={this.onCampaignSelected}
           >
-            {env === selectedEnv ? <b>{env}</b> : env}
+            {campaign === selectedCampaign ? <b>{campaign}</b> : campaign}
           </Link>
         </p>
       );
@@ -92,19 +94,19 @@ export default class TestRunEnvFilterPopover extends React.PureComponent {
         <FormGroup bsSize="small">
           <FormControl
             type="text"
-            placeholder="Rechercher un environnement de tir"
+            placeholder="Rechercher une campagne"
             value={this.state.search}
             onChange={this.onSearch}
             autoFocus
           />
         </FormGroup>
 
-        <p>{allEnvsLink}</p>
-        {testRunEnvLinks.length > 0 ? (
-          testRunEnvLinks
+        <p>{allCampaignsLink}</p>
+        {testRunCampaignLinks.length > 0 ? (
+          testRunCampaignLinks
         ) : (
           <p>
-            <i>Aucun environnement trouvé</i>
+            <i>Aucune campagne trouvé</i>
           </p>
         )}
       </div>

@@ -19,6 +19,9 @@ const selectTestRuns = createSelector(
     if (selected.selectedName) {
       selectedTestRuns = selectedTestRuns.filter(testRun => testRun.name === selected.selectedName);
     }
+    if (selected.selectedCampaign) {
+      selectedTestRuns = selectedTestRuns.filter(testRun => testRun.campaign === selected.selectedCampaign);
+    }
     return selectedTestRuns;
   }
 );
