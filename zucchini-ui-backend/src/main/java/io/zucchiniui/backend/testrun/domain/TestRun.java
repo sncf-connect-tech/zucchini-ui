@@ -23,6 +23,8 @@ public class TestRun extends BaseEntity<String> {
 
     private List<Label> labels = new ArrayList<>();
 
+    private Integer numberOfScenariosToReviewAtImport;
+
     /**
      * Test runs are often launched during a campaign. This field allows grouping them by campaign name.
      */
@@ -99,5 +101,13 @@ public class TestRun extends BaseEntity<String> {
 
     public void setCampaign(String campaign) {
         this.campaign = campaign;
+    }
+
+    public Integer getNumberOfScenariosToReviewAtImport() {
+        return numberOfScenariosToReviewAtImport;
+    }
+
+    public void setNumberOfScenariosToReviewAtImport(Integer numberOfScenariosToReviewAtImport) {
+        this.numberOfScenariosToReviewAtImport = numberOfScenariosToReviewAtImport;
     }
 }

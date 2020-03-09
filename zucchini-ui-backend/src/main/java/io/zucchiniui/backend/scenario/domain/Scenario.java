@@ -94,7 +94,7 @@ public class Scenario extends BaseEntity<String> {
         info = Objects.requireNonNull(builder.getInfo());
         comment = builder.getComment();
 
-        if (builder.getAnalysis() ==  null) {
+        if (builder.getAnalysis() == null) {
             analysis = new Analysis();
         } else {
             analysis = builder.getAnalysis();
@@ -324,6 +324,15 @@ public class Scenario extends BaseEntity<String> {
 
     public boolean isReviewed() {
         return reviewed;
+    }
+
+    /**
+     * Has scenario to be reviewed ?
+     *
+     * @return <code>true</code> if scenario has to be reviewed, <code>false</code> otherwise
+     */
+    public boolean isNotReviewed() {
+        return !reviewed;
     }
 
     public List<Step> getSteps() {

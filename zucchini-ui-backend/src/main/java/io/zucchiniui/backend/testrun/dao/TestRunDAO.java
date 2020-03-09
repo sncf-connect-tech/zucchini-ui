@@ -7,6 +7,7 @@ import xyz.morphia.Datastore;
 import xyz.morphia.query.Query;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 @Component
@@ -21,6 +22,10 @@ public class TestRunDAO extends MorphiaTypedQueryDAO<TestRun, String, TestRunQue
         final TestRunQueryImpl typedQuery = new TestRunQueryImpl(createQuery());
         preparator.accept(typedQuery);
         return typedQuery.morphiaQuery();
+    }
+
+    public List<TestRun> findAllByCampaign(String campaign) {
+        return this.createQuery().field("campaign").equal(campaign).asList();
     }
 
 }
