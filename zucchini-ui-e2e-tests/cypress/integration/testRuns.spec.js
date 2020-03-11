@@ -2,11 +2,11 @@
 
 describe("Test runs", () => {
   beforeEach(() => {
-    cy.visit("/");
+    cy.visit("/ui/all");
   });
 
   it("should display test runs", () => {
-    cy.get("h1").should("contain", "Derniers tirs");
+    cy.get("h1").should("contain", "Tous les tirs");
 
     cy.createTestRun({
       type: "Display test runs",

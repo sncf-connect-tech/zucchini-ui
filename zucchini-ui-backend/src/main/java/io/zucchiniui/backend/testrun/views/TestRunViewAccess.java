@@ -2,7 +2,6 @@ package io.zucchiniui.backend.testrun.views;
 
 import com.google.common.collect.Sets;
 import io.zucchiniui.backend.config.BackendConfiguration;
-import io.zucchiniui.backend.config.CorrectionActionConfig;
 import io.zucchiniui.backend.scenario.views.ScenarioListItemView;
 import io.zucchiniui.backend.scenario.views.ScenarioStats;
 import io.zucchiniui.backend.scenario.views.ScenarioViewAccess;
@@ -54,8 +53,6 @@ public class TestRunViewAccess {
 
     public List<TestRunListItem> getTestRunListItems(final Consumer<TestRunQuery> preparator, final boolean withStats, final boolean onlyLatest) {
         Stream<TestRun> testRunStream;
-
-        List<CorrectionActionConfig> correctionAction = configuration.getCorrectionAction();
 
         if (onlyLatest){
             FindOptions findOptions = new FindOptions();
