@@ -9,6 +9,8 @@ server:
 
 mongoUri: "mongodb://${MONGO_HOST:-localhost}/${MONGO-DB:-zucchini}?connectTimeoutMS=5000&socketTimeoutMS=90000&w=majority&journal=true&wtimeoutMS=60000"
 
+eggplantUri: ""
+
 numberLatest: 100
 
 logging:
