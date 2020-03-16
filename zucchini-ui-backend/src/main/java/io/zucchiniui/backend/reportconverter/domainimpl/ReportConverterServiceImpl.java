@@ -10,6 +10,7 @@ import io.zucchiniui.backend.reportconverter.converter.ReportConverter;
 import io.zucchiniui.backend.reportconverter.domain.ReportConverterService;
 import io.zucchiniui.backend.reportconverter.report.ReportFeature;
 import io.zucchiniui.backend.scenario.domain.*;
+import io.zucchiniui.backend.testrun.domain.TestRunService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -38,19 +39,22 @@ class ReportConverterServiceImpl implements ReportConverterService {
 
     private final ObjectMapper objectMapper;
 
+    private final TestRunService testRunService;
+
     public ReportConverterServiceImpl(
         final FeatureRepository featureRepository,
         final FeatureService featureService,
         final ScenarioRepository scenarioRepository,
         final ScenarioService scenarioService, final ReportConverter reportConverter,
-        @Qualifier("reportObjectMapper") final ObjectMapper objectMapper
-    ) {
+        @Qualifier("reportObjectMapper") final ObjectMapper objectMapper,
+        final TestRunService testRunService) {
         this.featureRepository = featureRepository;
         this.featureService = featureService;
         this.scenarioRepository = scenarioRepository;
         this.scenarioService = scenarioService;
         this.reportConverter = reportConverter;
         this.objectMapper = objectMapper;
+        this.testRunService = testRunService;
     }
 
     @Override
@@ -67,6 +71,7 @@ class ReportConverterServiceImpl implements ReportConverterService {
             for (final ReportFeature reportFeature : reportFeatures) {
                 convertAndSaveFeature(testRunId, reportFeature, group, dryRun, onlyNewScenarii, mergeOnlyNewPassedScenarii);
             }
+            testRunService.computeAndStoreNumberOfScenariosToReview(testRunId);
         } catch (final IOException e) {
             throw new IllegalStateException("Can't parse report feature stream", e);
         }

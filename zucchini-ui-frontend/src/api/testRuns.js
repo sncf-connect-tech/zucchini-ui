@@ -15,10 +15,10 @@ class TestRunsApi {
     return this.client.get({ path: testRunId });
   }
 
-  createTestRun({ type, environment, name }) {
+  createTestRun({ type, environment, name, campaign }) {
     return this.client.post({
       path: "/create",
-      body: { type, environment, name }
+      body: { type, environment, name, campaign }
     });
   }
 
@@ -48,11 +48,11 @@ class TestRunsApi {
     this.client.handleError({ url, response });
   }
 
-  editTestRun({ testRunId, type, environment, name, labels }) {
+  editTestRun({ testRunId, type, environment, name, campaign, labels }) {
     return this.client.patch({
       path: testRunId,
       hasOutput: false,
-      body: { type, environment, name, labels }
+      body: { type, environment, name, campaign, labels }
     });
   }
 

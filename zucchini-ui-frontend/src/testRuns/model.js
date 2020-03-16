@@ -8,8 +8,8 @@ export function getLatestsTestRunsWithStats({ viewType }) {
   return testRunsApi.getLatests({ withStats: true, onlyLatest: viewType === "latest" });
 }
 
-export async function createTestRun({ type, environment, name }) {
-  const response = await testRunsApi.createTestRun({ type, environment, name });
+export async function createTestRun({ type, environment, name, campaign }) {
+  const response = await testRunsApi.createTestRun({ type, environment, name, campaign });
   const testRun = await testRunsApi.getTestRun({ testRunId: response.id });
   return {
     ...testRun,

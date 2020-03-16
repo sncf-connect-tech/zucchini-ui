@@ -2,12 +2,13 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
 import TestRunFilter from "./TestRunFilter";
-import { selectTestRunEnvs, selectTestRunNames, selectTestRunTypes } from "../selectors";
+import { selectTestRunEnvs, selectTestRunNames, selectTestRunTypes, selectTestRunCampaigns } from "../selectors";
 
 const selectProps = createStructuredSelector({
   testRunTypes: selectTestRunTypes,
   testRunNames: selectTestRunNames,
-  testRunEnvs: selectTestRunEnvs
+  testRunEnvs: selectTestRunEnvs,
+  testRunCampaigns: selectTestRunCampaigns
 });
 
 const TestRunFilterContainer = connect(selectProps)(TestRunFilter);

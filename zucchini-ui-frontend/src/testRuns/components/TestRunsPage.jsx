@@ -17,7 +17,8 @@ export default class TestRunsPage extends React.Component {
     viewType: PropTypes.string.isRequired,
     selectedType: PropTypes.string,
     selectedEnv: PropTypes.string,
-    selectedName: PropTypes.string
+    selectedName: PropTypes.string,
+    selectedCampaign: PropTypes.string
   };
 
   constructor(props) {
@@ -72,7 +73,7 @@ export default class TestRunsPage extends React.Component {
   };
 
   render() {
-    const { selectedType, selectedEnv, selectedName, viewType } = this.props;
+    const { selectedType, selectedEnv, selectedName, selectedCampaign, viewType } = this.props;
     const { showCreateTestRunDialog, showPurgeDialog } = this.state;
 
     return (
@@ -83,6 +84,7 @@ export default class TestRunsPage extends React.Component {
             {selectedType && <small>Type {selectedType} </small>}
             {selectedEnv && <small>Environnement {selectedEnv} </small>}
             {selectedName && <small>Nom {selectedName}</small>}
+            {selectedCampaign && <small>Campagne {selectedCampaign}</small>}
           </Fragment>
         }
         breadcrumb={<TestRunsBreadcrumbContainer viewType={viewType} />}
@@ -100,8 +102,18 @@ export default class TestRunsPage extends React.Component {
           </ButtonGroup>
         </ButtonToolbar>
         <hr />
-        <TestRunFilterContainer selectedType={selectedType} selectedEnv={selectedEnv} selectedName={selectedName} />
-        <TestRunsTableContainer selectedType={selectedType} selectedEnv={selectedEnv} selectedName={selectedName} />
+        <TestRunFilterContainer
+          selectedType={selectedType}
+          selectedEnv={selectedEnv}
+          selectedName={selectedName}
+          selectedCampaign={selectedCampaign}
+        />
+        <TestRunsTableContainer
+          selectedType={selectedType}
+          selectedEnv={selectedEnv}
+          selectedName={selectedName}
+          selectedCampaign={selectedCampaign}
+        />
         <CreateTestRunDialogContainer show={showCreateTestRunDialog} onClose={this.hideCreateTestRunDialog} />
         {showPurgeDialog && (
           <PurgeDialogContainer

@@ -3,6 +3,8 @@ package io.zucchiniui.backend.testrun.rest;
 
 import com.google.common.base.Strings;
 import io.dropwizard.jersey.PATCH;
+import io.zucchiniui.backend.campaign.domain.CampaignService;
+import io.zucchiniui.backend.campaign.views.CampaignTestRun;
 import io.zucchiniui.backend.reportconverter.domain.ReportConverterService;
 import io.zucchiniui.backend.testrun.domain.Label;
 import io.zucchiniui.backend.testrun.domain.TestRun;
@@ -31,6 +33,8 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+
 @Component
 @Path("/testRuns")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -47,16 +51,19 @@ public class TestRunResource {
 
     private final ReportConverterService reportConverterService;
 
+    private final CampaignService campaignService;
+
     public TestRunResource(
         final TestRunRepository testRunRepository,
         final TestRunService testRunService,
         final TestRunViewAccess testRunViewAccess,
-        final ReportConverterService reportConverterService
-    ) {
+        final ReportConverterService reportConverterService,
+        final CampaignService campaignService) {
         this.testRunRepository = testRunRepository;
         this.testRunService = testRunService;
         this.testRunViewAccess = testRunViewAccess;
         this.reportConverterService = reportConverterService;
+        this.campaignService = campaignService;
     }
 
     @GET
@@ -78,6 +85,10 @@ public class TestRunResource {
     public Response create(@Context UriInfo uriInfo, @Valid @NotNull final CreateTestRunRequest request) {
         final TestRun testRun = new TestRun(request.getType(), request.getEnvironment(), request.getName());
         testRun.setLabels(convertRequestLabels(request.getLabels()));
+
+        if (isNotEmpty(request.getCampaign())) {
+            testRun.setCampaign(request.getCampaign());
+        }
 
         testRunRepository.save(testRun);
 
@@ -101,14 +112,17 @@ public class TestRunResource {
     public void update(@PathParam("testRunId") final String testRunId, @Valid @NotNull final UpdateTestRunRequest request) {
         final TestRun testRun = testRunRepository.getById(testRunId);
 
-        if (!Strings.isNullOrEmpty(request.getType())) {
+        if (isNotEmpty(request.getType())) {
             testRun.setType(request.getType());
         }
-        if (!Strings.isNullOrEmpty(request.getEnvironment())) {
+        if (isNotEmpty(request.getEnvironment())) {
             testRun.setEnvironment(request.getEnvironment());
         }
-        if (!Strings.isNullOrEmpty(request.getName())) {
+        if (isNotEmpty(request.getName())) {
             testRun.setName(request.getName());
+        }
+        if (isNotEmpty(request.getCampaign())) {
+            testRun.setCampaign(request.getCampaign());
         }
         testRun.setLabels(convertRequestLabels(request.getLabels()));
 
@@ -140,6 +154,15 @@ public class TestRunResource {
     @Path("{leftTestRunId}/scenarioDiff/{rightTestRunId}")
     public TestRunScenarioDiff getScenarioDiff(@PathParam("leftTestRunId") final String leftTestRunId, @PathParam("rightTestRunId") final String rightTestRunId) {
         return testRunViewAccess.getScenarioDiff(leftTestRunId, rightTestRunId);
+    }
+
+    @GET
+    @Path("campaigns/{campaign}")
+    public TestRunsCampaignResponse getCampaignStats(@PathParam("campaign") String campaign){
+
+        final List<CampaignTestRun> stats = this.campaignService.computeCampaignTestRunsStats(campaign);
+
+        return new TestRunsCampaignResponse(campaign, stats);
     }
 
     private static List<Label> convertRequestLabels(final List<RequestLabel> requestLabels) {

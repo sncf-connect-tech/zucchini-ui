@@ -11,6 +11,8 @@ public class UpdateTestRunRequest {
 
     private String name;
 
+    private String campaign;
+
     @Valid
     private List<RequestLabel> labels;
 
@@ -45,4 +47,11 @@ public class UpdateTestRunRequest {
         this.labels = labels;
     }
 
+    public String getCampaign() {
+        return campaign;
+    }
+
+    public void setCampaign(String campaign) {
+        this.campaign = campaign;
+    }
 }

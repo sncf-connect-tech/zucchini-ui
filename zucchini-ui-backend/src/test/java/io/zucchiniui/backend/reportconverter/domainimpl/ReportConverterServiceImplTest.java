@@ -13,6 +13,7 @@ import io.zucchiniui.backend.scenario.domain.Scenario;
 import io.zucchiniui.backend.scenario.domain.ScenarioRepository;
 import io.zucchiniui.backend.scenario.domain.ScenarioService;
 import io.zucchiniui.backend.scenario.domain.ScenarioStatus;
+import io.zucchiniui.backend.testrun.domain.TestRunService;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -57,6 +58,9 @@ public class ReportConverterServiceImplTest {
 
     @Mock
     private ObjectMapper objectMapper;
+
+    @Mock
+    private TestRunService testRunService;
 
     @InjectMocks
     private ReportConverterServiceImpl service;
