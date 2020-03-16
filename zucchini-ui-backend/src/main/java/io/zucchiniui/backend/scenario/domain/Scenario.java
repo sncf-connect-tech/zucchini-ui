@@ -335,6 +335,15 @@ public class Scenario extends BaseEntity<String> {
         return !reviewed;
     }
 
+    /**
+     * Is scenario failed ?
+     *
+     * @return <code>true</code> if scenario is consedered as failed, <code>false</code> otherwise.
+     */
+    public boolean isFailed() {
+        return ScenarioStatus.FAILED.equals(this.status);
+    }
+
     public List<Step> getSteps() {
         return Collections.unmodifiableList(steps);
     }

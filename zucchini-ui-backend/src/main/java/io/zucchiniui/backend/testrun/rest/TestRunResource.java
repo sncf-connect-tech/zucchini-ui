@@ -3,6 +3,8 @@ package io.zucchiniui.backend.testrun.rest;
 
 import com.google.common.base.Strings;
 import io.dropwizard.jersey.PATCH;
+import io.zucchiniui.backend.campaign.domain.CampaignService;
+import io.zucchiniui.backend.campaign.views.CampaignTestRun;
 import io.zucchiniui.backend.reportconverter.domain.ReportConverterService;
 import io.zucchiniui.backend.testrun.domain.Label;
 import io.zucchiniui.backend.testrun.domain.TestRun;
@@ -12,7 +14,6 @@ import io.zucchiniui.backend.testrun.domain.TestRunService;
 import io.zucchiniui.backend.testrun.views.TestRunListItem;
 import io.zucchiniui.backend.testrun.views.TestRunScenarioDiff;
 import io.zucchiniui.backend.testrun.views.TestRunViewAccess;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -50,16 +51,19 @@ public class TestRunResource {
 
     private final ReportConverterService reportConverterService;
 
+    private final CampaignService campaignService;
+
     public TestRunResource(
         final TestRunRepository testRunRepository,
         final TestRunService testRunService,
         final TestRunViewAccess testRunViewAccess,
-        final ReportConverterService reportConverterService
-    ) {
+        final ReportConverterService reportConverterService,
+        final CampaignService campaignService) {
         this.testRunRepository = testRunRepository;
         this.testRunService = testRunService;
         this.testRunViewAccess = testRunViewAccess;
         this.reportConverterService = reportConverterService;
+        this.campaignService = campaignService;
     }
 
     @GET
@@ -150,6 +154,15 @@ public class TestRunResource {
     @Path("{leftTestRunId}/scenarioDiff/{rightTestRunId}")
     public TestRunScenarioDiff getScenarioDiff(@PathParam("leftTestRunId") final String leftTestRunId, @PathParam("rightTestRunId") final String rightTestRunId) {
         return testRunViewAccess.getScenarioDiff(leftTestRunId, rightTestRunId);
+    }
+
+    @GET
+    @Path("campaigns/{campaign}")
+    public TestRunsCampaignResponse getCampaignStats(@PathParam("campaign") String campaign){
+
+        final List<CampaignTestRun> stats = this.campaignService.computeCampaignTestRunsStats(campaign);
+
+        return new TestRunsCampaignResponse(campaign, stats);
     }
 
     private static List<Label> convertRequestLabels(final List<RequestLabel> requestLabels) {

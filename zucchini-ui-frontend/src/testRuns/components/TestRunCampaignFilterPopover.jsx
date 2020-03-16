@@ -5,7 +5,7 @@ import queryString from "query-string";
 import FormGroup from "react-bootstrap/lib/FormGroup";
 import FormControl from "react-bootstrap/lib/FormControl";
 
-export default class TestRunTypeFilterPopover extends React.PureComponent {
+export default class TestRunCampaignFilterPopover extends React.PureComponent {
   static propTypes = {
     testRunCampaigns: PropTypes.arrayOf(PropTypes.string).isRequired,
     selectedType: PropTypes.string,
@@ -63,7 +63,7 @@ export default class TestRunTypeFilterPopover extends React.PureComponent {
         <i>Tous les types</i>
       </Link>
     );
-    if (selectedType === "" || selectedType === null) {
+    if (!selectedType) {
       allCampaignsLink = <b>{allCampaignsLink}</b>;
     }
 

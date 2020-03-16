@@ -90,7 +90,7 @@ class EditTestRunForm extends React.PureComponent {
         </FormGroup>
         <FormGroup controlId="campaign">
           <ControlLabel>Campagne</ControlLabel>
-          <Field name="campaign" autoFocus component={this.renderField} />
+          <Field name="campaign" component={this.renderField} />
         </FormGroup>
         <FormGroup>
           <ControlLabel>Étiquettes</ControlLabel>

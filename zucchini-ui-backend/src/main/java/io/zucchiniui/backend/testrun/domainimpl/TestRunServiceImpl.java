@@ -8,8 +8,6 @@ import io.zucchiniui.backend.testrun.domain.TestRunRepository;
 import io.zucchiniui.backend.testrun.domain.TestRunService;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
 @Component
@@ -33,12 +31,6 @@ class TestRunServiceImpl implements TestRunService {
 
         final TestRun testRun = testRunRepository.getById(testRunId);
         testRunRepository.delete(testRun);
-    }
-
-    @Override
-    public List<TestRun> findAllByCampaign(String campaign) {
-        // return return testRunRepository.query(prep -> prep.);
-        return Collections.emptyList();
     }
 
     /**
