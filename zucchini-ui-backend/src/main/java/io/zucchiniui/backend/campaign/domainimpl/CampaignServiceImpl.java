@@ -52,6 +52,8 @@ public class CampaignServiceImpl implements CampaignService {
     private CampaignTestRunScenariosStats computeScenariosStats(TestRun testRun) {
         final List<Scenario> scenarios = scenarioDAO.createQuery()
             .field("testRunId").equal(testRun.getId())
+            .project("status",true)
+            .project("reviewed",true)
             .asList();
         final CampaignTestRunScenariosStats.Builder builder = new CampaignTestRunScenariosStats.Builder()
             .withAll(scenarios.size())
