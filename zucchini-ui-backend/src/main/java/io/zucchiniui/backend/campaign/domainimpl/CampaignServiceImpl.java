@@ -1,6 +1,9 @@
 package io.zucchiniui.backend.campaign.domainimpl;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import io.zucchiniui.backend.campaign.domain.CampaignService;
+import io.zucchiniui.backend.campaign.views.Campaign;
 import io.zucchiniui.backend.campaign.views.CampaignTestRun;
 import io.zucchiniui.backend.campaign.views.CampaignTestRunScenariosStats;
 import io.zucchiniui.backend.scenario.dao.ScenarioDAO;
@@ -9,6 +12,7 @@ import io.zucchiniui.backend.testrun.dao.TestRunDAO;
 import io.zucchiniui.backend.testrun.domain.TestRun;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static java.util.Objects.isNull;
@@ -52,8 +56,8 @@ public class CampaignServiceImpl implements CampaignService {
     private CampaignTestRunScenariosStats computeScenariosStats(TestRun testRun) {
         final List<Scenario> scenarios = scenarioDAO.createQuery()
             .field("testRunId").equal(testRun.getId())
-            .project("status",true)
-            .project("reviewed",true)
+            .project("status", true)
+            .project("reviewed", true)
             .asList();
         final CampaignTestRunScenariosStats.Builder builder = new CampaignTestRunScenariosStats.Builder()
             .withAll(scenarios.size())
@@ -65,4 +69,8 @@ public class CampaignServiceImpl implements CampaignService {
         return builder.build();
     }
 
+    @Override
+    public List<Campaign> listCampaigns() {
+        return testRunDAO.listCampaigns();
+    }
 }

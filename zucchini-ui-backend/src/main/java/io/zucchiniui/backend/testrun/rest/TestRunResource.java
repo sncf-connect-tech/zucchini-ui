@@ -165,6 +165,12 @@ public class TestRunResource {
         return new TestRunsCampaignResponse(campaign, stats);
     }
 
+    @GET
+    @Path("campaigns")
+    public ListCampaignsResponse listCampaigns(){
+        return new ListCampaignsResponse(this.campaignService.listCampaigns());
+    }
+
     private static List<Label> convertRequestLabels(final List<RequestLabel> requestLabels) {
         if (requestLabels == null) {
             return Collections.emptyList();
