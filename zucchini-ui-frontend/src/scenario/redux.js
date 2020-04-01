@@ -125,10 +125,11 @@ export function updateScenarioState({ scenarioId, newState }) {
   };
 }
 
-export function addScenarioComment({ scenarioId, comment }) {
+export function addScenarioComment({ scenarioId, comment, analyseAction }) {
+  console.log(analyseAction);
   return {
     type: ADD_SCENARIO_COMMENT,
-    payload: model.addScenarioComment({ scenarioId, comment }),
+    payload: model.addScenarioComment({ scenarioId, comment, analyseAction }),
     meta: {
       scenarioId
     }
@@ -153,9 +154,10 @@ export function updateScenarioStateAndComment({ scenarioId, newState, comment })
         newState
       })
     );
-
+    let analyseAction = newState.analyseAction;
+    console.log("updateScenarioStateAndComment", analyseAction);
     if (comment) {
-      await dispatch(addScenarioComment({ scenarioId, comment }));
+      await dispatch(addScenarioComment({ scenarioId, comment, analyseAction }));
     }
 
     await dispatch(loadScenarioPage({ scenarioId }));

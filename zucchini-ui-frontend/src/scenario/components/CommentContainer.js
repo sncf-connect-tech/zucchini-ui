@@ -5,13 +5,19 @@ import Comment from "./Comment";
 
 import { deleteComment, updateCommentThenReload } from "../redux";
 
+const selectConfig = createSelector(
+  state => state.scenario.config,
+  config => config
+);
+
 const selectTestRunId = createSelector(
   state => state.scenario.scenario.testRunId || null,
   testRunId => testRunId
 );
 
 const selectProps = createStructuredSelector({
-  testRunId: selectTestRunId
+  testRunId: selectTestRunId,
+  config: selectConfig
 });
 
 const CommentContainer = connect(selectProps, {

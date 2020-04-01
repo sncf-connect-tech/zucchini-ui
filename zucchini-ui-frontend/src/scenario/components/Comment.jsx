@@ -11,6 +11,7 @@ export default class Comment extends React.PureComponent {
   static propTypes = {
     comment: PropTypes.object.isRequired,
     testRunId: PropTypes.string,
+    config: PropTypes.object,
     onChange: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired
   };
@@ -55,8 +56,7 @@ export default class Comment extends React.PureComponent {
   };
 
   render() {
-    const { comment, testRunId } = this.props;
-
+    const { comment, testRunId, config } = this.props;
     let testRunInfo = null;
     if (comment.testRunId === testRunId) {
       testRunInfo = <i>(tir de test actuel)</i>;
@@ -81,11 +81,26 @@ export default class Comment extends React.PureComponent {
       commentComponent = <CommentText comment={comment} onEdit={this.onEdit} onDelete={this.onDelete} />;
     }
 
+    let correctionAction = null;
+    if (comment.analyseAction != null) {
+      let action = config.correctionActionConfig.find(a => {
+        return a.actionCode == comment.analyseAction;
+      });
+      if (action != null) {
+        correctionAction = (
+          <div>
+            <b>Action pour analyse : </b> {action.actionLabel}
+          </div>
+        );
+      }
+    }
+
     return (
       <div>
         <h4>
           Le {toNiceDate(comment.date)} <small>{testRunInfo}</small>
         </h4>
+        {correctionAction}
         {commentComponent}
       </div>
     );

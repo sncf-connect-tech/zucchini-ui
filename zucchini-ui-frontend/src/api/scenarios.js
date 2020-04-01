@@ -108,10 +108,13 @@ class ScenariosApi {
     });
   }
 
-  addComment({ scenarioId, comment }) {
+  addComment({ scenarioId, comment, analyseAction }) {
     return this.client.post({
       path: `/${scenarioId}/comments/create`,
-      body: { content: comment },
+      body: {
+        content: comment,
+        analyseAction: analyseAction
+      },
       hasOutput: false
     });
   }

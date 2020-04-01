@@ -20,18 +20,21 @@ public class CommentTest {
 
     private static final String CONTENT = "content";
 
+    private static final String ANALYSE_ACTION = "analyseAction";
+
     @Test
     public void should_create_comment() throws Exception {
         // given
         final ZonedDateTime testStartDate = ZonedDateTime.now();
 
         // when
-        final Comment comment = new Comment(REFERENCES, CONTENT);
+        final Comment comment = new Comment(REFERENCES, CONTENT, ANALYSE_ACTION);
 
         // then
         assertThat(comment.getId()).isNotEmpty();
         Assertions.assertThat(comment.getReferences()).isEqualTo(REFERENCES);
         assertThat(comment.getContent()).isEqualTo(CONTENT);
+        assertThat(comment.getAnalyseAction()).isEqualTo(ANALYSE_ACTION);
         assertThat(comment.getDate()).isAfterOrEqualTo(testStartDate);
 
         assertThat(comment.getEntityId()).isEqualTo(comment.getId());
@@ -42,7 +45,7 @@ public class CommentTest {
         // given
         final String newContent = "newContent";
 
-        final Comment comment = new Comment(REFERENCES, CONTENT);
+        final Comment comment = new Comment(REFERENCES, CONTENT, ANALYSE_ACTION);
 
         // when
         comment.setContent(newContent);

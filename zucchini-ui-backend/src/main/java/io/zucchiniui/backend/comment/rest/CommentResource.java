@@ -110,7 +110,7 @@ public class CommentResource {
 
         LOGGER.info("Create comment with references {}", references);
 
-        final Comment comment = new Comment(references, request.getContent());
+        final Comment comment = new Comment(references, request.getContent(), request.getAnalyseAction());
         commentRepository.save(comment);
 
         final URI location = UriBuilder.fromUri(baseUri)
