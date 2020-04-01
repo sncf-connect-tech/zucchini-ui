@@ -41,6 +41,7 @@ public class CampaignServiceImpl implements CampaignService {
         return campaignTestRuns.stream()
             .map(testRun -> {
                 final CampaignTestRun campaignTestRun = new CampaignTestRun();
+                campaignTestRun.setId(testRun.getId());
                 campaignTestRun.setType(testRun.getType());
                 campaignTestRun.setScenarios(computeScenariosStats(testRun));
                 return campaignTestRun;

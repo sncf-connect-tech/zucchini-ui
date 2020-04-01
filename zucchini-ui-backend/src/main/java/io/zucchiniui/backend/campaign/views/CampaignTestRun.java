@@ -6,6 +6,11 @@ package io.zucchiniui.backend.campaign.views;
 public class CampaignTestRun {
 
     /**
+     * Test run ID.
+     */
+    private String id;
+
+    /**
      * Type of test run.
      */
     private String type;
@@ -14,6 +19,14 @@ public class CampaignTestRun {
      * Stats for all test run scenarios.
      */
     private CampaignTestRunScenariosStats scenarios;
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
 
     public String getType() {
         return type;
