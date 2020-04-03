@@ -8,6 +8,7 @@ import Button from "../../ui/components/Button";
 import ButtonLink from "../../ui/components/ButtonLink";
 import FeatureStateFilterContainer from "../../filters/components/FeatureStateFilterContainer";
 import TestRunHistoryTableContainer from "./TestRunHistoryTableContainer";
+import TestRunAnalysisContainer from "./TestRunAnalysisContainer";
 import TestRunStatsContainer from "./TestRunStatsContainer";
 import TestRunFeatureTableContainer from "./TestRunFeatureTableContainer";
 import FeatureGroupFilterContainer from "./FeatureGroupFilterContainer";
@@ -153,10 +154,16 @@ export default class TestRunPage extends React.Component {
 
         <hr />
 
+        <h2>Analyse</h2>
+        <TestRunAnalysisContainer />
+
+        <hr />
+
         <h2>Statistiques</h2>
         <TestRunStatsContainer />
 
         <hr />
+
         <h2>Fonctionnalités</h2>
         <FeatureGroupFilterContainer testRunId={testRunId} />
         <FeatureStateFilterContainer />

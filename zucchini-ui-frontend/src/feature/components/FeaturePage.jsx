@@ -5,6 +5,7 @@ import ButtonToolbar from "react-bootstrap/lib/ButtonToolbar";
 import queryString from "query-string";
 
 import FeatureStatsContainer from "./FeatureStatsContainer";
+import FeatureAnalysisContainer from "./FeatureAnalysisContainer";
 import FeatureHistoryTableContainer from "./FeatureHistoryTableContainer";
 import ScenarioTableContainer from "./ScenarioTableContainer";
 import HistoryFilterContainer from "../../filters/components/HistoryFilterContainer";
@@ -84,6 +85,11 @@ export default class FeaturePage extends React.Component {
         <ButtonToolbar>
           <DeleteFeatureButtonContainer testRunId={feature.testRunId} featureId={featureId} />
         </ButtonToolbar>
+        <hr />
+
+        <h2>Analyse</h2>
+        <FeatureAnalysisContainer />
+
         <hr />
 
         <h2>Statistiques</h2>
