@@ -2,6 +2,9 @@ import PropTypes from "prop-types";
 import React from "react";
 import ProgressBar from "react-bootstrap/lib/ProgressBar";
 
+/**
+ * Show the percentage of scenarii already analyzed over the ones that require attention (exclude all the passed ones)
+ */
 export default class ScenarioAnalysis extends React.PureComponent {
   static propTypes = {
     stats: PropTypes.object.isRequired
@@ -9,8 +12,22 @@ export default class ScenarioAnalysis extends React.PureComponent {
 
   render() {
     const { stats } = this.props;
-    const percentageReviewed = (stats.reviewed.count * 100) / stats.all.count;
-    const label = stats.all.count > 1 ? " scénarios analysés" : " scénario analysé";
+    const isStatsLoaded = stats.all.count > 0;
+    const totalNotPassed = stats.all.count - stats.all.passed;
+    const totalNotPassedButReviewed = stats.reviewed.count - stats.reviewed.passed;
+
+    let percentageReviewed = 0;
+    let description;
+    if (isStatsLoaded) {
+      if (totalNotPassed === 0) {
+        percentageReviewed = 100;
+        description = "Pas de scénario à analyser";
+      } else {
+        percentageReviewed = Math.round((totalNotPassedButReviewed * 100) / totalNotPassed);
+        description = totalNotPassedButReviewed + "/" + totalNotPassed;
+        description += totalNotPassed > 1 ? " scénarios analysés" : " scénario analysé";
+      }
+    }
 
     return (
       <>
@@ -18,12 +35,12 @@ export default class ScenarioAnalysis extends React.PureComponent {
         <ProgressBar
           className="big"
           now={percentageReviewed}
-          label={`${Math.round(percentageReviewed)}%`}
+          label={`${percentageReviewed} %`}
           style={{ marginBottom: "5px" }}
           srOnly={percentageReviewed === 0}
         />
         <div style={{ textAlign: "center" }} className="text-primary">
-          {stats.reviewed.count}/{stats.all.count} {label}
+          {description}
         </div>
       </>
     );
