@@ -23,9 +23,6 @@ public class BackendConfiguration extends Configuration {
     @NotNull
     private List<CorrectionActionConfig> correctionAction;
 
-    @NotNull
-    private String eggplantUri;
-
     @Valid
     private final MetricsFactory metrics = new MetricsFactory();
 
@@ -63,13 +60,5 @@ public class BackendConfiguration extends Configuration {
 
     public void setCorrectionAction(List<CorrectionActionConfig> correctionAction) {
         this.correctionAction = correctionAction;
-    }
-
-    public String getEggplantUri() {
-        return eggplantUri;
-    }
-
-    public void setEggplantUri(String eggplantUri) {
-        this.eggplantUri = eggplantUri;
     }
 }
