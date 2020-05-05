@@ -112,19 +112,19 @@ export function importCucumberResultThenReload({ testRunId, file, ...options }) 
   };
 }
 
-export function editTestRun({ testRunId, type, environment, name, labels }) {
+export function editTestRun({ testRunId, type, environment, name, campaign, labels }) {
   return {
     type: EDIT_TEST_RUN,
-    payload: model.editTestRun({ testRunId, type, environment, name, labels }),
+    payload: model.editTestRun({ testRunId, type, environment, name, campaign, labels }),
     meta: {
       testRunId
     }
   };
 }
 
-export function editTestRunThenReload({ testRunId, type, environment, name, labels }) {
+export function editTestRunThenReload({ testRunId, type, environment, name, campaign, labels }) {
   return async dispatch => {
-    await dispatch(editTestRun({ testRunId, type, environment, name, labels }));
+    await dispatch(editTestRun({ testRunId, type, environment, name, campaign, labels }));
     return await dispatch(loadTestRunPage({ testRunId }));
   };
 }

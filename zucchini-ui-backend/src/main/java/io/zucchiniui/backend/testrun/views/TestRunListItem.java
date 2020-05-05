@@ -14,6 +14,8 @@ public class TestRunListItem {
 
     private String name;
 
+    private String campaign;
+
     private ZonedDateTime date;
 
     private ScenarioStats stats;
@@ -64,5 +66,13 @@ public class TestRunListItem {
 
     public void setStats(final ScenarioStats stats) {
         this.stats = stats;
+    }
+
+    public String getCampaign() {
+        return campaign;
+    }
+
+    public void setCampaign(String campaign) {
+        this.campaign = campaign;
     }
 }

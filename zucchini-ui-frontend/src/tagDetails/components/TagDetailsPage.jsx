@@ -4,6 +4,7 @@ import React, { Fragment } from "react";
 import toNiceDate from "../../ui/toNiceDate";
 import FeatureStateFilterContainer from "../../filters/components/FeatureStateFilterContainer";
 import ScenarioStateFilterContainer from "../../filters/components/ScenarioStateFilterContainer";
+import TagDetailsAnalysisContainer from "./TagDetailsAnalysisContainer";
 import TagDetailsStatsContainer from "./TagDetailsStatsContainer";
 import TagDetailsFeatureTableContainer from "./TagDetailsFeatureTableContainer";
 import TagDetailsScenarioTableContainer from "./TagDetailsScenarioTableContainer";
@@ -62,6 +63,11 @@ export default class TagDetailsPage extends React.Component {
         breadcrumb={<TagDetailsBreadcrumbContainer />}
       >
         <TagSelectionForm initialValues={{ tags, excludedTags }} enableReinitialize onSubmit={this.onUpdateTags} />
+
+        <hr />
+
+        <h2>Analyse</h2>
+        <TagDetailsAnalysisContainer />
 
         <hr />
 
