@@ -1,6 +1,7 @@
 package io.zucchiniui.backend.config.rabbitmq;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.zucchiniui.backend.config.BackendConfiguration;
 import io.zucchiniui.backend.scenario.domain.Scenario;
 import org.springframework.stereotype.Component;
 import com.rabbitmq.client.ConnectionFactory;
@@ -13,6 +14,8 @@ import java.util.concurrent.TimeoutException;
 @Component
 public class ScenarioQueue {
 
+    private final BackendConfiguration configuration;
+
     public static final String SCENARIO_QUEUE = "eggplant-zucchini-incoming-scenario";
 
     public static final String SCENARIO_EXCHANGE = "eggplant-zucchini-incoming-scenario";
@@ -21,13 +24,16 @@ public class ScenarioQueue {
 
     private Channel channel;
 
-    public ScenarioQueue() {
-        channel = initScenarioChannel();
+    public ScenarioQueue(
+        BackendConfiguration configuration
+    ) {
+        this.configuration = configuration;
+        if (configuration.getRabbitUri() != null) channel = initScenarioChannel();
     }
 
     private Channel initScenarioChannel() {
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");
+        factory.setHost(configuration.getRabbitUri());
         Channel channel = null;
         try {
           Connection connection = factory.newConnection();

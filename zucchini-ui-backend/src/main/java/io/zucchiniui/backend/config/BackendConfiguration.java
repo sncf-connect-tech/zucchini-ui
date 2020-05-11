@@ -2,6 +2,7 @@ package io.zucchiniui.backend.config;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.dropwizard.Configuration;
+import io.dropwizard.logback.shaded.checkerframework.checker.nullness.qual.Nullable;
 import io.dropwizard.metrics.MetricsFactory;
 
 import javax.validation.Valid;
@@ -26,8 +27,15 @@ public class BackendConfiguration extends Configuration {
     @Valid
     private final MetricsFactory metrics = new MetricsFactory();
 
+    @Nullable
+    private String rabbitUri;
+
     public String getMongoUri() {
         return mongoUri;
+    }
+
+    public String getRabbitUri() {
+        return rabbitUri;
     }
 
     public void setMongoUri(final String mongoUri) {

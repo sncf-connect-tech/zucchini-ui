@@ -4,6 +4,7 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
+import io.zucchiniui.backend.config.BackendConfiguration;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -12,17 +13,22 @@ import java.util.concurrent.TimeoutException;
 @Component
 public class PredictionQueue {
 
+    private final BackendConfiguration configuration;
+
     public static final String PREDICTION_QUEUE = "zucchini-prediction";
 
     public static final String PREDICTION_EXCHANGE = "eggplant-prediction";
 
-    public PredictionQueue() {
-        initPredictionChannel();
+    public PredictionQueue(
+        BackendConfiguration configuration
+    ) {
+        this.configuration = configuration;
+        if (configuration.getRabbitUri() != null) initPredictionChannel();
     }
 
     private void initPredictionChannel() {
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");
+        factory.setHost(configuration.getRabbitUri());
         Connection connection = null;
         Channel channel = null;
         try {
