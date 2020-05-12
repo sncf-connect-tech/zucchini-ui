@@ -1,4 +1,4 @@
-package io.zucchiniui.backend.config.rabbitmq;
+package io.zucchiniui.backend.ml.rabbitmq;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.zucchiniui.backend.config.BackendConfiguration;

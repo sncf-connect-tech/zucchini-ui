@@ -1,4 +1,4 @@
-package io.zucchiniui.backend.config.rabbitmq;
+package io.zucchiniui.backend.ml.rabbitmq;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
