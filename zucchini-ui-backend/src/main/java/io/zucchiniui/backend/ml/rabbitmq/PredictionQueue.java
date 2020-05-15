@@ -1,10 +1,13 @@
 package io.zucchiniui.backend.ml.rabbitmq;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
 import io.zucchiniui.backend.config.BackendConfiguration;
+import io.zucchiniui.backend.ml.domain.Prediction;
+import io.zucchiniui.backend.ml.domain.PredictionService;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -19,10 +22,14 @@ public class PredictionQueue {
 
     public static final String PREDICTION_EXCHANGE = "eggplant-prediction";
 
+    private final PredictionService predictionService;
+
     public PredictionQueue(
-        BackendConfiguration configuration
+        BackendConfiguration configuration,
+        PredictionService predictionService
     ) {
         this.configuration = configuration;
+        this.predictionService = predictionService;
         if (configuration.getRabbitUri() != null) initPredictionChannel();
     }
 
@@ -45,7 +52,9 @@ public class PredictionQueue {
 
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
             String message = new String(delivery.getBody(), "UTF-8");
-            System.out.println(" [x] Received '" + message + "'");
+            predictionService.insertNewPrediction(new ObjectMapper()
+                .readValue(message, NewPredictionParams.class)
+            );
         };
         try {
             channel.basicConsume(PREDICTION_QUEUE, true, deliverCallback, consumerTag -> { });

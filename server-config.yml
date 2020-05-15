@@ -33,3 +33,5 @@ encounteredProblem:
     shortLabel: UNKNOWN
   - longLabel: AAA
     shortLabel: BBB
+
+rabbitUri: "localhost"

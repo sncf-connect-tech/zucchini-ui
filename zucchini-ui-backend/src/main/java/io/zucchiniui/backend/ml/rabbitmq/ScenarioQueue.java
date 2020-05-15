@@ -55,11 +55,10 @@ public class ScenarioQueue {
             this.channel.basicPublish(
                 SCENARIO_EXCHANGE,
                 NEW_SCENARIO_ROUTING_KEY,
-                false,
-                true,
                 null,
                 new ObjectMapper().writeValueAsString(scenario).getBytes()
             );
+            System.out.println(" [x] Sent '" + scenario.getId() + "'");
         } catch (IOException e) {
             e.printStackTrace();
         }

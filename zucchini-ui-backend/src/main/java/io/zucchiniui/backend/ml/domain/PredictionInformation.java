@@ -1,9 +1,11 @@
 package io.zucchiniui.backend.ml.domain;
 
+import xyz.morphia.annotations.Entity;
 import xyz.morphia.annotations.Id;
 
 import java.util.List;
 
+@Entity("prediction")
 public class PredictionInformation {
 
     @Id
@@ -13,20 +15,24 @@ public class PredictionInformation {
 
     private String classifierId;
 
-    private String zucchiniId;
-
     private String scenarioId;
+
+    private String testRunId;
+
+    private String scenarioKey;
 
     public PredictionInformation(
         List<Prediction> predictions,
         String classifierId,
-        String zucchiniId,
-        String scenarioId
+        String scenarioId,
+        String testRunId,
+        String scenarioKey
     ) {
         this.predictions = predictions;
         this.classifierId = classifierId;
-        this.zucchiniId = zucchiniId;
         this.scenarioId = scenarioId;
+        this.testRunId = testRunId;
+        this.scenarioKey = scenarioKey;
     }
 
     public String getId() {
@@ -49,20 +55,28 @@ public class PredictionInformation {
         this.classifierId = classifierId;
     }
 
-    public String getZucchiniId() {
-        return zucchiniId;
-    }
-
-    public void setZucchiniId(String zucchiniId) {
-        this.zucchiniId = zucchiniId;
-    }
-
     public String getScenarioId() {
         return scenarioId;
     }
 
     public void setScenarioId(String scenarioId) {
         this.scenarioId = scenarioId;
+    }
+
+    public String getTestRunId() {
+        return testRunId;
+    }
+
+    public void setTestRunId(String testRunId) {
+        this.testRunId = testRunId;
+    }
+
+    public String getScenarioKey() {
+        return scenarioKey;
+    }
+
+    public void setScenarioKey(String scenarioKey) {
+        this.scenarioKey = scenarioKey;
     }
 
     public String getPrediction() {
