@@ -32,37 +32,30 @@ public class PredictionResource {
 
     @GET
     @Path("/{scenarioId}")
-    public PredictionResponse getPrediction(
+    public PredictionInformation getPrediction(
         @PathParam("scenarioId") final String scenarioId
     ) {
-        return new PredictionResponse(
-            scenarioId,
-            predictionService.getPrediction(scenarioId)
-        );
+        return predictionService.getPrediction(scenarioId);
     }
 
-    /*
-
     @GET
-    @Path("/{testRunId}")
-    public PredictionResponse getPredictionByTestRunId(
+    @Path("/testRun/{testRunId}")
+    public PredictionListResponse getPredictionByTestRunId(
         @PathParam("testRunId") final String testRunId
     ) {
-        return new PredictionResponse(
-            "",
+        return new PredictionListResponse(
             predictionService.getPredictionByTestRunId(testRunId)
         );
     }
 
     @GET
-    @Path("/{scenarioKey}")
-    public PredictionResponse getPredictionByScenarioKey(
+    @Path("/scenariokey/{scenarioKey}")
+    public PredictionListResponse getPredictionByScenarioKey(
         @PathParam("scenarioKey") final String scenarioKey
     ) {
-        return new PredictionResponse(
-            "",
+        return new PredictionListResponse(
             predictionService.getPredictionByScenarioKey(scenarioKey)
         );
     }
-    */
+
 }

@@ -21,6 +21,9 @@ public class PredictionInformation {
 
     private String scenarioKey;
 
+    public PredictionInformation() {
+    }
+
     public PredictionInformation(
         List<Prediction> predictions,
         String classifierId,

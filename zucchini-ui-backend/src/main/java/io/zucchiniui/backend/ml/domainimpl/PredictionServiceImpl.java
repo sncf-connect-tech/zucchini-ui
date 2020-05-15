@@ -64,7 +64,13 @@ public class PredictionServiceImpl implements PredictionService {
         return predictionRepository
             .query(q -> q.withScenarioId(scenarioId))
             .tryToFindOne()
-            .orElse(new PredictionInformation(new ArrayList<>(), "", scenarioId, "", ""));
+            .orElse(new PredictionInformation(
+                new ArrayList<>(),
+                "",
+                scenario.getId(),
+                scenario.getTestRunId(),
+                scenario.getScenarioKey())
+            );
     }
 
     @Override
@@ -74,6 +80,6 @@ public class PredictionServiceImpl implements PredictionService {
 
     @Override
     public List<PredictionInformation> getPredictionByScenarioKey(String scenarioKey) {
-        return null;
+        return predictionRepository.query(q -> q.withScenarioKey(scenarioKey)).find();
     }
 }
