@@ -11,9 +11,9 @@ class PredictionApi {
     });
   }
 
-  getPredictionById({ id }) {
+  getPredictionById({ scenarioId }) {
     return this.client.get({
-      path: `/${id}`
+      path: `/${scenarioId}`
     });
   }
 
