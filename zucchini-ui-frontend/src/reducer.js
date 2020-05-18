@@ -16,6 +16,7 @@ import { loadingIndicator } from "./loadingIndicator/redux";
 import { failures } from "./failures/redux";
 import { testRunFiltered } from "./testRunFiltered/redux";
 import { stepDefinitions } from "./stepDefinitions/redux";
+import { prediction } from "./prediction/redux";
 
 const reducer = combineReducers({
   form: formReducer,
@@ -37,7 +38,8 @@ const reducer = combineReducers({
   failures,
   testRunFiltered,
   loadingIndicator,
-  stepDefinitions
+  stepDefinitions,
+  prediction,
 });
 
 export default reducer;
