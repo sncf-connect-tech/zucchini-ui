@@ -39,7 +39,7 @@ const reducer = combineReducers({
   testRunFiltered,
   loadingIndicator,
   stepDefinitions,
-  prediction,
+  prediction
 });
 
 export default reducer;

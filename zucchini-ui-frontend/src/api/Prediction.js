@@ -7,7 +7,7 @@ class PredictionApi {
 
   makeAPrediction({ scenarioId }) {
     return this.client.post({
-      path: `/${id}`
+      path: `/${scenarioId}`
     });
   }
 
@@ -17,6 +17,7 @@ class PredictionApi {
     });
   }
 
+  /*
   getPredictionByTestRunId({ testRunId }) {
     return this.client.get({
       path: `/testRun/${testRunId}`
@@ -28,6 +29,7 @@ class PredictionApi {
       path: `/scenariokey/${scenarioKey}`
     });
   }
+   */
 }
 
 const prediction = new PredictionApi();

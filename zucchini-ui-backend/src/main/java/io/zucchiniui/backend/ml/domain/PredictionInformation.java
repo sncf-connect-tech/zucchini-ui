@@ -21,6 +21,8 @@ public class PredictionInformation {
 
     private String scenarioKey;
 
+    private String label;
+
     public PredictionInformation() {
     }
 
@@ -36,6 +38,7 @@ public class PredictionInformation {
         this.scenarioId = scenarioId;
         this.testRunId = testRunId;
         this.scenarioKey = scenarioKey;
+        label = getPrediction();
     }
 
     public String getId() {

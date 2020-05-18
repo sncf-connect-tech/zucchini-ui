@@ -4,6 +4,8 @@ import * as model from "./model";
 import { getTestRun } from "../testRun/redux";
 import { getFeature, getScenarios } from "../feature/redux";
 
+import { getPredictionById } from "../prediction/redux";
+
 // Actions
 
 const PREFIX = "SCENARIO";
@@ -56,6 +58,7 @@ export function loadScenarioPage({ scenarioId }) {
     const featureResult$ = dispatch(getFeature({ featureId }));
     const sameFeatureScenariosResult$ = dispatch(getScenarios({ featureId }));
     const config = dispatch(getConfig());
+    const prediction = dispatch(getPredictionById({ scenarioId }));
 
     await scenarioResult$;
     await historyResult$;
@@ -65,6 +68,7 @@ export function loadScenarioPage({ scenarioId }) {
     await featureResult$;
     await sameFeatureScenariosResult$;
     await config;
+    await prediction;
   };
 }
 
