@@ -149,7 +149,6 @@ export default class ScenarioPage extends React.Component {
         ) : (
           <Fragment />
         )}
-        warning
         <h2>Étapes du scénario</h2>
         <ScenarioDetailsContainer />
         <hr />
