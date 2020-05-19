@@ -6,7 +6,6 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
 import io.zucchiniui.backend.config.BackendConfiguration;
-import io.zucchiniui.backend.ml.domain.Prediction;
 import io.zucchiniui.backend.ml.domain.PredictionService;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +29,7 @@ public class PredictionQueue {
     ) {
         this.configuration = configuration;
         this.predictionService = predictionService;
-        if (configuration.getRabbitUri() != null) initPredictionChannel();
+        if (configuration.isMLPluginOn()) initPredictionChannel();
     }
 
     private void initPredictionChannel() {

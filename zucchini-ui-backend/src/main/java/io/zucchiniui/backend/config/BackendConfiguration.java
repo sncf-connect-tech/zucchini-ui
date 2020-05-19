@@ -69,4 +69,8 @@ public class BackendConfiguration extends Configuration {
     public void setCorrectionAction(List<CorrectionActionConfig> correctionAction) {
         this.correctionAction = correctionAction;
     }
+
+    public boolean isMLPluginOn() {
+        return rabbitUri != null;
+    }
 }

@@ -28,7 +28,7 @@ public class ScenarioQueue {
         BackendConfiguration configuration
     ) {
         this.configuration = configuration;
-        if (configuration.getRabbitUri() != null) channel = initScenarioChannel();
+        if (configuration.isMLPluginOn()) channel = initScenarioChannel();
     }
 
     private Channel initScenarioChannel() {
@@ -51,7 +51,7 @@ public class ScenarioQueue {
     }
 
     public void publishNewScenario(Scenario scenario) {
-        if (this.configuration.getRabbitUri() == null) return;
+        if (!this.configuration.isMLPluginOn()) return;
         try {
             this.channel.basicPublish(
                 SCENARIO_EXCHANGE,
