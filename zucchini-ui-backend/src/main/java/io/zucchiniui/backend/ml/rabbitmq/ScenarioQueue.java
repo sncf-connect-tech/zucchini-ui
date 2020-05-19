@@ -51,6 +51,7 @@ public class ScenarioQueue {
     }
 
     public void publishNewScenario(Scenario scenario) {
+        if (this.configuration.getRabbitUri() == null) return;
         try {
             this.channel.basicPublish(
                 SCENARIO_EXCHANGE,
