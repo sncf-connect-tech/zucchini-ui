@@ -38,7 +38,7 @@ export default class Step extends React.PureComponent {
     let predictionMessage = null;
     if (prediction && prediction.prediction) {
       predictionMessage = (
-        <PanelWithTitle title="Anomalie détecté" panelBody={true} bsStyle="danger" className="panel-error-message">
+        <PanelWithTitle title="Anomalie détectée" panelBody={true} bsStyle="danger" className="panel-error-message">
           <pre className="error-message text-danger">{prediction.prediction.replace(/_/g, " ").toLowerCase()}</pre>
         </PanelWithTitle>
       );
