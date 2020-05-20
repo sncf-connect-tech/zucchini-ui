@@ -19,16 +19,10 @@ const selectConfig = createSelector(
   config => config
 );
 
-const selectedPrediction = createSelector(
-  state => state.prediction.selectedPrediction,
-  prediction => prediction
-);
-
 const selectProps = createStructuredSelector({
   scenarioId: selectScenarioId,
   scenario: selectScenario,
-  config: selectConfig,
-  prediction: selectedPrediction
+  config: selectConfig
 });
 
 const ScenarioPageContainer = connect(selectProps, {

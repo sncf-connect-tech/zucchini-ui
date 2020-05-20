@@ -2,10 +2,8 @@ import PropTypes from "prop-types";
 import React, { Fragment } from "react";
 import ButtonToolbar from "react-bootstrap/lib/ButtonToolbar";
 import ButtonGroup from "react-bootstrap/lib/ButtonGroup";
-import Panel from "react-bootstrap/lib/Panel";
 import Tabs from "react-bootstrap/lib/Tabs";
 import Tab from "react-bootstrap/lib/Tab";
-import Label from "react-bootstrap/lib/Label";
 
 import Button from "../../ui/components/Button";
 import TagList from "../../ui/components/TagList";
@@ -31,8 +29,7 @@ export default class ScenarioPage extends React.Component {
     onSetNonReviewedState: PropTypes.func.isRequired,
     scenarioId: PropTypes.string.isRequired,
     scenario: PropTypes.object,
-    config: PropTypes.object,
-    prediction: PropTypes.object
+    config: PropTypes.object
   };
 
   constructor(props) {
@@ -94,7 +91,7 @@ export default class ScenarioPage extends React.Component {
   };
 
   render() {
-    const { scenario, scenarioId, config, prediction } = this.props;
+    const { scenario, scenarioId, config } = this.props;
     const { featureId, reviewed, status } = scenario;
 
     let similarFailureSection = null;
@@ -139,16 +136,6 @@ export default class ScenarioPage extends React.Component {
         </ButtonToolbar>
         <hr />
         <ScenarioPresenceIndicator scenarioId={scenarioId} />
-        {prediction !== undefined && prediction.prediction !== undefined ? (
-          <Panel>
-            <Panel.Heading>Prediction type d{"'"}erreur</Panel.Heading>
-            <Panel.Body>
-              Erreur supposément rencontrée: <Label bsStyle="warning">{prediction.prediction.toLowerCase()}</Label>
-            </Panel.Body>
-          </Panel>
-        ) : (
-          <Fragment />
-        )}
         <h2>Étapes du scénario</h2>
         <ScenarioDetailsContainer />
         <hr />

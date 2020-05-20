@@ -13,7 +13,8 @@ export default class Step extends React.PureComponent {
     scenarioId: PropTypes.string.isRequired,
     step: PropTypes.object.isRequired,
     special: PropTypes.bool.isRequired,
-    filters: PropTypes.object.isRequired
+    filters: PropTypes.object.isRequired,
+    prediction: PropTypes.object
   };
 
   static defaultProps = {
@@ -21,7 +22,7 @@ export default class Step extends React.PureComponent {
   };
 
   render() {
-    const { step, scenarioId, special, filters } = this.props;
+    const { step, scenarioId, special, filters, prediction } = this.props;
 
     const title = <ElementInfo info={step.info} />;
 
@@ -30,6 +31,15 @@ export default class Step extends React.PureComponent {
       errorMessage = (
         <PanelWithTitle title="Message d'erreur" panelBody={true} bsStyle="danger" className="panel-error-message">
           <pre className="error-message text-danger">{step.errorMessage}</pre>
+        </PanelWithTitle>
+      );
+    }
+
+    let predictionMessage = null;
+    if (prediction && prediction.prediction) {
+      predictionMessage = (
+        <PanelWithTitle title="Anomalie détecté" panelBody={true} bsStyle="danger" className="panel-error-message">
+          <pre className="error-message text-danger">{prediction.prediction.replace(/_/g, " ").toLowerCase()}</pre>
         </PanelWithTitle>
       );
     }
@@ -63,6 +73,7 @@ export default class Step extends React.PureComponent {
 
         {table}
         {filters.errorDetails && errorMessage}
+        {errorMessage && predictionMessage}
         {filters.logs && logs}
         {filters.attachments && attachments}
       </div>

@@ -9,11 +9,12 @@ export default class ActionStep extends React.PureComponent {
     name: PropTypes.string.isRequired,
     action: PropTypes.object.isRequired,
     index: PropTypes.number.isRequired,
-    filters: PropTypes.object.isRequired
+    filters: PropTypes.object.isRequired,
+    prediction: PropTypes.object
   };
 
   render() {
-    const { name, action, index, scenarioId, filters } = this.props;
+    const { name, action, index, scenarioId, filters, prediction } = this.props;
 
     const step = {
       info: {
@@ -22,7 +23,8 @@ export default class ActionStep extends React.PureComponent {
       },
       status: action.status,
       errorMessage: action.errorMessage,
-      output: action.output
+      output: action.output,
+      prediction: prediction
     };
 
     return <Step step={step} scenarioId={scenarioId} filters={filters} special />;
