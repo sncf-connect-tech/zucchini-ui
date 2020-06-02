@@ -34,4 +34,4 @@ encounteredProblem:
   - longLabel: AAA
     shortLabel: BBB
 
-rabbitUri: "localhost"
+#rabbitUri: "localhost"

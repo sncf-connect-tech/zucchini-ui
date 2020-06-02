@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 import io.zucchiniui.backend.feature.domain.Feature;
 import io.zucchiniui.backend.feature.domain.FeatureRepository;
 import io.zucchiniui.backend.feature.domain.FeatureService;
+import io.zucchiniui.backend.ml.domain.PredictionService;
 import io.zucchiniui.backend.reportconverter.converter.ConversionResult;
 import io.zucchiniui.backend.reportconverter.converter.ReportConverter;
 import io.zucchiniui.backend.reportconverter.domain.ReportConverterService;
@@ -41,13 +42,16 @@ class ReportConverterServiceImpl implements ReportConverterService {
 
     private final TestRunService testRunService;
 
+    private final PredictionService predictionService;
+
     public ReportConverterServiceImpl(
         final FeatureRepository featureRepository,
         final FeatureService featureService,
         final ScenarioRepository scenarioRepository,
         final ScenarioService scenarioService, final ReportConverter reportConverter,
         @Qualifier("reportObjectMapper") final ObjectMapper objectMapper,
-        final TestRunService testRunService) {
+        final TestRunService testRunService,
+        PredictionService predictionService) {
         this.featureRepository = featureRepository;
         this.featureService = featureService;
         this.scenarioRepository = scenarioRepository;
@@ -55,6 +59,7 @@ class ReportConverterServiceImpl implements ReportConverterService {
         this.reportConverter = reportConverter;
         this.objectMapper = objectMapper;
         this.testRunService = testRunService;
+        this.predictionService = predictionService;
     }
 
     @Override
@@ -99,6 +104,8 @@ class ReportConverterServiceImpl implements ReportConverterService {
 
         saveScenariiIfNeeded(conversionResult.getScenarii(), onlyNewScenarii, mergeOnlyNewPassedScenarii);
 
+        submitScenariiToMLPrediction(conversionResult.getScenarii());
+
         featureService.calculateStatusFromScenarii(feature);
         featureRepository.save(feature);
 
@@ -114,6 +121,10 @@ class ReportConverterServiceImpl implements ReportConverterService {
                 LOGGER.debug("Scenario {} will not be imported", scenario);
             }
         }
+    }
+
+    private void submitScenariiToMLPrediction(final List<Scenario> scenarii) {
+        scenarii.forEach(predictionService::makeAPrediction);
     }
 
     private void setScenarioStatus(Scenario scenario) {

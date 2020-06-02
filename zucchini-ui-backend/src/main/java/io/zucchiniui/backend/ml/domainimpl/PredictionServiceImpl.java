@@ -58,6 +58,13 @@ public class PredictionServiceImpl implements PredictionService {
     }
 
     @Override
+    public void makeAPrediction(Scenario scenario) {
+        if (scenario != null) {
+            scenarioQueue.publishNewScenario(scenario);
+        }
+    }
+
+    @Override
     public PredictionInformation getPrediction(String scenarioId) {
         Scenario scenario = scenarioService.getById(scenarioId);
 

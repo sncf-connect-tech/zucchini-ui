@@ -1,6 +1,8 @@
 package io.zucchiniui.backend.scenario.domainimpl;
 
 import io.zucchiniui.backend.feature.domain.FeatureService;
+import io.zucchiniui.backend.ml.domain.Prediction;
+import io.zucchiniui.backend.ml.domain.PredictionService;
 import io.zucchiniui.backend.scenario.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,13 +16,17 @@ class ScenarioServiceImpl implements ScenarioService {
     private final ScenarioRepository scenarioRepository;
 
     private final FeatureService featureService;
+    
+    private final PredictionService predictionService;
 
     public ScenarioServiceImpl(
         final ScenarioRepository scenarioRepository,
-        final FeatureService featureService
-    ) {
+        final FeatureService featureService,
+        final PredictionService predictionService
+        ) {
         this.scenarioRepository = scenarioRepository;
         this.featureService = featureService;
+        this.predictionService = predictionService;
     }
 
     @Override
@@ -35,6 +41,8 @@ class ScenarioServiceImpl implements ScenarioService {
         if (params.getStatus().isPresent()) {
             featureService.updateStatusFromScenarii(scenario.getFeatureId());
         }
+
+        predictionService.makeAPrediction(scenario);
     }
 
     @Override
