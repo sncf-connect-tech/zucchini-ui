@@ -59,7 +59,6 @@ public class ScenarioQueue {
                 null,
                 new ObjectMapper().writeValueAsString(scenario).getBytes()
             );
-            System.out.println(" [x] Sent '" + scenario.getId() + "'");
         } catch (IOException e) {
             e.printStackTrace();
         }

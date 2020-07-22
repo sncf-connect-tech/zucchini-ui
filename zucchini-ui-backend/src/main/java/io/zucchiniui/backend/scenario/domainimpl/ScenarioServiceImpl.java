@@ -16,7 +16,7 @@ class ScenarioServiceImpl implements ScenarioService {
     private final ScenarioRepository scenarioRepository;
 
     private final FeatureService featureService;
-    
+
     private final PredictionService predictionService;
 
     public ScenarioServiceImpl(

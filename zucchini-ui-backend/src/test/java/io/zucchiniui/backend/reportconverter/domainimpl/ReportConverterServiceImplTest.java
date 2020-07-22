@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
 import io.zucchiniui.backend.feature.domain.Feature;
 import io.zucchiniui.backend.feature.domain.FeatureRepository;
 import io.zucchiniui.backend.feature.domain.FeatureService;
+import io.zucchiniui.backend.ml.domain.PredictionService;
 import io.zucchiniui.backend.reportconverter.converter.ConversionResult;
 import io.zucchiniui.backend.reportconverter.converter.ReportConverter;
 import io.zucchiniui.backend.reportconverter.report.ReportFeature;
@@ -61,6 +62,9 @@ public class ReportConverterServiceImplTest {
 
     @Mock
     private TestRunService testRunService;
+
+    @Mock
+    private PredictionService predictionService;
 
     @InjectMocks
     private ReportConverterServiceImpl service;

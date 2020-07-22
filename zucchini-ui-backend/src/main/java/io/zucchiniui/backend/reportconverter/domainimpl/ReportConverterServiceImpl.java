@@ -124,7 +124,7 @@ class ReportConverterServiceImpl implements ReportConverterService {
     }
 
     private void submitScenariiToMLPrediction(final List<Scenario> scenarii) {
-        scenarii.forEach(predictionService::makeAPrediction);
+        if (scenarii != null) scenarii.forEach(predictionService::makeAPrediction);
     }
 
     private void setScenarioStatus(Scenario scenario) {
