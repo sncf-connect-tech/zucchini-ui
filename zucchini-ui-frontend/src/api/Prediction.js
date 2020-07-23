@@ -16,20 +16,6 @@ class PredictionApi {
       path: `/${scenarioId}`
     });
   }
-
-  /*
-  getPredictionByTestRunId({ testRunId }) {
-    return this.client.get({
-      path: `/testRun/${testRunId}`
-    });
-  }
-
-  getPredictionByScenarioKey({ scenarioKey }) {
-    return this.client.get({
-      path: `/scenariokey/${scenarioKey}`
-    });
-  }
-   */
 }
 
 const prediction = new PredictionApi();

@@ -5,27 +5,6 @@ const PREFIX = "PREDICTION";
 const GET_PREDICTION_BY_ID = `${PREFIX}/GET_PREDICTION_BY_ID`;
 const GET_PREDICTION_BY_ID_FULFILLED = `${GET_PREDICTION_BY_ID}_FULFILLED`;
 
-/*
-const MAKE_PREDICTION = `${PREFIX}/MAKE_PREDICTION`;
-const MAKE_PREDICTION_FULFILLED = `${MAKE_PREDICTION}_FULFILLED`;
-
-const GET_PREDICTION_BY_TEST_RUN_ID = `${PREFIX}/GET_PREDICTION_BY_TEST_RUN_ID`;
-const GET_PREDICTION_BY_TEST_RUN_ID_FULFILLED = `${GET_PREDICTION_BY_TEST_RUN_ID}_FULFILLED`;
-
-const GET_PREDICTION_BY_SCENARIO_KEY = `${PREFIX}/GET_PREDICTION_BY_SCENARIO_KEY`;
-const GET_PREDICTION_BY_SCENARIO_KEY_FULFILLED = `${GET_PREDICTION_BY_SCENARIO_KEY}_FULFILLED`;
-
-export function makeAPrediction({ scenarioId }) {
-  return {
-    type: MAKE_PREDICTION,
-    payload: model.makeAPrediction({ scenarioId }),
-    meta: {
-      scenarioId
-    }
-  };
-}
-*/
-
 export function getPredictionById({ scenarioId }) {
   return {
     type: GET_PREDICTION_BY_ID,
@@ -35,28 +14,6 @@ export function getPredictionById({ scenarioId }) {
     }
   };
 }
-
-/*
-export function getPredictionByTestRunId({ testRunId }) {
-  return {
-    type: GET_PREDICTION_BY_TEST_RUN_ID,
-    payload: model.getPredictionByTestRunId({ testRunId }),
-    meta: {
-      testRunId
-    }
-  };
-}
-
-export function getPredictionByScenarioKey({ scenarioKey }) {
-  return {
-    type: GET_PREDICTION_BY_SCENARIO_KEY,
-    payload: model.getPredictionByScenarioKey({ scenarioKey }),
-    meta: {
-      scenarioKey
-    }
-  };
-}
- */
 
 const initialState = {
   prediction: {
@@ -74,36 +31,6 @@ export const prediction = handleActions(
         selectedPrediction: action.payload
       };
     }
-
-    /*
-    [MAKE_PREDICTION]: (state, action) => {
-      return {
-        ...state,
-        predictionMade: false
-      };
-    },
-
-    [MAKE_PREDICTION_FULFILLED]: (state, action) => {
-      return {
-        ...state,
-        predictionMade: true
-      };
-    },
-
-    [GET_PREDICTION_BY_TEST_RUN_ID_FULFILLED]: (state, action) => {
-      return {
-        ...state,
-        predictions: action.payload
-      };
-    },
-
-    [GET_PREDICTION_BY_SCENARIO_KEY_FULFILLED]: (state, action) => {
-      return {
-        ...state,
-        predictions: action.payload
-      };
-    }
-     */
   },
   initialState
 );
