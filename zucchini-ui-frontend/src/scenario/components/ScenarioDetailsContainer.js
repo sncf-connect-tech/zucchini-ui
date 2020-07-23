@@ -14,9 +14,15 @@ const selectFilters = createSelector(
   filters => filters
 );
 
+const selectedPrediction = createSelector(
+  state => state.prediction.selectedPrediction,
+  prediction => prediction
+);
+
 const selectProps = createStructuredSelector({
   scenario: selectScenario,
-  filters: selectFilters
+  filters: selectFilters,
+  prediction: selectedPrediction
 });
 
 const ScenarioDetailsContainer = connect(selectProps, {

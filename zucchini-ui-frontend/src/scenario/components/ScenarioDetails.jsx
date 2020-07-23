@@ -15,20 +15,23 @@ import StepFiltersContainer from "./StepFiltersContainer";
 export default class ScenarioDetails extends React.PureComponent {
   static propTypes = {
     scenario: PropTypes.object,
-    filters: PropTypes.object
+    filters: PropTypes.object,
+    prediction: PropTypes.object
   };
 
   render() {
-    const { scenario, filters } = this.props;
+    const { scenario, filters, prediction } = this.props;
 
     const steps = scenario.steps.map((step, index) => {
-      return <Step key={index} step={step} scenarioId={scenario.id} filters={filters} />;
+      return <Step key={index} step={step} scenarioId={scenario.id} filters={filters} prediction={prediction} />;
     });
 
     let backgroundSteps = [];
     if (scenario.background && scenario.background.steps) {
       backgroundSteps = scenario.background.steps.map((step, index) => {
-        return <Step key={index} step={step} scenarioId={scenario.id} filters={filters} special />;
+        return (
+          <Step key={index} step={step} scenarioId={scenario.id} filters={filters} prediction={prediction} special />
+        );
       });
     }
 
@@ -41,6 +44,7 @@ export default class ScenarioDetails extends React.PureComponent {
           action={action}
           scenarioId={scenario.id}
           filters={filters}
+          prediction={prediction}
         />
       );
     });
@@ -54,6 +58,7 @@ export default class ScenarioDetails extends React.PureComponent {
           action={action}
           scenarioId={scenario.id}
           filters={filters}
+          prediction={prediction}
         />
       );
     });

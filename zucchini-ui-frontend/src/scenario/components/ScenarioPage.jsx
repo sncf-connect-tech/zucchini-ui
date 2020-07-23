@@ -118,9 +118,7 @@ export default class ScenarioPage extends React.Component {
             <b>Tags :</b> <TagList testRunId={scenario.testRunId} tags={scenario.allTags} />
           </p>
         )}
-
         <hr />
-
         <ButtonToolbar>
           <ButtonGroup>
             <Button glyph="flag" onClick={this.onUpdateStateClick}>
@@ -136,24 +134,16 @@ export default class ScenarioPage extends React.Component {
             <DeleteScenarioButtonContainer featureId={featureId} scenarioId={scenarioId} />
           </ButtonGroup>
         </ButtonToolbar>
-
         <hr />
-
         <ScenarioPresenceIndicator scenarioId={scenarioId} />
-
         <h2>Étapes du scénario</h2>
         <ScenarioDetailsContainer />
-
         <hr />
-
         <h2>Commentaires</h2>
         <CommentListContainer />
-
         <h4>Ajouter un nouveau commentaire</h4>
         <AddCommentFormContainer scenarioId={scenarioId} />
-
         <hr />
-
         <Tabs defaultActiveKey="history" id="tabs" animation={false}>
           <Tab eventKey="history" title="Historique">
             <h2>Historique</h2>
@@ -173,13 +163,11 @@ export default class ScenarioPage extends React.Component {
             {similarFailureSection}
           </Tab>
         </Tabs>
-
         <UpdateScenarioStateDialogContainer
           show={this.state.showUpdateStateDialog}
           onClose={this.hideUpdateStateDialog}
           config={config}
         />
-
         <UpdateScenarioReviewedStateDialogContainer
           scenarioId={scenarioId}
           show={this.state.showSetReviewedStateDialog}
