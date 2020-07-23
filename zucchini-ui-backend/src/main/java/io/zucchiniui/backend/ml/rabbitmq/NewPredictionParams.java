@@ -1,11 +1,12 @@
 package io.zucchiniui.backend.ml.rabbitmq;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.zucchiniui.backend.ml.domain.Prediction;
 
 import java.util.List;
 
-//@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class NewPredictionParams {
 
     @JsonProperty("prediction")
