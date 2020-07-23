@@ -1,5 +1,6 @@
 package io.zucchiniui.backend.ml.domainimpl;
 
+import io.zucchiniui.backend.ml.domain.Prediction;
 import io.zucchiniui.backend.ml.domain.PredictionInformation;
 import io.zucchiniui.backend.ml.domain.PredictionRepository;
 import io.zucchiniui.backend.ml.domain.PredictionService;
@@ -37,12 +38,14 @@ public class PredictionServiceImpl implements PredictionService {
 
     @Override
     public void insertNewPrediction(NewPredictionParams newPredictionParams) {
+        List<Prediction> predictions = newPredictionParams.getPrediction();
         PredictionInformation predictionInformation = new PredictionInformation(
-            newPredictionParams.getPrediction(),
+            predictions,
             newPredictionParams.getClassifierId(),
             newPredictionParams.getZucchiniId(),
             newPredictionParams.getTestRunId(),
-            newPredictionParams.getScenarioKey()
+            newPredictionParams.getScenarioKey(),
+            getPrediction(predictions)
         );
         predictionRepository.save(predictionInformation);
     }
@@ -71,7 +74,9 @@ public class PredictionServiceImpl implements PredictionService {
                 "",
                 scenario.getId(),
                 scenario.getTestRunId(),
-                scenario.getScenarioKey())
+                scenario.getScenarioKey(),
+                ""
+                )
             );
     }
 
@@ -83,5 +88,17 @@ public class PredictionServiceImpl implements PredictionService {
     @Override
     public List<PredictionInformation> getPredictionByScenarioKey(String scenarioKey) {
         return predictionRepository.query(q -> q.withScenarioKey(scenarioKey)).find();
+    }
+
+    private String getPrediction(List<Prediction> predictions) {
+        String label = "";
+        float accuracy = -1;
+        for (Prediction prediction : predictions) {
+            if (prediction.getAccuracy() > accuracy) {
+                accuracy = prediction.getAccuracy();
+                label = prediction.getLabel();
+            }
+        }
+        return label;
     }
 }

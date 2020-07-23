@@ -31,14 +31,15 @@ public class PredictionInformation {
         String classifierId,
         String scenarioId,
         String testRunId,
-        String scenarioKey
+        String scenarioKey,
+        String label
     ) {
         this.predictions = predictions;
         this.classifierId = classifierId;
         this.scenarioId = scenarioId;
         this.testRunId = testRunId;
         this.scenarioKey = scenarioKey;
-        label = getPrediction();
+        this.label = label;
     }
 
     public String getId() {
@@ -85,15 +86,11 @@ public class PredictionInformation {
         this.scenarioKey = scenarioKey;
     }
 
-    public String getPrediction() {
-        String label = "";
-        float accuracy = -1;
-        for (Prediction prediction : predictions) {
-            if (prediction.getAccuracy() > accuracy) {
-                accuracy = prediction.getAccuracy();
-                label = prediction.getLabel();
-            }
-        }
+    public String getLabel() {
         return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 }
