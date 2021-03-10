@@ -33,6 +33,7 @@ public class UIConfigServlet extends HttpServlet {
         final UIConfig uiConfig = new UIConfig();
         uiConfig.setCorrectionActionConfig(configuration.getCorrectionAction());
         uiConfig.setEncounteredProblems(configuration.getEncounteredProblem());
+        uiConfig.setUseFeaturePresence(configuration.getUseFeaturePresence());
 
         resp.getOutputStream().print(objectMapper.writeValueAsString(uiConfig));
     }

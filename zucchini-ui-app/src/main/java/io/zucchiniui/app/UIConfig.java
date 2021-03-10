@@ -11,6 +11,8 @@ public class UIConfig {
 
     private List<CorrectionActionConfig>  correctionActionConfig;
 
+    private boolean useFeaturePresence;
+
     public List<EncounteredProblem> getEncounteredProblems() {
         return encounteredProblems;
     }
@@ -25,5 +27,13 @@ public class UIConfig {
 
     public void setCorrectionActionConfig(List<CorrectionActionConfig> correctionActionConfig) {
         this.correctionActionConfig = correctionActionConfig;
+    }
+
+    public boolean getUseFeaturePresence() {
+        return useFeaturePresence;
+    }
+
+    public void setUseFeaturePresence(boolean useFeaturePresence) {
+        this.useFeaturePresence = useFeaturePresence;
     }
 }
