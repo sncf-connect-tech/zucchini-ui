@@ -24,6 +24,8 @@ public class BackendConfiguration extends Configuration {
     @NotNull
     private List<CorrectionActionConfig> correctionAction;
 
+    private boolean useFeaturePresence = true;
+
     @Valid
     private final MetricsFactory metrics = new MetricsFactory();
 
@@ -72,5 +74,13 @@ public class BackendConfiguration extends Configuration {
 
     public boolean isMLPluginOn() {
         return rabbitUri != null;
+    }
+    
+    public boolean getUseFeaturePresence() {
+        return useFeaturePresence;
+    }
+
+    public void setUseFeaturePresence(boolean useFeaturePresence) {
+        this.useFeaturePresence = useFeaturePresence;
     }
 }

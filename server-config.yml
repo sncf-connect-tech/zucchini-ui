@@ -35,3 +35,5 @@ encounteredProblem:
     shortLabel: BBB
 
 #rabbitUri: "localhost"
+
+useFeaturePresence: false    

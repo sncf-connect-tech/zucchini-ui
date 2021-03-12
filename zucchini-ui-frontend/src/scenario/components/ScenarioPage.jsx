@@ -135,7 +135,9 @@ export default class ScenarioPage extends React.Component {
           </ButtonGroup>
         </ButtonToolbar>
         <hr />
-        <ScenarioPresenceIndicator scenarioId={scenarioId} />
+
+        {config.useFeaturePresence && <ScenarioPresenceIndicator scenarioId={scenarioId} />}
+
         <h2>Étapes du scénario</h2>
         <ScenarioDetailsContainer />
         <hr />
