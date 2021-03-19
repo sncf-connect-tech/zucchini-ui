@@ -40,19 +40,17 @@ describe("Scenario", () => {
     cy.contains("button", "Marquer comme analysé").click();
 
     cy.get("[role=dialog]").within(() => {
-
       cy.get("button#dropdownanalyseResultAnalyse").click();
 
-      cy.get('.dropdown-menu > :nth-child(1) > a').click();
+      cy.get(".dropdown-menu > :nth-child(1) > a").click();
 
-      cy.get(':nth-child(2) > label > input').click();
+      cy.get(":nth-child(2) > label > input").click();
 
       cy.get("textarea#comment").type(
         "Coucou{enter}Voir https://example.org pour plus d'infos"
       );
 
-      cy.contains("button", "Valider")
-        .click();
+      cy.contains("button", "Valider").click();
     });
 
     cy.contains("button", "Marquer comme non analysé").should("exist");
@@ -70,13 +68,13 @@ describe("Scenario", () => {
         .find("input")
         .should("be.checked");
 
-      cy.contains("label", "Échec", { timeout: 10000 }).find("input").should('be.visible').first().check();
+      cy.contains("label", "Échec").click();
 
       cy.get("button#dropdownanalyseResultAnalyse").click();
 
-      cy.get('.dropdown-menu > :nth-child(1) > a').click();
+      cy.get(".dropdown-menu > :nth-child(1) > a").click();
 
-      cy.get(':nth-child(4) > :nth-child(2) > label').click();
+      cy.get(":nth-child(4) > :nth-child(2) > label").click();
 
       cy.get("textarea#comment").type(
         "Ca ne marche pas. Encore un bug, dis donc"
