@@ -11,6 +11,7 @@ Version 0.0.7-SNAPSHOT
   * Add tags for tacking action and problem after analyse
   * Keep error message and step status when scenario is validated after analyse
   * Step definition view : Replace success rate by failure rate
+  * Add toggle to disable presence indicator
 * **Gradle job**  
   * Fix Fat JAR creation
 
