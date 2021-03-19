@@ -29,3 +29,5 @@ encounteredProblem:
     shortLabel: UNKNOWN
   - longLabel: AAA
     shortLabel: BBB
+
+useFeaturePresence: false    

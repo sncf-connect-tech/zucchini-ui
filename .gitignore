@@ -12,3 +12,8 @@
 out/
 
 node_modules/
+
+**/bin
+.project
+.classpath
+org.eclipse.buildship.core.prefs
